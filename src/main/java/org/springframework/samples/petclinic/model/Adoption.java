@@ -2,14 +2,9 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,15 +20,12 @@ public class Adoption {
 	private LocalDate	end;
 
 	@OneToOne
-	@JoinColumn(name = "type_id")
-	private PetType		type;
+	@JoinColumn(name = "pet_id")
+	private Pet			pet;
 
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "owner_id")
 	private Owner		owner;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
-	private Set<Visit>	visits;
 
 
 	public void setDate(final LocalDate date) {
@@ -51,12 +43,12 @@ public class Adoption {
 		return this.end;
 	}
 
-	public PetType getType() {
-		return this.type;
+	public Pet getpet() {
+		return this.pet;
 	}
 
-	public void setType(final PetType type) {
-		this.type = type;
+	public void setPet(final Pet pet) {
+		this.pet = pet;
 	}
 
 	public Owner getOwner() {
