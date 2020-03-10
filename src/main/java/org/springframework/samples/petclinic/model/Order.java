@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
@@ -19,34 +20,33 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity {
 
 	@NotNull
 	@Min(0)
-	private Integer quantity;
-	
+	private Integer		quantity;
+
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate orderDate;
-	
+	private LocalDate	orderDate;
+
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate arrivalDate;
-	
+	private LocalDate	arrivalDate;
+
 	@NotNull
-	private Boolean sent;
-	
+	private Boolean		sent;
+
 	@ManyToOne
 	@JoinColumn(name = "provider_id")
-	private Provider provider;
-	
+	private Provider	provider;
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Product Product;
-	
-	@ManyToOne(optional=true)
+	private Product		Product;
+
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "discount_id")
-	private Discount discount;
-	
-	
+	private Discount	discount;
+
 }

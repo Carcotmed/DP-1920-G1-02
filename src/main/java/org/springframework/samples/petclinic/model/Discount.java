@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
@@ -16,18 +17,18 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "discounts")
-public class Discount {
-	
+public class Discount extends BaseEntity {
+
 	@NotNull
-	@Digits(fraction=2, integer=2)
-	private Double percentage;
-	
+	@Digits(fraction = 2, integer = 2)
+	private Double	percentage;
+
 	@Min(0)
 	@NotNull
-	private Integer quantiy;
+	private Integer	quantiy;
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	private Product product;
-	
+	private Product	product;
+
 }
