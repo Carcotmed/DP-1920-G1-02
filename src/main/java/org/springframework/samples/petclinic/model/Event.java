@@ -16,9 +16,9 @@ public class Event extends NamedEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	date;
 
-	@Column(name = "name")
+	@Column(name = "published")
 	@NotEmpty
-	private String		name;
+	private Boolean		published;
 
 	@Column(name = "description")
 	@NotEmpty
@@ -41,14 +41,12 @@ public class Event extends NamedEntity {
 		return this.date;
 	}
 
-	@Override
-	public String getName() {
-		return this.name;
+	public Boolean getpublished() {
+		return this.published;
 	}
 
-	@Override
-	public void setName(final String name) {
-		this.name = name;
+	public void setPublished(final Boolean published) {
+		this.published = published;
 	}
 
 	public String getDescription() {
