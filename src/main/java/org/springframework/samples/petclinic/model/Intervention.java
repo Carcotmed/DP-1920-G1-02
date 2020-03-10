@@ -1,12 +1,11 @@
+
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.Collection;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -24,30 +23,31 @@ import lombok.Data;
  */
 @Entity
 @Data
-@Table(name = "intervention")
+@Table(name = "interventions")
+
 public class Intervention extends NamedEntity {
-	
-	@Column(name = "date")        
+
+	@Column(name = "date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate Date;
-	
+	private LocalDate		Date;
+
 	@Column(name = "description")
-	private String description;
+	private String			description;
 
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name = "pet_id")
-	private Pet pet;
+	private Pet				pet;
 
 	@ManyToOne
 	@JoinColumn(name = "visit_id")
-	private Visit visit;
-	
+	private Visit			visit;
+
 	@ManyToOne
 	@JoinColumn(name = "owner_id")
-	private Owner owner;
-	
-	@ManyToMany (cascade = CascadeType.ALL, mappedBy = "product_id", fetch = FetchType.EAGER)	
-	private Collection <Product> requiredProducts;
+	private Owner			owner;
+
+	@ManyToMany
+	private List<Product>	requiredProducts;
 
 }
