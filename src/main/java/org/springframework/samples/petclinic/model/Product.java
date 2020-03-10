@@ -9,11 +9,9 @@ import javax.validation.constraints.Min;
 
 import com.sun.istack.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name="products")
 public class Product extends NamedEntity{
