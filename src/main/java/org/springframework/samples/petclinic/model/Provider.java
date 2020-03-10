@@ -7,12 +7,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import lombok.Data;
+
 /**
  * Simple JavaBean domain object representing a product provider.
  *
  * @author Carlos Cote
  */
 @Entity
+@Data
 @Table(name = "providers")
 public class Provider extends NamedEntity {
 	

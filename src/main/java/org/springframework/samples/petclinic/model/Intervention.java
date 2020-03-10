@@ -15,12 +15,15 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
+
 /**
- * Simple business object representing a pet.
+ * Simple business object representing a medical intervention.
  *
  * @author Carlos Cote
  */
 @Entity
+@Data
 @Table(name = "intervention")
 public class Intervention extends NamedEntity {
 	
