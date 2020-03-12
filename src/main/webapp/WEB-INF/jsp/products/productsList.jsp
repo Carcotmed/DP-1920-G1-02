@@ -12,7 +12,7 @@
 		<thead>
 			<tr>
 				<th style="width: 150px;">Name</th>
-				<th style="width: 200px;">Price</th>
+				<th style="width: 200px;">Price (EUR)</th>
 				<th>Quantity</th>
 				<th>All Available</th>
 			</tr>

@@ -62,5 +62,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
-INSERT INTO products(id,price,quantity,all_available,provider) VALUES (1,20.50,5,true,null);
+INSERT INTO providers(id,name,phone,address,email) VALUES (1,'Pipo','1234567890','Calle Pipo nº1','pipo@gmail.com');
+
+INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (1,'Pomadita',20.50,5,true,1);
 

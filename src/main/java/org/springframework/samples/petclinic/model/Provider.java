@@ -20,15 +20,12 @@ import lombok.Data;
 @Table(name = "providers")
 public class Provider extends NamedEntity {
 
-	@Column(name = "phone")
 	@NotEmpty
 	@Pattern(regexp = "(^$|[0-9]{10})")
 	private Integer	phone;
 
-	@Column(name = "address")
 	private String	address;
 
-	@Column(name = "email")
 	@Email
 	private String	email;
 
