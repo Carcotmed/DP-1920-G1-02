@@ -15,6 +15,7 @@
 				<th style="width: 200px;">Price (EUR)</th>
 				<th>Quantity</th>
 				<th>All Available</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,8 +25,16 @@
 					<td><c:out value="${product.price}" /></td>
 					<td><c:out value="${product.quantity}" /></td>
 					<td><c:out value="${product.allAvailable}" /></td>
+					<td>
+						<spring:url value="/products/delete/{productId}" var="productUrl">
+							<spring:param name="productId" value="${product.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(productUrl)}">Delete</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<spring:url value="/products/new" var="productUrl" />
+	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(productUrl)}'" value='Create'>	
 </petclinic:layout>
