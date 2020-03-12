@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -27,27 +28,18 @@ import lombok.Data;
 
 public class Intervention extends NamedEntity {
 
-	@Column(name = "date")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate		Date;
-
 	@Column(name = "description")
 	private String			description;
 
-	@ManyToOne
-	@NotNull
-	@JoinColumn(name = "pet_id")
-	private Pet				pet;
-
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name = "visit_id")
 	private Visit			visit;
 
 	@ManyToOne
-	@JoinColumn(name = "owner_id")
-	private Owner			owner;
+	@JoinColumn(name = "vet_id")
+	private Vet			vet;
 
 	@ManyToMany
 	private List<Product>	requiredProducts;
-
+	
 }
