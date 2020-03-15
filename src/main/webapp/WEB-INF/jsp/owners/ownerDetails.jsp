@@ -43,7 +43,7 @@
 	<br />
 	<br />
 	<br />
-	<h2>Pets and Visits</h2>
+	<h2>Pets</h2>
 
 	<table class="table table-striped">
 		<c:forEach var="pet" items="${owner.pets}">
@@ -53,7 +53,14 @@
 					<dl class="dl-horizontal">
 						<dt>Name</dt>
 						<dd>
-							<c:out value="${pet.name}" />
+
+							<spring:url value="/owners/{ownerId}/pets/{petId}"
+								var="petDetails">
+								<spring:param name="ownerId" value="${owner.id}" />
+								<spring:param name="petId" value="${pet.id}" />
+							</spring:url>
+							<a href="${fn:escapeXml(petDetails)}"><c:out
+									value="${pet.name}" /></a>
 						</dd>
 						<dt>Birth Date</dt>
 						<dd>
@@ -65,7 +72,10 @@
 						</dd>
 					</dl>
 				</td>
-				<td valign="top">
+
+				<!--
+				
+				 <td valign="top">
 					<table class="table-condensed">
 						<thead>
 							<tr>
@@ -85,11 +95,12 @@
 								<c:if test="${not empty visit.intervention}">
 
 									<td><c:out value="${visit.intervention.name}" /></td>
-									<td><c:out value="${visit.intervention.vet.firstName} ${visit.intervention.vet.lastName}" /></td>
+									<td><c:out
+											value="${visit.intervention.vet.firstName} ${visit.intervention.vet.lastName}" /></td>
 
 
 								</c:if>
-								
+
 								<c:if test="${empty visit.intervention}">
 
 									<td><c:out value="No intervention" /></td>
@@ -113,6 +124,9 @@
 						</tr>
 					</table>
 				</td>
+				
+				 -->
+
 			</tr>
 
 		</c:forEach>
