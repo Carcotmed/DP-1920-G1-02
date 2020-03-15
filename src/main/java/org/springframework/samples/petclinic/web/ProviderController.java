@@ -1,9 +1,13 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,7 @@ public class ProviderController {
 
 	@RequestMapping()
 	public String ProductsList(ModelMap modelMap) {
+
 		String vista = "providers/providersList";
 		Iterable<Provider> providers = providerService.findAll();
 		modelMap.addAttribute("providers", providers);
@@ -48,9 +53,7 @@ public class ProviderController {
 			return "redirect:/providers";
 		}
 	}
-	
-	
-	
+
 	@GetMapping(value = "{providerId}/edit")
 	public String initUpdateForm(@PathVariable("providerId") int providerId, ModelMap model) {
 		Provider provider = this.providerService.findProviderById(providerId);
@@ -69,19 +72,39 @@ public class ProviderController {
 	 * @return
 	 */
 	@PostMapping(value = "{providerId}/edit")
-	public String processUpdateForm(@Valid Provider provider, BindingResult result, @PathVariable("providerId") int providerId,
-			ModelMap model) {
+	public String processUpdateForm(@Valid Provider provider, BindingResult result,
+			@PathVariable("providerId") int providerId, ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("provider", provider);
 			return VIEWS_PROVIDERS_CREATE_OR_UPDATE_FORM;
 		} else {
 			Provider providerToUpdate = this.providerService.findProviderById(providerId);
 			BeanUtils.copyProperties(provider, providerToUpdate, "id");
-			
-				this.providerService.saveProvider(providerToUpdate);
-			
+
+			this.providerService.saveProvider(providerToUpdate);
+
 			return "redirect:/providers";
 		}
+	}
+
+	@GetMapping(value = "{providerId}/delete")
+	public String deleteProvider(@PathVariable("providerId") int providerId, ModelMap model) {
+
+		List<Product> productsOfProvider = new ArrayList<Product>(
+				providerService.findAllProductsByProviderId(providerId));
+
+		if (productsOfProvider.isEmpty()) {
+
+			Provider provider = providerService.findProviderById(providerId);
+			providerService.deleteProvider(provider);
+
+		} else {
+
+			model.addAttribute("deleteError", "Hay productos relacionados con el proveedor");
+
+		}
+
+		return ProductsList(model);
 	}
 
 }
