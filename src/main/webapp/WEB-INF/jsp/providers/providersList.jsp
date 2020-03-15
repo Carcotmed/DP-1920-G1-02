@@ -15,6 +15,7 @@
 				<th>Address</th>
 				<th>Telephone</th>
 				<th>E-Mail</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,14 +25,22 @@
 					<td><c:out value="${provider.address}" /></td>
 					<td><c:out value="${provider.phone}" /></td>
 					<td><c:out value="${provider.email}" /></td>
+
+					<td><spring:url value="/providers/{providerId}/edit"
+							var="editUrl">
+							<spring:param name="providerId" value="${provider.id}" />
+						</spring:url> <a href="${fn:escapeXml(editUrl)}">Edit</a></td>
 				</tr>
+
+
+
 			</c:forEach>
 		</tbody>
 	</table>
-	
+
 	<spring:url value="/providers/new" var="addUrl">
 	</spring:url>
 	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New
 		Provider</a>
-	
+
 </petclinic:layout>
