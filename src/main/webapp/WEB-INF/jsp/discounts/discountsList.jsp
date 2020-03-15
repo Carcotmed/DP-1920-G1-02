@@ -28,4 +28,6 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<spring:url value="/discounts/new" var="discountUrl" />
+	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(discountUrl)}'" value='Create'>
 </petclinic:layout>
