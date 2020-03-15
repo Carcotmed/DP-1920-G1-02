@@ -23,10 +23,14 @@ public class Discount extends BaseEntity {
 
 	@Min(0)
 	@NotNull
-	private Integer	quantiy;
+	private Integer	quantity;
 
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product	product;
+	
+	@ManyToOne
+	@JoinColumn(name = "provider_id")
+	private Provider provider;
 
 }
