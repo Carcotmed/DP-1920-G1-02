@@ -7,7 +7,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Discount;
+import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.service.DiscountService;
+import org.springframework.samples.petclinic.service.ProductService;
+import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,9 +26,20 @@ public class DiscountController {
 	@Autowired
 	private DiscountService discountService;
 	
+	@Autowired
+	private ProviderService providerService;
+	
+	@Autowired
+	private ProductService productService;
+	
 	@ModelAttribute("providers")
 	public Collection<Provider> populateProviders() {
 		return this.providerService.findProviders();
+	}
+	
+	@ModelAttribute("products")
+	public Collection<Product> populateProducts() {
+		return this.productService.findProducts();
 	}
 	
 	@RequestMapping()
