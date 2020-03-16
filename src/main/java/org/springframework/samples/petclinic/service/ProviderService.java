@@ -32,6 +32,11 @@ public class ProviderService {
 	}
 
 	@Transactional
+	public Collection<Provider> findProviders() throws DataAccessException{
+		return (Collection<Provider>) providerRepo.findAll();
+	}
+	
+	@Transactional
 	public void saveProvider(@Valid Provider provider) {
 		providerRepo.save(provider);
 
