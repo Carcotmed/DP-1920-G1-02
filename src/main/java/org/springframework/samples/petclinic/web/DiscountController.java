@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.security.Provider;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -8,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Discount;
 import org.springframework.samples.petclinic.model.Product;
+import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.service.DiscountService;
 import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.ProviderService;

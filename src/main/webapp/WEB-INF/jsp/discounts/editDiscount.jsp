@@ -9,23 +9,26 @@
 	<jsp:body>
         <h2>Discounts</h2>
 
-        <form:form modelAttribute="discount" class="form-horizontal"
-			action="/discounts/save">
+        <form:form modelAttribute="discount" class="form-horizontal" action="/discounts/save">
             <div class="form-group has-feedback">
-            	<label class="col-sm-2 control-label">Product</label>
-			    <select class="form-control" id="product" name="product">
-                	<c:forEach items="${products}" var="provider">
-                		<option value="${product.id}">${product.name}</option>
-                	</c:forEach>
-                </select>
                 <petclinic:inputField label="Percentage" name="percentage" />
 				<petclinic:inputField label="Quantity" name="quantity" />
+				<div class="form-group has-feedback">
 				<label class="col-sm-2 control-label">Provider</label>
 				<select class="form-control" id="provider" name="provider">
                 	<c:forEach items="${providers}" var="provider">
                 		<option value="${provider.id}">${provider.name}</option>
                 	</c:forEach>
                 </select> 
+                </div>
+                <div class="form-group has-feedback">
+                <label class="col-sm-2 control-label">Product</label>
+			    <select class="form-control" id="product" name="product">
+                	<c:forEach items="${products}" var="product">
+                		<option value="${product.id}">${product.name}</option>
+                	</c:forEach>
+                </select>
+                </div>
             </div>
 
             <div class="form-group">
