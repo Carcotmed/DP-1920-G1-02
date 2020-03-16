@@ -36,7 +36,7 @@ public class DiscountController {
 	public Collection<Provider> populateProviders() {
 		return this.providerService.findProviders();
 	}
-	
+
 	@ModelAttribute("products")
 	public Collection<Product> populateProducts() {
 		return this.productService.findProducts();

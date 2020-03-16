@@ -63,7 +63,10 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
-INSERT INTO providers(id,name,phone,address,email) VALUES (1,'Pipo','123456789','Calle Pipo nº1','pipo@gmail.com');
+INSERT INTO providers(id,name,phone,address,email) VALUES (1,'Pipo1','123456789','Calle Pipo nº1','pipo1@gmail.com');
+INSERT INTO providers(id,name,phone,address,email) VALUES (2,'Pipo2','223456789','Calle Pipo nº2','pipo2@gmail.com');
+INSERT INTO providers(id,name,phone,address,email) VALUES (3,'Pipo3','323456789','Calle Pipo nº3','pipo3@gmail.com');
+INSERT INTO providers(id,name,phone,address,email) VALUES (4,'Pipo4','423456789','Calle Pipo nº4','pipo4@gmail.com');
 
 INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (1,'Pomadita',20.50,5,true,1);
 
