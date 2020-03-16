@@ -42,9 +42,10 @@
 		</tbody>
 	</table>
 
-	<spring:url value="/providers/new" var="addUrl">
-	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New
-		Provider</a>
+	<spring:url value="/providers/new" var="addUrl" />
+	<spring:url value="/discounts" var="discountsUrl" />
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New Provider</a>
+	<a href="${fn:escapeXml(discountsUrl)}" class="btn btn-default">Discounts</a>
+	
 
 </petclinic:layout>
