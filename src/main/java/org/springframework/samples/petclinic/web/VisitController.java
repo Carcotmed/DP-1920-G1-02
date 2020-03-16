@@ -80,7 +80,7 @@ public class VisitController {
 		}
 		else {
 			this.petService.saveVisit(visit);
-			return "redirect:/owners/{ownerId}";
+			return "redirect:/owners/{ownerId}/pets/{petId}";
 		}
 	}
 
