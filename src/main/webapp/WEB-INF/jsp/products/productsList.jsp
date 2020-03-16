@@ -15,6 +15,7 @@
 				<th style="width: 200px;">Price (EUR)</th>
 				<th>Quantity</th>
 				<th>All Available</th>
+				<th>Provider</th>
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -25,6 +26,7 @@
 					<td><c:out value="${product.price}" /></td>
 					<td><c:out value="${product.quantity}" /></td>
 					<td><c:out value="${product.allAvailable}" /></td>
+					<td><c:out value="${product.provider.name}" /></td>
 					<td>
 						<spring:url value="/products/delete/{productId}" var="productUrl">
 							<spring:param name="productId" value="${product.id}" />

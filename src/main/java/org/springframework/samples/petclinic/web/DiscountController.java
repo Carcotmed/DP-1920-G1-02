@@ -23,10 +23,10 @@ public class DiscountController {
 	@Autowired
 	private DiscountService discountService;
 	
-	@ModelAttribute("providers")
-	public Collection<Provider> populateProviders() {
-		return this.providerService.findProviders();
-	}
+//	@ModelAttribute("providers")
+//	public Collection<Provider> populateProviders() {
+//		return this.providerService.findProviders();
+//	}
 	
 	@RequestMapping()
 	public String discountsList(ModelMap modelMap) {
