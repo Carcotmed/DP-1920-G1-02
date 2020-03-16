@@ -8,6 +8,7 @@ INSERT INTO authorities VALUES ('owner1','owner');
 INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
 INSERT INTO authorities VALUES ('vet1','veterinarian');
 
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
@@ -69,3 +70,6 @@ INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (1
 INSERT INTO interventions (id, visit_id, vet_id, name, description) VALUES (1, 1, 1, 'Castracion', 'Cortar las bolas');
 
 UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (1, 1, 1, 45.0, 10);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (2, 1, 1, 55.0, 50);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (3, 1, 1, 65.0, 20);

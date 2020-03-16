@@ -17,4 +17,9 @@ public class ProductService {
 	public Iterable<Product> findAll(){
 		return productRepo.findAll();
 	}
+	
+	@Transactional
+	public void save(Product product) {
+		productRepo.save(product);
+	}
 }
