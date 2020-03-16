@@ -17,10 +17,16 @@ package org.springframework.samples.petclinic.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
@@ -56,6 +62,10 @@ public class Visit extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
+	
+	@OneToOne
+	@JoinColumn(name = "intervention_id")
+	private Intervention intervention;
 
 	/**
 	 * Creates a new instance of Visit for the current date
@@ -111,5 +121,23 @@ public class Visit extends BaseEntity {
 	public void setPet(Pet pet) {
 		this.pet = pet;
 	}
+
+	/**
+	 * Getter for property intervention.
+	 * @return Value of property intervention.
+	 */
+	public Intervention getIntervention() {
+		return intervention;
+	}
+
+	/**
+	 * Setter for property intervention.
+	 * @param pet New value of property intervention.
+	 */
+	public void setIntervention(Intervention intervention) {
+		this.intervention = intervention;
+	}
+	
+	
 
 }
