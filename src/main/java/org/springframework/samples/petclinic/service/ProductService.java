@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +23,10 @@ public class ProductService {
 	@Transactional
 	public void save(Product product) {
 		productRepo.save(product);
+	}
+	
+	@Transactional
+	public Collection<Product> findProducts(){
+		return (Collection<Product>) productRepo.findAll();
 	}
 }
