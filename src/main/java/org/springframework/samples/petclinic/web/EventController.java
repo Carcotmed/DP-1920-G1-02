@@ -23,6 +23,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Event;
 import org.springframework.samples.petclinic.service.EventService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -50,7 +53,13 @@ public class EventController {
 
 	@GetMapping()
 	public String showEvents(final ModelMap model) {
-		model.put("events", this.eventService.findAllEvents());
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+		GrantedAuthority authority = new SimpleGrantedAuthority("veterinarian");
+		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority)) {
+			model.put("events", this.eventService.findAllEvents());
+		} else {
+			model.put("events", this.eventService.findAllPublishedEvents());
+		}
 		return "events/eventsList";
 	}
 
@@ -97,6 +106,23 @@ public class EventController {
 			this.eventService.save(event);
 			return "redirect:/events/" + eventId;
 		}
+	}
+
+	@GetMapping(value = "/publish/{eventId}")
+	public String publishEvent(@PathVariable("eventId") final int eventId, final ModelMap model) {
+		Event event = this.eventService.findEventById(eventId);
+		try {
+			Boolean b = event.getCapacity() != null && event.getDate() != null && event.getDescription() != null && event.getPlace() != null;
+			if (b) {
+				event.setPublished(true);
+				this.eventService.save(event);
+			} else {
+				model.addAttribute("publishError", "Every field must be completed to publish the event");
+			}
+		} catch (NullPointerException e) {
+			model.addAttribute("publishError", "Every field must be completed to publish the event");
+		}
+		return this.showEvent(eventId, model);
 	}
 
 }

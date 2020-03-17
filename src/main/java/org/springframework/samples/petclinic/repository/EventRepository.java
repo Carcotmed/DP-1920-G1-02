@@ -76,4 +76,6 @@ public interface EventRepository {
 	 */
 	Collection<Participation> findParticipationsByEventId(int eventId) throws DataAccessException;
 
+	Collection<Event> findAllPublishedEvents() throws DataAccessException;
+
 }

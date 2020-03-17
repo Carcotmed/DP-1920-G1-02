@@ -11,9 +11,6 @@
     <h2>Owners</h2>
 
 
-    <sec:authorize access="hasAuthority('veterinarian')">
-		<a class="btn btn-default" href='<spring:url value="/events/new" htmlEscape="true"/>'>Add Event</a>
-	</sec:authorize>
     <table id="eventsTable" class="table table-striped">
         <thead>
         <tr>
@@ -49,4 +46,7 @@
         </c:forEach>
         </tbody>
     </table>
+    <sec:authorize access="hasAuthority('veterinarian')">
+		<a class="btn btn-default" href='<spring:url value="/events/new" htmlEscape="true"/>'>Add Event</a>
+	</sec:authorize>
 </petclinic:layout>

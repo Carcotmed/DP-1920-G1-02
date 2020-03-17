@@ -61,4 +61,8 @@ public class EventService {
 		this.eventRepository.save(event);
 	}
 
+	public Collection<Event> findAllPublishedEvents() {
+		return this.eventRepository.findAllPublishedEvents();
+	}
+
 }

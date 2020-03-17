@@ -40,6 +40,10 @@ public interface SpringDataEventRepository extends EventRepository, Repository<E
 	Collection<Event> findAllEvents() throws DataAccessException;
 
 	@Override
+	@Query("SELECT event FROM Event event WHERE event.published = 'true'")
+	Collection<Event> findAllPublishedEvents() throws DataAccessException;
+
+	@Override
 	@Query("SELECT event FROM Event event where event.id =:eventId")
 	Event findEventById(@Param("eventId") int eventId) throws DataAccessException;
 

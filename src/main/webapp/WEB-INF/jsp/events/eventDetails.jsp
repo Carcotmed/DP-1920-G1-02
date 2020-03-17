@@ -39,4 +39,13 @@
 		<a href="${fn:escapeXml(eventUrl)}" class="btn btn-default">Edit
 			Event</a>
 	</c:if>
+	<c:if test="${!event.published}">
+		<spring:url value="/events/publish/{eventId}"
+			var="eventUrl">
+			<spring:param name="eventId" value="${event.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(eventUrl)}" class="btn btn-default">Publish Event</a>
+	</c:if>
+	<br>
+	<c:out value="${publishError}"></c:out>
 </petclinic:layout>
