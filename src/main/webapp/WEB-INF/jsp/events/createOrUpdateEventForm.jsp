@@ -24,7 +24,6 @@
 	            <petclinic:inputField label="Description" name="description"/>
 	            <petclinic:inputField label="Capacity" name="capacity"/>
 	            <petclinic:inputField label="Place" name="place"/>
-	            <petclinic:inputField label="Published" name="published"/>
 	        </div>
 	        <div class="form-group">
 	            <div class="col-sm-offset-2 col-sm-10">

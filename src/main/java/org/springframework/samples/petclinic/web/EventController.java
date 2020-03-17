@@ -80,4 +80,23 @@ public class EventController {
 		}
 	}
 
+	@GetMapping(value = "/edit/{eventId}")
+	public String initUpdateForm(@PathVariable("eventId") final int eventId, final Map<String, Object> model) {
+		Event event = this.eventService.findEventById(eventId);
+		model.put("event", event);
+		return "events/createOrUpdateEventForm";
+	}
+
+	@PostMapping(value = "/edit/{eventId}")
+	public String processUpdateForm(@PathVariable("eventId") final int eventId, @Valid final Event event, final BindingResult result) {
+		if (result.hasErrors()) {
+			return "events/createOrUpdateEventForm";
+		} else {
+			event.setPublished(false);
+			event.setId(eventId);
+			this.eventService.save(event);
+			return "redirect:/events/" + eventId;
+		}
+	}
+
 }
