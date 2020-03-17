@@ -8,6 +8,9 @@
 <petclinic:layout pageName="providersTable">
 	<h2>Providers</h2>
 
+	<c:out value="${deleteError}" />
+	<c:remove var="deleteError" />
+
 	<table id="providersTable" class="table table-striped">
 		<thead>
 			<tr>
@@ -29,18 +32,20 @@
 					<td><spring:url value="/providers/{providerId}/edit"
 							var="editUrl">
 							<spring:param name="providerId" value="${provider.id}" />
-						</spring:url> <a href="${fn:escapeXml(editUrl)}">Edit</a></td>
+						</spring:url> <a href="${fn:escapeXml(editUrl)}">Edit</a> <spring:url
+							value="/providers/{providerId}/delete" var="deleteUrl">
+							<spring:param name="providerId" value="${provider.id}" />
+						</spring:url> <a href="${fn:escapeXml(deleteUrl)}">Delete</a></td>
 				</tr>
-
-
 
 			</c:forEach>
 		</tbody>
 	</table>
 
-	<spring:url value="/providers/new" var="addUrl">
-	</spring:url>
-	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New
-		Provider</a>
+	<spring:url value="/providers/new" var="addUrl" />
+	<spring:url value="/discounts" var="discountsUrl" />
+	<a href="${fn:escapeXml(addUrl)}" class="btn btn-default">Add New Provider</a>
+	<a href="${fn:escapeXml(discountsUrl)}" class="btn btn-default">Discounts</a>
+	
 
 </petclinic:layout>

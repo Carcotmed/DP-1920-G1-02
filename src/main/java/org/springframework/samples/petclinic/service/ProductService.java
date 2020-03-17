@@ -1,8 +1,11 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -17,4 +20,16 @@ public class ProductService {
 	public Iterable<Product> findAll(){
 		return productRepo.findAll();
 	}
+	
+	@Transactional
+	public void save(Product product) {
+		productRepo.save(product);
+	}
+	
+	@Transactional
+	public Collection<Product> findProducts() throws DataAccessException{
+		return (Collection<Product>) productRepo.findAll();
+	}
+	
+	
 }
