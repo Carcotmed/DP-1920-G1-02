@@ -16,7 +16,9 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -25,6 +27,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Event;
 import org.springframework.samples.petclinic.model.Participation;
 import org.springframework.samples.petclinic.repository.EventRepository;
+import org.springframework.samples.petclinic.repository.ParticipationRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -36,12 +39,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class EventService {
 
-	private EventRepository eventRepository;
+	private EventRepository			eventRepository;
+	private ParticipationRepository	participationRepository;
 
 
 	@Autowired
-	public EventService(final EventRepository eventRepository) {
+	public EventService(final EventRepository eventRepository, final ParticipationRepository participationRepository) {
 		this.eventRepository = eventRepository;
+		this.participationRepository = participationRepository;
 	}
 
 	public Collection<Event> findAllEvents() {
@@ -63,6 +68,16 @@ public class EventService {
 
 	public Collection<Event> findAllPublishedEvents() {
 		return this.eventRepository.findAllPublishedEvents();
+	}
+
+	public void delete(final Event event) {
+		List<Participation> participations = new ArrayList<>(this.findParticipationsByEventId(event.getId()));
+		participations.stream().forEach(x -> this.deleteParticipation(x));
+		this.eventRepository.delete(event);
+	}
+
+	public void deleteParticipation(final Participation participation) {
+		this.participationRepository.delete(participation);
 	}
 
 }

@@ -53,7 +53,6 @@ public class EventController {
 
 	@GetMapping()
 	public String showEvents(final ModelMap model) {
-		System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 		GrantedAuthority authority = new SimpleGrantedAuthority("veterinarian");
 		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority)) {
 			model.put("events", this.eventService.findAllEvents());
@@ -90,10 +89,15 @@ public class EventController {
 	}
 
 	@GetMapping(value = "/edit/{eventId}")
-	public String initUpdateForm(@PathVariable("eventId") final int eventId, final Map<String, Object> model) {
+	public String initUpdateForm(@PathVariable("eventId") final int eventId, final ModelMap model) {
 		Event event = this.eventService.findEventById(eventId);
-		model.put("event", event);
-		return "events/createOrUpdateEventForm";
+		if (event.getPublished()) {
+			model.put("error", "No se puede editar un evento ya publicado");
+			return this.showEvent(eventId, model);
+		} else {
+			model.put("event", event);
+			return "events/createOrUpdateEventForm";
+		}
 	}
 
 	@PostMapping(value = "/edit/{eventId}")
@@ -120,9 +124,21 @@ public class EventController {
 				model.addAttribute("publishError", "Every field must be completed to publish the event");
 			}
 		} catch (NullPointerException e) {
-			model.addAttribute("publishError", "Every field must be completed to publish the event");
+			model.addAttribute("error", "Every field must be completed to publish the event");
 		}
 		return this.showEvent(eventId, model);
+	}
+
+	@GetMapping(value = "/delete/{eventId}")
+	public String deleteEvent(@PathVariable("eventId") final int eventId, final ModelMap model) {
+		Event event = this.eventService.findEventById(eventId);
+		if (event.getPublished()) {
+			model.put("error", "No se puede eliminar un evento ya publicado");
+			return this.showEvent(eventId, model);
+		} else {
+			this.eventService.delete(event);
+			return this.showEvents(model);
+		}
 	}
 
 }
