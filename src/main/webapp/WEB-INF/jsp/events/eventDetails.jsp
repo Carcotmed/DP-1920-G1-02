@@ -31,5 +31,12 @@
 			<td><c:out value="${reserved} / ${event.capacity}" /></td>
 		</tr>
 	</table>
-
+	<c:if test="${!event.published}">
+		<spring:url value="/events/edit/{eventId}"
+			var="eventUrl">
+			<spring:param name="eventId" value="${event.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(eventUrl)}" class="btn btn-default">Edit
+			Event</a>
+	</c:if>
 </petclinic:layout>
