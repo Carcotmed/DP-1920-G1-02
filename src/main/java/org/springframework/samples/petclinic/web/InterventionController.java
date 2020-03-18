@@ -143,7 +143,7 @@ public class InterventionController {
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
 			Intervention interventionToUpdate = this.interventionService.findInterventionById(interventionId);
-			BeanUtils.copyProperties(intervention, interventionToUpdate, "id", "visit", "vets", "requiredProducts");
+			BeanUtils.copyProperties(intervention, interventionToUpdate, "id", "visit");
 
 			this.interventionService.saveIntervention(interventionToUpdate);
 
