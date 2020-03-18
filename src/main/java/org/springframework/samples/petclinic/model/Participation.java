@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -24,12 +25,12 @@ public class Participation extends BaseEntity {
 
 	@OneToOne
 	@JoinColumn(name = "event_id")
-	@NotEmpty
+	@NotNull
 	private Event		event;
 
 	@OneToOne
 	@JoinColumn(name = "owner_id")
-	@NotEmpty
+	@NotNull
 	private Owner		owner;
 
 }
