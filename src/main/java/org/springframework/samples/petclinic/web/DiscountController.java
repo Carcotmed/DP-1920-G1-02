@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -69,6 +72,13 @@ public class DiscountController {
 			view = discountsList(modelMap);
 		}
 		return view;
+	}
+	
+	@GetMapping("/delete/{discountId}")
+	public void deleteDiscount(@PathVariable("discountId") int discountId, ModelMap modelMap) {
+		
+		Discount discount = discountService.findDiscountById(discountId);
+		discountService.deleteDiscount(discount);
 	}
 	
 }
