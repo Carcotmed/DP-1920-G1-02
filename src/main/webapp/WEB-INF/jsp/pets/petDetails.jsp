@@ -50,6 +50,7 @@
 				<th>Description</th>
 				<th>Intervention</th>
 				<th>Vet</th>
+				<th>Actions</th>
 
 			</tr>
 		</thead>
@@ -65,10 +66,32 @@
 					<td><c:out
 							value="${visit.intervention.vet.firstName} ${visit.intervention.vet.lastName}" /></td>
 
+					<td><spring:url
+							value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/edit"
+							var="editUrl">
+							<spring:param name="interventionId" value="${visit.intervention.id}" />
+							<spring:param name="ownerId" value="${owner.id}" />
+							<spring:param name="visitId" value="${visit.id}" />
+							<spring:param name="petId" value="${pet.id}" />
+						</spring:url> <a href="${fn:escapeXml(editUrl)}">Edit</a>
+						
+						<spring:url
+							value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/delete"
+							var="deleteUrl">
+							<spring:param name="interventionId" value="${visit.intervention.id}" />
+							<spring:param name="ownerId" value="${owner.id}" />
+							<spring:param name="visitId" value="${visit.id}" />
+							<spring:param name="petId" value="${pet.id}" />
+						</spring:url> <a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+						</td>
 
 				</c:if>
 
 				<c:if test="${empty visit.intervention}">
+
+					<td><c:out value="No intervention" /></td>
+
+					<td><c:out value="No vet" /></td>
 
 					<td><spring:url
 							value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new"
@@ -77,8 +100,6 @@
 							<spring:param name="visitId" value="${visit.id}" />
 							<spring:param name="petId" value="${pet.id}" />
 						</spring:url> <a href="${fn:escapeXml(visitUrl)}">Add Intervention</a></td>
-
-					<td><c:out value="No vet" /></td>
 
 				</c:if>
 
