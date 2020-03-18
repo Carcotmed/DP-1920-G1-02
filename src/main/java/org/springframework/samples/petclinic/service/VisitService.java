@@ -23,4 +23,8 @@ public class VisitService {
 		return this.visitRepository.findById (visitId);
 	}
 
+	public void saveVisit(Visit visit) {
+		this.visitRepository.save(visit);
+	}
+
 }

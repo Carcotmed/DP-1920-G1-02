@@ -24,6 +24,10 @@ public class InterventionService {
 	public Intervention findInterventionById(int interventionId) {
 		return this.interventionRepository.findInterventionById(interventionId);
 	}
+
+	public void deleteIntervention(Intervention intervention) {
+		this.interventionRepository.delete(intervention);
+	}
 	
 	
 	
