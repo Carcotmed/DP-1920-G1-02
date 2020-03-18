@@ -57,6 +57,10 @@ public class EventService {
 		return this.eventRepository.findEventById(eventId);
 	}
 
+	public Event findParticipationByIds(final int eventId, final int ownerId) {
+		return this.participationRepository.findParticipationByIds(eventId, ownerId);
+	}
+
 	public Collection<Participation> findParticipationsByEventId(final int eventId) {
 		return this.eventRepository.findParticipationsByEventId(eventId);
 	}
@@ -64,6 +68,11 @@ public class EventService {
 	@Transactional
 	public void save(final Event event) throws DataAccessException {
 		this.eventRepository.save(event);
+	}
+
+	@Transactional
+	public void saveParticipation(final Participation participation) throws DataAccessException {
+		this.participationRepository.save(participation);
 	}
 
 	public Collection<Event> findAllPublishedEvents() {
