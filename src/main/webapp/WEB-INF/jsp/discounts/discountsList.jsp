@@ -26,10 +26,17 @@
 					<td><c:out value="${discount.quantity}" /></td>
 					<td><c:out value="${discount.provider.name}"/></td>
 					<td>
+
 						<spring:url value="/discounts/edit/{discountId}" var="editDiscountUrl">
 							<spring:param name="discountId" value="${discount.id}" />
 						</spring:url>
 						<a href="${fn:escapeXml(editDiscountUrl)}">Edit</a>
+
+						<spring:url	value="/discounts/delete/{discountId}" var="deleteUrl">
+							<spring:param name="discountId" value="${discount.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+
 					</td>
 				</tr>
 			</c:forEach>

@@ -24,6 +24,10 @@ public class DiscountService {
 	public void save(Discount discount) {
 		discountRepo.save(discount);
 	}
+
+	public void deleteDiscount(Discount discount) {
+		this.discountRepo.delete(discount);
+	}
 	
 	@Transactional
 	public Discount findDiscountById(int discountId) throws DataAccessException {

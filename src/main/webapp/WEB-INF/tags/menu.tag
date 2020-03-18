@@ -51,6 +51,12 @@
 					<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
 					<span>Providers</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'events'}" url="/events"
+					title="events page">
+					<span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>
+					<span>Events</span>
+				</petclinic:menuItem>
 
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
