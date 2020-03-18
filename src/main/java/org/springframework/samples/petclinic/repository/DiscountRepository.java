@@ -12,4 +12,7 @@ public interface DiscountRepository extends CrudRepository<Discount, Integer> {
 
 	@Query("SELECT d FROM Discount d WHERE d.percentage = ?1")
 	Discount findDiscountByPercentage(double percentage) throws DataAccessException;
+	
+	@Query("SELECT d FROM Discount d WHERE d.id = ?1")
+	Discount findDiscountById(int discountId) throws DataAccessException;
 }

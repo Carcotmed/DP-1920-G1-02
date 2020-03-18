@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Discount;
 import org.springframework.samples.petclinic.model.Product;
@@ -60,6 +61,14 @@ public class DiscountController {
 		return view;
 	}
 	
+	@GetMapping("/edit/{discountId}")
+	public String initUpdateForm(@PathVariable("discountId") int discountId, ModelMap modelMap) {
+		String view = "discounts/editDiscount";
+		Discount discount = this.discountService.findDiscountById(discountId);
+		modelMap.put("discount", discount);
+		return view;
+	}
+	
 	@PostMapping(path="/save")
 	public String saveDiscount(@Valid Discount discount, BindingResult result, ModelMap modelMap) {
 		String view = "discounts/discountsList";
@@ -74,11 +83,27 @@ public class DiscountController {
 		return view;
 	}
 	
+	@PostMapping(value = "/edit/{discountId}")
+	public String processUpdateForm(@Valid Discount discount, BindingResult result,
+			@PathVariable("discountId") int discountId, ModelMap modelMap) {
+		String view = "discounts/discountsList";
+		if (result.hasErrors()) {
+			modelMap.put("discount", discount);
+			return "discounts/editDiscount";
+		} else {
+			Discount discountToUpdate = this.discountService.findDiscountById(discountId);
+			BeanUtils.copyProperties(discount, discountToUpdate, "id");
+			this.discountService.save(discountToUpdate);
+			view = discountsList(modelMap);
+		}
+		return view;
+
 	@GetMapping("/delete/{discountId}")
 	public void deleteDiscount(@PathVariable("discountId") int discountId, ModelMap modelMap) {
 		
 		Discount discount = discountService.findDiscountById(discountId);
 		discountService.deleteDiscount(discount);
+
 	}
 	
 }

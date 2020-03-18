@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-import java.security.Provider;
-import java.util.Collection;
 
 import javax.transaction.Transactional;
 
@@ -29,6 +27,11 @@ public class DiscountService {
 
 	public void deleteDiscount(Discount discount) {
 		this.discountRepo.delete(discount);
+	}
+	
+	@Transactional
+	public Discount findDiscountById(int discountId) throws DataAccessException {
+		return this.discountRepo.findDiscountById(discountId);
 	}
 	
 }

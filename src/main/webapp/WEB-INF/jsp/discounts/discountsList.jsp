@@ -26,15 +26,22 @@
 					<td><c:out value="${discount.quantity}" /></td>
 					<td><c:out value="${discount.provider.name}"/></td>
 					<td>
+
+						<spring:url value="/discounts/edit/{discountId}" var="editDiscountUrl">
+							<spring:param name="discountId" value="${discount.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(editDiscountUrl)}">Edit</a>
+
 						<spring:url	value="/discounts/delete/{discountId}" var="deleteUrl">
 							<spring:param name="discountId" value="${discount.id}" />
 						</spring:url>
 						<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<spring:url value="/discounts/new" var="discountUrl" />
-	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(discountUrl)}'" value='Create'>
+	<spring:url value="/discounts/new" var="newDiscountUrl" />
+	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(newDiscountUrl)}'" value='Create'>
 </petclinic:layout>
