@@ -9,7 +9,8 @@
 <jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#date").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#orderDate").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#arrivalDate").datepicker({dateFormat: 'yy/mm/dd'});
             });
         </script>
     </jsp:attribute>

@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,10 @@ public class DiscountService {
 	@Transactional
 	public Discount findDiscountById(int discountId) throws DataAccessException {
 		return this.discountRepo.findDiscountById(discountId);
+	}
+
+	public Collection<Discount> findDiscounts() {
+		return (Collection<Discount>) this.discountRepo.findAll();
 	}
 	
 }
