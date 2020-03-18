@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Discount;
 import org.springframework.samples.petclinic.model.Product;
@@ -16,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -57,6 +59,14 @@ public class DiscountController {
 		return view;
 	}
 	
+	@GetMapping("/edit/{discountId}")
+	public String initUpdateForm(@PathVariable("discountId") int discountId, ModelMap modelMap) {
+		String view = "discounts/editDiscount";
+		Discount discount = this.discountService.findDiscountById(discountId);
+		modelMap.put("discount", discount);
+		return view;
+	}
+	
 	@PostMapping(path="/save")
 	public String saveDiscount(@Valid Discount discount, BindingResult result, ModelMap modelMap) {
 		String view = "discounts/discountsList";
@@ -66,6 +76,22 @@ public class DiscountController {
 		}else {
 			discountService.save(discount);
 			modelMap.addAttribute("message", "Discount saved successfully!");
+			view = discountsList(modelMap);
+		}
+		return view;
+	}
+	
+	@PostMapping(value = "/edit/{discountId}")
+	public String processUpdateForm(@Valid Discount discount, BindingResult result,
+			@PathVariable("discountId") int discountId, ModelMap modelMap) {
+		String view = "discounts/discountsList";
+		if (result.hasErrors()) {
+			modelMap.put("discount", discount);
+			return "discounts/editDiscount";
+		} else {
+			Discount discountToUpdate = this.discountService.findDiscountById(discountId);
+			BeanUtils.copyProperties(discount, discountToUpdate, "id");
+			this.discountService.save(discountToUpdate);
 			view = discountsList(modelMap);
 		}
 		return view;

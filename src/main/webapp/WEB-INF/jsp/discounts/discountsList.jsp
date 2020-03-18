@@ -15,6 +15,7 @@
 				<th style="width: 150px;">Percentage</th>
 				<th>Quantity</th>
 				<th>Provider</th>
+				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,10 +25,16 @@
 					<td><c:out value="${discount.percentage}" /></td>
 					<td><c:out value="${discount.quantity}" /></td>
 					<td><c:out value="${discount.provider.name}"/></td>
+					<td>
+						<spring:url value="/discounts/edit/{discountId}" var="editDiscountUrl">
+							<spring:param name="discountId" value="${discount.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(editDiscountUrl)}">Edit</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<spring:url value="/discounts/new" var="discountUrl" />
-	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(discountUrl)}'" value='Create'>
+	<spring:url value="/discounts/new" var="newDiscountUrl" />
+	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(newDiscountUrl)}'" value='Create'>
 </petclinic:layout>
