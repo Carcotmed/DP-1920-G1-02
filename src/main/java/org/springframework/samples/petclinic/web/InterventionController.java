@@ -21,6 +21,7 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Product;
+import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.samples.petclinic.service.VisitService;
@@ -34,7 +35,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.BeanUtils;
@@ -149,6 +152,20 @@ public class InterventionController {
 
 			return "redirect:/owners/{ownerId}/pets/{petId}";
 		}
+	}
+	
+	@GetMapping(value = "interventions/{interventionId}/delete")
+	public String deleteProvider(@PathVariable("interventionId") int interventionId, @PathVariable("visitId") int visitId, ModelMap model) {
+
+		Visit visit = visitService.findVisitById(visitId);
+		visit.setIntervention(null);
+		visitService.saveVisit (visit);
+		
+			Intervention intervention = interventionService.findInterventionById(interventionId);
+			interventionService.deleteIntervention(intervention);
+
+
+		return "redirect:/owners/{ownerId}/pets/{petId}";
 	}
 
 }
