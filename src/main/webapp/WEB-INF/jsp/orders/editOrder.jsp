@@ -17,7 +17,7 @@
 	<jsp:body>
         <h2>Orders</h2>
 
-        <form:form modelAttribute="order" class="form-horizontal" action="/orders/save">
+        <form:form modelAttribute="order" class="form-horizontal" id="edit-order-form">
             <div class="form-group has-feedback">
             
 				<div class="form-group has-feedback">
@@ -48,7 +48,9 @@
                 	</c:forEach>
                 </select> 
                 </div>
-				
+                
+					<c:out value="${createError}" />
+					<c:remove var="createError" />
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

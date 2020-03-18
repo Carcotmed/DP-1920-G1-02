@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -31,5 +32,9 @@ public class OrderService {
 	@Transactional
 	public Order findOrderById(int orderId) throws DataAccessException {
 		return this.orderRepo.findOrderById(orderId);
+	}
+
+	public void saveOrder(@Valid Order order) {
+		this.orderRepo.save(order);
 	}
 }

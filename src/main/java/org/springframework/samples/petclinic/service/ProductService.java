@@ -30,6 +30,10 @@ public class ProductService {
 	public Collection<Product> findProducts() throws DataAccessException{
 		return (Collection<Product>) productRepo.findAll();
 	}
+
+	public Collection<Product> findAllByProviderId(int providerId) {
+		return this.productRepo.findAllByProviderId(providerId);
+	}
 	
 	
 }
