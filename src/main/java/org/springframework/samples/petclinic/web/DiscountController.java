@@ -97,12 +97,13 @@ public class DiscountController {
 			view = discountsList(modelMap);
 		}
 		return view;
+	}
 
 	@GetMapping("/delete/{discountId}")
-	public void deleteDiscount(@PathVariable("discountId") int discountId, ModelMap modelMap) {
-		
+	public String deleteDiscount(@PathVariable("discountId") int discountId, ModelMap modelMap) {
 		Discount discount = discountService.findDiscountById(discountId);
 		discountService.deleteDiscount(discount);
+		return discountsList(modelMap);
 
 	}
 	
