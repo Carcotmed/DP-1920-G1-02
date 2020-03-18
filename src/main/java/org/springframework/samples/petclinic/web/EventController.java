@@ -22,10 +22,14 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Event;
+import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Participation;
 import org.springframework.samples.petclinic.service.EventService;
+import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -43,12 +47,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/events")
 public class EventController {
 
-	private final EventService eventService;
+	private final EventService	eventService;
+	private final OwnerService	ownerService;
 
 
 	@Autowired
-	public EventController(final EventService eventService) {
+	public EventController(final EventService eventService, final OwnerService ownerService) {
 		this.eventService = eventService;
+		this.ownerService = ownerService;
 	}
 
 	@GetMapping()
@@ -78,8 +84,9 @@ public class EventController {
 	}
 
 	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid final Event event, final BindingResult result) {
+	public String processCreationForm(@Valid final Event event, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
+			model.put("event", event);
 			return "events/createOrUpdateEventForm";
 		} else {
 			event.setPublished(false);
@@ -101,8 +108,9 @@ public class EventController {
 	}
 
 	@PostMapping(value = "/edit/{eventId}")
-	public String processUpdateForm(@PathVariable("eventId") final int eventId, @Valid final Event event, final BindingResult result) {
+	public String processUpdateForm(@PathVariable("eventId") final int eventId, @Valid final Event event, final BindingResult result, final ModelMap model) {
 		if (result.hasErrors()) {
+			model.put("event", event);
 			return "events/createOrUpdateEventForm";
 		} else {
 			event.setPublished(false);
@@ -138,6 +146,40 @@ public class EventController {
 		} else {
 			this.eventService.delete(event);
 			return this.showEvents(model);
+		}
+	}
+
+	@GetMapping(value = "/newParticipation/{eventId}")
+	public String initCreationParticipationForm(@PathVariable("eventId") final int eventId, final ModelMap model) {
+		Event event = this.eventService.findEventById(eventId);
+		if (event.getPublished()) {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
+			Participation participation = new Participation();
+			participation.setEvent(event);
+			participation.setOwner(owner);
+			model.put("participation", participation);
+			model.put("petsOwned", owner.getPets());
+			return "events/createOrUpdateParticipationForm";
+		} else {
+			model.put("error", "You cant participate in this event until it is published");
+			return this.showEvent(eventId, model);
+		}
+	}
+
+	@PostMapping(value = "/newParticipation/{eventId}")
+	public String processCreationParticipationForm(@PathVariable("eventId") final int eventId, final Participation participation, final BindingResult result, final ModelMap model) {
+		if (result.hasErrors()) {
+			model.put("participation", participation);
+			return "events/createOrUpdateParticipationForm";
+		} else {
+			Event event = this.eventService.findEventById(eventId);
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
+			participation.setEvent(event);
+			participation.setOwner(owner);
+			this.eventService.saveParticipation(participation);
+			return "redirect:/events/" + eventId;
 		}
 	}
 

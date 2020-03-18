@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -18,16 +19,15 @@ import lombok.Data;
 @Table(name = "participations")
 public class Participation extends BaseEntity {
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "pet_id")
-	private List<Pet>	pet;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Pet>	pets;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "event_id")
 	@NotEmpty
 	private Event		event;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "owner_id")
 	@NotEmpty
 	private Owner		owner;

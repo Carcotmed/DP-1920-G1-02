@@ -66,6 +66,11 @@ public class EventService {
 		this.eventRepository.save(event);
 	}
 
+	@Transactional
+	public void saveParticipation(final Participation participation) throws DataAccessException {
+		this.participationRepository.save(participation);
+	}
+
 	public Collection<Event> findAllPublishedEvents() {
 		return this.eventRepository.findAllPublishedEvents();
 	}
