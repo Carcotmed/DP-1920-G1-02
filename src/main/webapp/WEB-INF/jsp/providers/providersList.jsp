@@ -29,13 +29,16 @@
 					<td><c:out value="${provider.phone}" /></td>
 					<td><c:out value="${provider.email}" /></td>
 
-					<td><spring:url value="/providers/{providerId}/edit"
-							var="editUrl">
+					<td>
+						<spring:url value="/providers/{providerId}/edit" var="editUrl">
 							<spring:param name="providerId" value="${provider.id}" />
-						</spring:url> <a href="${fn:escapeXml(editUrl)}">Edit</a> <spring:url
-							value="/providers/{providerId}/delete" var="deleteUrl">
+						</spring:url>
+						<a href="${fn:escapeXml(editUrl)}">Edit</a>
+						<spring:url	value="/providers/{providerId}/delete" var="deleteUrl">
 							<spring:param name="providerId" value="${provider.id}" />
-						</spring:url> <a href="${fn:escapeXml(deleteUrl)}">Delete</a></td>
+						</spring:url>
+						<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+					</td>
 				</tr>
 
 			</c:forEach>
