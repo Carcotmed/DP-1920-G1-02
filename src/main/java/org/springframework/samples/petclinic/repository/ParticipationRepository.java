@@ -16,7 +16,12 @@
 
 package org.springframework.samples.petclinic.repository;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Event;
 import org.springframework.samples.petclinic.model.Participation;
 
 /**
@@ -31,5 +36,9 @@ import org.springframework.samples.petclinic.model.Participation;
  * @author Michael Isvy
  */
 public interface ParticipationRepository extends CrudRepository<Participation, Integer> {
+
+	@Transactional
+	@Query("SELECT participation FROM Participation participation WHERE participation.event.id = :eventId AND participation.owner.id =:ownerId")
+	Event findParticipationByIds(@Param("eventId") int eventId, @Param("ownerId") int ownerId);
 
 }

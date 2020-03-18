@@ -70,7 +70,20 @@ public class EventController {
 
 	@GetMapping("/{eventId}")
 	public String showEvent(@PathVariable("eventId") final int eventId, final ModelMap model) {
-		model.put("event", this.eventService.findEventById(eventId));
+		Event event = this.eventService.findEventById(eventId);
+		if (event.getCapacity() <= this.eventService.findParticipationsByEventId(eventId).size()) {
+			model.put("registered", true);
+		} else {
+			try {
+				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
+				Boolean registered = this.eventService.findParticipationByIds(eventId, owner.getId()) != null;
+				model.put("registered", registered);
+			} catch (Exception e) {
+				model.put("registered", true);
+			}
+		}
+		model.put("event", event);
 		model.put("reserved", this.eventService.findParticipationsByEventId(eventId).size());
 		return "events/eventDetails";
 	}
@@ -152,18 +165,27 @@ public class EventController {
 	@GetMapping(value = "/newParticipation/{eventId}")
 	public String initCreationParticipationForm(@PathVariable("eventId") final int eventId, final ModelMap model) {
 		Event event = this.eventService.findEventById(eventId);
-		if (event.getPublished()) {
+		if (event.getCapacity() <= this.eventService.findParticipationsByEventId(eventId).size()) {
+			model.put("error", "This event is already full");
+			return this.showEvent(eventId, model);
+		} else {
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
-			Participation participation = new Participation();
-			participation.setEvent(event);
-			participation.setOwner(owner);
-			model.put("participation", participation);
-			model.put("petsOwned", owner.getPets());
-			return "events/createOrUpdateParticipationForm";
-		} else {
-			model.put("error", "You cant participate in this event until it is published");
-			return this.showEvent(eventId, model);
+			Boolean registered = this.eventService.findParticipationByIds(eventId, owner.getId()) != null;
+			if (registered) {
+				model.put("error", "You are already registered in this event");
+				return this.showEvent(eventId, model);
+			} else {
+				if (event.getPublished()) {
+					Participation participation = new Participation();
+					model.put("participation", participation);
+					model.put("petsOwned", owner.getPets());
+					return "events/createOrUpdateParticipationForm";
+				} else {
+					model.put("error", "You cant participate in this event until it is published");
+					return this.showEvent(eventId, model);
+				}
+			}
 		}
 	}
 
