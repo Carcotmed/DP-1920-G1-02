@@ -99,6 +99,9 @@ public class OrderController {
 		}else if(!error3){
 			modelMap.addAttribute("createError", "The selected provider doesn't provide the selected discount");
 			view = "orders/editOrder";
+		}else if(order.getArrivalDate().isBefore(order.getOrderDate())) {                        //Arrival date is after order date
+			modelMap.addAttribute("createError", "The arrival date can't be before the order date");
+			view = "orders/editOrder";
 		}else if (result.hasErrors()) {
 			modelMap.put("order", order);
 			view = "orders/editOrder";

@@ -35,15 +35,15 @@ public class Order extends BaseEntity {
 	@NotNull
 	private Boolean		sent;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "provider_id")
 	private Provider	provider;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "product_id")
 	private Product		Product;
 
-	@ManyToOne(optional = true)
+	@ManyToOne
 	@JoinColumn(name = "discount_id")
 	private Discount	discount;
 
