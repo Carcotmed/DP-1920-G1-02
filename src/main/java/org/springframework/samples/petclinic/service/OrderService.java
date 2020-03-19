@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -19,6 +21,12 @@ public class OrderService {
 	public Iterable<Order> findAll(){
 		return this.orderRepo.findAll();
 	}
+	
+	@Transactional
+	public Collection<Order> findAllOrders(){
+		return this.orderRepo.findAllOrders();
+	}
+	
 	
 	@Transactional
 	public void save(Order order) {
