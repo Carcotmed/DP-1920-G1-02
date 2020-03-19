@@ -7,11 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.sun.istack.NotNull;
 
 import lombok.Data;
 
@@ -46,5 +46,13 @@ public class Order extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "discount_id")
 	private Discount	discount;
+	
+	@AssertTrue
+	public boolean isValidDate() {
+		if(arrivalDate == null | orderDate == null) {
+			return false;
+		}
+		return arrivalDate.isAfter(orderDate);
+	}
 
 }

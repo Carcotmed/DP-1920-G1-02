@@ -1,19 +1,24 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+
+import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.samples.petclinic.model.Discount;
 import org.springframework.samples.petclinic.model.Order;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 
@@ -21,6 +26,15 @@ public class OrderServiceTests {
 
 	@Autowired
 	protected OrderService orderService;
+	
+	@Autowired
+	protected ProviderService providerService;
+	
+	@Autowired
+	protected ProductService productService;
+	
+	@Autowired
+	protected DiscountService discountService;
 
 	Provider provider = new Provider();
 	Product product = new Product();
@@ -31,21 +45,19 @@ public class OrderServiceTests {
 	void init() {
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
-		provider.setId(99);
 		provider.setName("ProvPrueba");
 		provider.setPhone(123456789);
+		this.providerService.saveProvider(provider);
 
 		product.setAllAvailable(true);
-		product.setId(99);
 		product.setName("test");
-		product.setPrice(99.0);
 		product.setProvider(provider);
 		product.setQuantity(19);
+		this.productService.save(product);
 
-		discount.setId(99);
 		discount.setPercentage(10.1);
 		discount.setProduct(product);
-
+		this.discountService.save(discount);
 	}
 	
 	//=============== Create: [1 - 12] ( 9- | 3+ ) =======================
@@ -53,7 +65,9 @@ public class OrderServiceTests {
 	
 	// 1 +
 	@Test
+	@Transactional
 	void shouldInsertDBAndGenerateId() {
+		Integer found = this.orderService.findAllOrders().size();
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -65,12 +79,14 @@ public class OrderServiceTests {
 
 		orderService.save(order);
 
-		assertThat(orderService.findOrderById(4).equals(order));
+		assertThat(order.getId().longValue()).isNotEqualTo(0);
+		assertThat(this.orderService.findAllOrders().size()).isEqualTo(found+1);
 	}
 
 	// 2 +
 	@Test
 	void shouldInsertDBAndGenerateIdWhenQuantityZero() {
+		Integer found = this.orderService.findAllOrders().size();
 		Order order = new Order();
 		order.setQuantity(0);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -82,7 +98,9 @@ public class OrderServiceTests {
 
 		orderService.save(order);
 
-		assertThat(orderService.findOrderById(4).equals(order));
+		assertThat(order.getId().longValue()).isNotEqualTo(0);
+		assertThat(this.orderService.findAllOrders().size()).isEqualTo(found+1);
+
 	}
 
 	// 3 -
@@ -97,9 +115,7 @@ public class OrderServiceTests {
 		order.setProvider(provider);
 		order.setSent(false);
 
-		orderService.save(order);
-
-		assertThat(orderService.findOrderById(4) == null);
+		assertThrows(ConstraintViolationException.class, () -> orderService.save(order));
 	}
 
 	// 4 -
@@ -114,9 +130,8 @@ public class OrderServiceTests {
 			order.setProvider(provider);
 			order.setSent(false);
 
-			orderService.save(order);
+			assertThrows(ConstraintViolationException.class, () -> orderService.save(order));
 
-			assertThat(orderService.findOrderById(4) == null);
 		}
 
 		
@@ -132,9 +147,8 @@ public class OrderServiceTests {
 		order.setProvider(provider);
 		order.setSent(false);
 
-		orderService.save(order);
-
-		assertThat(orderService.findOrderById(4) == null);
+		assertThrows(ConstraintViolationException.class, () -> orderService.save(order));
+	
 	}
 	
 	// 6 -
@@ -149,9 +163,8 @@ public class OrderServiceTests {
 		order.setProvider(provider);
 		order.setSent(false);
 
-		orderService.save(order);
+		assertThrows(ConstraintViolationException.class, () -> orderService.save(order));
 
-		assertThat(orderService.findOrderById(4) == null);
 	}
 	
 	// 7 -
@@ -166,9 +179,7 @@ public class OrderServiceTests {
 			order.setProvider(provider);
 			order.setSent(false);
 
-			orderService.save(order);
-
-			assertThat(orderService.findOrderById(4) == null);
+			assertThrows(ConstraintViolationException.class, () -> orderService.save(order));
 		}
 		
 		// 8 -
@@ -183,15 +194,14 @@ public class OrderServiceTests {
 			order.setProvider(provider);
 			order.setSent(false);
 
-			orderService.save(order);
-
-			assertThat(orderService.findOrderById(4) == null);
+			assertThrows(ConstraintViolationException.class, () -> orderService.save(order));
 		}
 	
 
 	// 9 +
 	@Test
 	void shouldInsertIntoDBWhenDiscountNull() {
+		Integer found = this.orderService.findAllOrders().size();
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -203,7 +213,9 @@ public class OrderServiceTests {
 
 		orderService.save(order);
 
-		assertThat(orderService.findOrderById(4).equals(order));
+		assertThat(order.getId().longValue()).isNotEqualTo(0);
+		assertThat(this.orderService.findAllOrders().size()).isEqualTo(found+1);
+
 	}
 
 	// 10 -
@@ -218,9 +230,8 @@ public class OrderServiceTests {
 		order.setProvider(null); //Fail
 		order.setSent(false);
 
-		orderService.save(order);
 
-		assertThat(orderService.findOrderById(4) == null);
+		assertThrows(DataIntegrityViolationException.class, () -> orderService.save(order));
 	}
 	
 	// 11 -
@@ -235,9 +246,8 @@ public class OrderServiceTests {
 		order.setProvider(provider);
 		order.setSent(false);
 
-		orderService.save(order);
 
-		assertThat(orderService.findOrderById(4) == null);
+		assertThrows(DataIntegrityViolationException.class, () -> orderService.save(order));
 	}
 	
 	// 12 -
@@ -252,9 +262,7 @@ public class OrderServiceTests {
 			order.setProvider(provider);
 			order.setSent(null); //Fail
 
-			orderService.save(order);
-
-			assertThat(orderService.findOrderById(4) == null);
+			assertThrows(ConstraintViolationException.class, () -> orderService.save(order));
 		}
 	
 	//=================================================================
