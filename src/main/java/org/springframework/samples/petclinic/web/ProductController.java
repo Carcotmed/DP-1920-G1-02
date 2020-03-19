@@ -1,11 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Discount;
+import org.springframework.samples.petclinic.model.Order;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.service.ProductService;
@@ -42,26 +45,22 @@ public class ProductController {
 	}
 	
 	@GetMapping("/new")
-	public String createProduct(ModelMap modelMap) {
+	public String initCreateProduct(ModelMap modelMap) {
 		String view = "products/editProduct";
 		modelMap.addAttribute("product", new Product());
 		return view;
 	}
 	
-	@PostMapping(path="/save")
-	public String saveProduct(@Valid Product product, BindingResult result, ModelMap modelMap) {
-		String view = "products/productsList";
-
-		if(result.hasErrors()) {
-			modelMap.addAttribute("product", product);
+	@PostMapping("/new")
+	public String processCreateForm(@Valid Product product, BindingResult result, ModelMap modelMap) {	
+		if (result.hasErrors()) {
+			modelMap.put("product", product);
 			return "products/editProduct";
-			
-		}else {
-			productService.save(product);
-			modelMap.addAttribute("message", "Product saved successfully!");
-			view = productsList(modelMap);
+		} else {
+			this.productService.saveProduct(product);
 		}
-		return view;
+		return "redirect:/products";
 	}
+	
 	
 }

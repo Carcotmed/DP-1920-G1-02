@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -48,5 +49,11 @@ public class DiscountService {
 	public Collection<Discount> findAllByProviderId(int providerId) {
 		return this.discountRepo.findAllByProviderId(providerId);
 	}
+
+	public void saveDiscount(@Valid Discount discount) {
+		this.discountRepo.save(discount);
+	}
+
+
 	
 }

@@ -55,10 +55,21 @@ public class DiscountController {
 	}
 	
 	@GetMapping("/new")
-	public String createDiscount(ModelMap modelMap) {
+	public String initCreateDiscount(ModelMap modelMap) {
 		String view = "discounts/editDiscount";
 		modelMap.addAttribute("discount", new Discount());
 		return view;
+	}
+	
+	@PostMapping("/new")
+	public String processCreateForm(@Valid Discount discount, BindingResult result, ModelMap modelMap) {	
+		if (result.hasErrors()) {
+			modelMap.put("discount", discount);
+			return "discounts/editDiscount";
+		} else {
+			this.discountService.saveDiscount(discount);
+		}
+		return "/discounts/discountList";
 	}
 	
 	@GetMapping("/edit/{discountId}")
@@ -73,27 +84,17 @@ public class DiscountController {
 	public String processUpdateForm(@Valid Discount discount, BindingResult result,
 			@PathVariable("discountId") int discountId, ModelMap modelMap) {
 		if (result.hasErrors()) {
+			modelMap.put("discount", discount);
 			return "discounts/editDiscount";
 		} else {
-			discount.setId(discountId);
-//			this.discountService.save(discount);
+			Discount discountToUpdate = this.discountService.findDiscountById(discountId);
+			BeanUtils.copyProperties(discount, discountToUpdate, "id");
+
+			this.discountService.saveDiscount(discountToUpdate);
 		}
-		return "/discounts/discountsList";
+		return "redirect:/discounts";
 	}
 	
-	@PostMapping(path="/save")
-	public String saveDiscount(@Valid Discount discount, BindingResult result, ModelMap modelMap) {
-		String view = "discounts/discountsList";
-		if(result.hasErrors()) {
-			modelMap.addAttribute("discount", discount);
-			return "discounts/editDiscount";
-		}else {
-			discountService.save(discount);
-			modelMap.addAttribute("message", "Discount saved successfully!");
-			view = discountsList(modelMap);
-		}
-		return view;
-	}
 
 	@GetMapping("/delete/{discountId}")
 	public String deleteDiscount(@PathVariable("discountId") int discountId, ModelMap modelMap) {

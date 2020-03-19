@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -33,6 +34,10 @@ public class ProductService {
 
 	public Collection<Product> findAllByProviderId(int providerId) {
 		return this.productRepo.findAllByProviderId(providerId);
+	}
+
+	public void saveProduct(@Valid Product product) {
+		this.productRepo.save(product);
 	}
 	
 	

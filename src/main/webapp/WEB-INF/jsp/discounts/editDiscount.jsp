@@ -9,7 +9,7 @@
 	<jsp:body>
         <h2>Discounts</h2>
 
-        <form:form modelAttribute="discount" class="form-horizontal" action="/discounts/save">
+        <form:form modelAttribute="discount" class="form-horizontal" id="discount-edit-form">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Percentage" name="percentage" />
 				<petclinic:inputField label="Quantity" name="quantity" />
@@ -33,7 +33,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button class="btn btn-default" type="submit">Delete Discount</button>
+                    <button class="btn btn-default" type="submit">Save Discount</button>
                 </div>
             </div>
         </form:form>
