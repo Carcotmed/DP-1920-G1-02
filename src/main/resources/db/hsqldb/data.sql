@@ -69,6 +69,8 @@ INSERT INTO providers(id,name,phone,address,email) VALUES (3,'Pipo3','323456789'
 INSERT INTO providers(id,name,phone,address,email) VALUES (4,'Pipo4','423456789','Calle Pipo nº4','pipo4@gmail.com');
 
 INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (1,'Pomadita',20.50,5,true,1);
+INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (2,'Collar',21.50,5,true,2);
+INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (3,'Juguete',40.50,5,true,4);
 
 INSERT INTO interventions (id, visit_id, vet_id, name, description) VALUES (1, 1, 1, 'Castracion', 'Cortar las bolas');
 
@@ -78,5 +80,10 @@ INSERt INTO participations(id, event_id, owner_id) VAlUES (1, 1, 1);
 
 UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
 INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (1, 1, 1, 45.0, 10);
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (2, 1, 1, 55.0, 50);
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (3, 1, 1, 65.0, 20);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (2, 2, 1, 55.0, 50);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (3, 1, 3, 65.0, 20);
+
+
+INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (1,3,'2013-01-01','2013-01-02',true,1,1,1);
+INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (2,55,'2013-02-01','2013-02-02',false,2,2,2);
+INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (3,7,'2013-03-01','2013-03-02',true,3,3,3);

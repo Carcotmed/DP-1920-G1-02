@@ -46,6 +46,12 @@
 					<span>Products</span>
 				</petclinic:menuItem>
 				
+				<petclinic:menuItem active="${name eq 'orders'}" url="/orders"
+					title="orders page">
+					<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+					<span>Orders</span>
+				</petclinic:menuItem>
+				
 				<petclinic:menuItem active="${name eq 'providers'}" url="/providers"
 					title="providers page">
 					<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
