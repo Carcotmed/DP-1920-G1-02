@@ -258,7 +258,7 @@ public class OrderServiceTests {
 			order.setArrivalDate(LocalDate.of(2020, 01, 01));
 			order.setOrderDate(LocalDate.of(2019, 01, 01));
 			order.setDiscount(discount);
-			order.setProduct(null);
+			order.setProduct(product);
 			order.setProvider(provider);
 			order.setSent(null); //Fail
 

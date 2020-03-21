@@ -6,8 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
-
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -18,6 +17,7 @@ public class Product extends NamedEntity{
 
 	@NotNull
 	@Digits(fraction=2, integer=2)
+	@Min(0)
 	private Double price;
 	
 	@NotNull
@@ -27,7 +27,7 @@ public class Product extends NamedEntity{
 	@NotNull
 	private Boolean allAvailable;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name="provider_id")
 	private Provider provider;
 	
