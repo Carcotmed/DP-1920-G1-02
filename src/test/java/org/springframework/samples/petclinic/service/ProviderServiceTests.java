@@ -98,7 +98,7 @@ public class ProviderServiceTests {
 	
 	@ParameterizedTest
 	@Transactional
-	@ValueSource(strings = { "email", "pipooooooooooooooooooooo@", "pipo.com", "@.com", "@.", "@", ".", "123" })
+	@ValueSource(strings = { "", " ", "email", "pipooooooooooooooooooooo@", "pipo.com", "@.com", "@.", "@", ".", "123" })
 	public void shouldNotInsertProviderIntoDatabaseWithParametizedEmails(String email) {
 
 		Provider provider = new Provider();
@@ -113,7 +113,7 @@ public class ProviderServiceTests {
 	
 	@ParameterizedTest
 	@Transactional
-	@ValueSource(ints = { 123456789, 905246584, 123456 })
+	@ValueSource(ints = { 123456789, 905246584, 123456, 000000000, 999999999 })
 	public void shouldInsertProviderIntoDatabaseWithParametizedPhone(Integer phone) {
 
 		Provider provider = new Provider();
@@ -133,7 +133,7 @@ public class ProviderServiceTests {
 	
 	@ParameterizedTest
 	@Transactional
-	@ValueSource(ints = { -123, 1234567890, 000000000 })
+	@ValueSource(ints = { -123, 1234567890, 0000000000, 12345678 })
 	public void shouldNotInsertProviderIntoDatabaseWithParametizedPhones(Integer phone) {
 
 		Provider provider = new Provider();
