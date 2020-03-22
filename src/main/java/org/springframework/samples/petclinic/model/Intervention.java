@@ -38,11 +38,12 @@ public class Intervention extends NamedEntity {
 	@JoinColumn(name = "visit_id")
 	private Visit			visit;
 
-	@ManyToOne
+	@ManyToOne (optional = false)
 	@JoinColumn(name = "vet_id")
 	private Vet			vet;
 
 	@ManyToMany
+	@NotNull
 	private List<Product>	requiredProducts;
 	
 }
