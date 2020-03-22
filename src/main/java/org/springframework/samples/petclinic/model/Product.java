@@ -28,6 +28,7 @@ public class Product extends NamedEntity{
 	private Boolean allAvailable;
 	
 	@ManyToOne(optional = false)
+	@NotNull
 	@JoinColumn(name="provider_id")
 	private Provider provider;
 	

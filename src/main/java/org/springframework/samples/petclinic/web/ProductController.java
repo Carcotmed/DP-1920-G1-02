@@ -57,7 +57,7 @@ public class ProductController {
 			modelMap.put("product", product);
 			return "products/editProduct";
 		} else {
-			this.productService.saveProduct(product);
+			this.productService.save(product);
 		}
 		return "redirect:/products";
 	}

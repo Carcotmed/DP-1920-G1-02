@@ -23,22 +23,17 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public void save(Product product) {
-		productRepo.save(product);
+	public void save(@Valid Product product) {
+		this.productRepo.save(product);
 	}
 	
 	@Transactional
 	public Collection<Product> findProducts() throws DataAccessException{
-		return (Collection<Product>) productRepo.findAll();
+		return productRepo.findAllProducts();
 	}
 
 	public Collection<Product> findAllByProviderId(int providerId) {
 		return this.productRepo.findAllByProviderId(providerId);
-	}
-
-	public void saveProduct(@Valid Product product) {
-		this.productRepo.save(product);
-	}
-	
+	}	
 	
 }

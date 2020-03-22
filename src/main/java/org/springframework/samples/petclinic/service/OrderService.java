@@ -29,7 +29,7 @@ public class OrderService {
 	
 	
 	@Transactional
-	public void save(Order order) {
+	public void save(@Valid Order order) {
 		orderRepo.save(order);
 	}
 
@@ -42,7 +42,4 @@ public class OrderService {
 		return this.orderRepo.findOrderById(orderId);
 	}
 
-	public void saveOrder(@Valid Order order) {
-		this.orderRepo.save(order);
-	}
 }

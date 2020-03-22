@@ -12,7 +12,6 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 	
 	@Query("SELECT p FROM Product p WHERE p.id = ?1")
 	Product findProductById(int productId) throws DataAccessException;
-
 	
 	@Query ("SELECT p FROM Product p WHERE p.provider.id = ?1")
 	Collection<Product> findAllByProviderId(int providerId);

@@ -36,12 +36,14 @@ public class Order extends BaseEntity {
 	private Boolean		sent;
 
 	@ManyToOne(optional = false)
+	@NotNull
 	@JoinColumn(name = "provider_id")
 	private Provider	provider;
 
 	@ManyToOne(optional = false)
+	@NotNull
 	@JoinColumn(name = "product_id")
-	private Product		Product;
+	private Product		product;
 
 	@ManyToOne
 	@JoinColumn(name = "discount_id")

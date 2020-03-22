@@ -106,7 +106,7 @@ public class OrderController {
 			modelMap.put("order", order);
 			view = "orders/editOrder";
 		} else {
-			this.orderService.saveOrder(order);
+			this.orderService.save(order);
 		}
 		
 		return view;
