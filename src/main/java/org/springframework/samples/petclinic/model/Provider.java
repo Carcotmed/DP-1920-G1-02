@@ -3,12 +3,10 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import lombok.Data;
 
@@ -23,9 +21,8 @@ import lombok.Data;
 public class Provider extends NamedEntity {
 
 	@NotNull
-	@Digits(fraction = 0, integer = 9)
-	@Min (0)
-	private Integer	phone;
+	@Pattern (regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")
+	private String	phone;
 
 	private String	address;
 
