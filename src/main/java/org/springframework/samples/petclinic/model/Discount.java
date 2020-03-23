@@ -8,8 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -21,7 +20,6 @@ public class Discount extends BaseEntity {
 	@NotNull
 	@Digits(fraction = 2, integer = 2)
 	@Min(1)
-	@Max(100)
 	private Double	percentage;
 
 	@Min(0)

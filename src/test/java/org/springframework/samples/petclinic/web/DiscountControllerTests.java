@@ -25,7 +25,7 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers = ProductController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(controllers = DiscountController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 
 public class DiscountControllerTests {
 
@@ -47,12 +47,14 @@ public class DiscountControllerTests {
 	@BeforeEach
 	void setup() {
 		Provider provider = new Provider();
+		provider.setId(99);
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
 		provider.setPhone(123456789);
 
 		Product product = new Product();
+		product.setId(99);
 		product.setAllAvailable(true);
 		product.setName("test");
 		product.setPrice(20.02);
@@ -60,18 +62,23 @@ public class DiscountControllerTests {
 		product.setQuantity(19);
 
 		Discount discount1 = new Discount();
+		discount1.setId(98);
 		discount1.setPercentage(10.0);
 		discount1.setProduct(product);
 		discount1.setProvider(provider);
 		discount1.setQuantity(1);
 
 		Discount discount2 = new Discount();
+		discount2.setId(99);
 		discount2.setPercentage(20.0);
 		discount2.setProduct(product);
 		discount2.setProvider(provider);
 		discount2.setQuantity(2);
-
+				
 		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount1, discount2));
+		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
+		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product));
+		given(this.discountService.findDiscountById(50)).willReturn(new Discount());
 
 	}
 

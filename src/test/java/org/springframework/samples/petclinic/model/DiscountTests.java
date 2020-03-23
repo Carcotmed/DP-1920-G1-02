@@ -90,7 +90,7 @@ public class DiscountTests extends ValidatorTests {
 		assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Discount> violation = constraintViolations.iterator().next();
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("percentage");
-		assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 100");
+		assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 1");
 	}
 
 	// 4 -
