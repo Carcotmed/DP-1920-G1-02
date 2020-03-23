@@ -51,7 +51,7 @@ public class DiscountControllerTests {
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
-		provider.setPhone(123456789);
+		provider.setPhone("123456789");
 
 		Product product = new Product();
 		product.setId(99);

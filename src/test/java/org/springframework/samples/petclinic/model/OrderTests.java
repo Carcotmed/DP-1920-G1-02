@@ -30,7 +30,7 @@ public class OrderTests extends ValidatorTests{
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
-		provider.setPhone(123456789);
+		provider.setPhone("123456789");
 
 		product.setAllAvailable(true);
 		product.setName("test");

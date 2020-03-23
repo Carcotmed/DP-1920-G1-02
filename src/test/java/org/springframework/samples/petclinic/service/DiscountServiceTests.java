@@ -44,7 +44,7 @@ public class DiscountServiceTests {
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
-		provider.setPhone(123456789);
+		provider.setPhone("123456789");
 		this.providerService.saveProvider(provider);
 
 		product.setAllAvailable(true);

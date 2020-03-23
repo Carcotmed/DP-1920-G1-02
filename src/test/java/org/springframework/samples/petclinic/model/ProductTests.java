@@ -25,7 +25,7 @@ public class ProductTests extends ValidatorTests {
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
-		provider.setPhone(123456789);
+		provider.setPhone("123456789");
 	}
 
 

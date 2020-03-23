@@ -60,7 +60,7 @@ public class ProductControllerTests {
 		provider.setEmail("pipo@gmail.com");
 		provider.setId(99);
 		provider.setName("Pipo");
-		provider.setPhone(123456789);
+		provider.setPhone("123456789");
 		
 		product1.setProvider(provider);
 
