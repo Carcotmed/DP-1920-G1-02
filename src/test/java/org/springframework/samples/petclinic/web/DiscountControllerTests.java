@@ -96,9 +96,17 @@ public class DiscountControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowProductListHtml() throws Exception {
+	void testShowDiscountListHtml() throws Exception {
 		mockMvc.perform(get("/discounts")).andExpect(status().isOk()).andExpect(model().attributeExists("discounts"))
 				.andExpect(view().name("discounts/discountsList"));
 	}
 
+	// ========================== Delete  ===========================
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowDiscountDeleteHtml() throws Exception {
+		mockMvc.perform(get("/discounts/delete/{discountId}", 98)).andExpect(status().isOk())
+				.andExpect(view().name("discounts/discountsList"));
+	}
 }

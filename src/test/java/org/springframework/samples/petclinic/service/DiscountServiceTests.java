@@ -117,12 +117,29 @@ public class DiscountServiceTests {
 		assertThat(discounts.size() == 1);
 		assertThat(discounts.stream().map(x -> x.getPercentage()).equals(55.0));
 	}
-	
-	//6 findDiscountById
-			@Test
-			public void shouldFindDiscountById() {
-				Discount discount= this.discountService.findDiscountById(3);
-				assertThat(discount.getPercentage().equals(65.0));
-			}
 
+	// 6 findDiscountById
+	@Test
+	public void shouldFindDiscountById() {
+		Discount discount = this.discountService.findDiscountById(3);
+		assertThat(discount.getPercentage().equals(65.0));
+	}
+
+	// 7 delete+
+	@Test
+	public void shouldDeleteDiscount() {
+		Collection<Discount> discounts = this.discountService.findDiscounts();
+		int found = discounts.size();
+		this.discountService.deleteDiscount(this.discountService.findDiscountById(1));
+		assertThat(this.discountService.findDiscounts().size()).isEqualTo(found - 1);
+	}
+
+	// 8 delete-
+	@Test
+	public void shouldNotDeleteDiscount() {
+		Collection<Discount> discounts = this.discountService.findDiscounts();
+		int found = discounts.size();
+		this.discountService.deleteDiscount(this.discountService.findDiscountById(50));
+		assertThat(this.discountService.findDiscounts().size()).isEqualTo(found);
+	}
 }
