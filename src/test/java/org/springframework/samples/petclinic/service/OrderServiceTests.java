@@ -58,6 +58,8 @@ public class OrderServiceTests {
 		this.productService.save(product);
 
 		discount.setPercentage(10.1);
+		discount.setProvider(provider);
+		discount.setQuantity(10);
 		discount.setProduct(product);
 		this.discountService.save(discount);
 	}
@@ -84,6 +86,7 @@ public class OrderServiceTests {
 
 	// 2 Save-
 	@Test
+	@Transactional
 	void shouldNotInsertIntoDBWhenNegativeQuantity() {
 		Order order = new Order();
 		order.setQuantity(-1); // Fail
@@ -99,6 +102,7 @@ public class OrderServiceTests {
 
 	// 3 findAllOrders+
 	@Test
+	@Transactional
 	void shouldFindAllOrders() {
 		Collection<Order> orders = this.orderService.findAllOrders();
 
@@ -112,6 +116,7 @@ public class OrderServiceTests {
 
 	// 4 findOrderById+
 	@Test
+	@Transactional
 	public void shouldFindOrderById() {
 		Order order1 = this.orderService.findOrderById(1);
 		assertThat(order1.getQuantity().equals(3));
@@ -119,6 +124,17 @@ public class OrderServiceTests {
 		assertThat(order2.getQuantity().equals(55));
 		Order order3 = this.orderService.findOrderById(1);
 		assertThat(order3.getQuantity().equals(7));
+	}
+
+	// 5 findAllOrdersByDiscountId
+	@Test
+	@Transactional
+	public void shouldFindAllOrdersByDiscountId() {
+		Collection<Order> orders = this.orderService.findAllOrdersByDiscountId(1); 
+		assertThat(orders.size()).isEqualTo(1);
+		Order order1 = EntityUtils.getById(orders, Order.class, 1);
+		assertThat(order1.getQuantity()).isEqualTo(3);
+		
 	}
 
 }

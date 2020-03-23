@@ -1,10 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,16 +48,18 @@ public class DiscountControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	private Provider provider = new Provider();
+	private Product product = new Product();
+
+	
 	@BeforeEach
 	void setup() {
-		Provider provider = new Provider();
 		provider.setId(99);
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
 		provider.setPhone("123456789");
 
-		Product product = new Product();
 		product.setId(99);
 		product.setAllAvailable(true);
 		product.setName("test");
@@ -74,11 +80,11 @@ public class DiscountControllerTests {
 		discount2.setProduct(product);
 		discount2.setProvider(provider);
 		discount2.setQuantity(2);
-				
+
 		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount1, discount2));
 		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
 		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product));
-		given(this.discountService.findDiscountById(50)).willReturn(new Discount());
+		given(this.discountService.findDiscountById(98)).willReturn(discount1);
 
 	}
 
@@ -86,27 +92,76 @@ public class DiscountControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowDiscountCreateHtml() throws Exception {
+	void testDiscountInitCreate() throws Exception {
 		mockMvc.perform(get("/discounts/new")).andExpect(status().isOk())
 				.andExpect(model().attributeExists("providers")).andExpect(model().attributeExists("products"))
 				.andExpect(view().name("discounts/editDiscount"));
 	}
 
+	@WithMockUser(value = "spring")
+	@Test
+	void testDiscountProcessCreateSuccessful() throws Exception {
+		mockMvc.perform(post("/discounts/new").with(csrf()).param("percentage", "10.0").param("quantity", "1")
+				.param("provider", "99").param("product", "99")).andExpect(status().is2xxSuccessful())
+				.andExpect(view().name("discounts/editDiscount"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testDiscountProcessCreateFail() throws Exception {
+		mockMvc.perform(post("/discounts/new").with(csrf()).param("quantity", "1").param("provider", "99")
+				.param("product", "99")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("discount"))
+				.andExpect(model().attributeHasFieldErrors("discount", "percentage"))
+				.andExpect(view().name("discounts/editDiscount"));
+	}
 	// ========================== List ===========================
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowDiscountListHtml() throws Exception {
+	void testDiscountList() throws Exception {
 		mockMvc.perform(get("/discounts")).andExpect(status().isOk()).andExpect(model().attributeExists("discounts"))
 				.andExpect(view().name("discounts/discountsList"));
 	}
 
-	// ========================== Delete  ===========================
+	// ========================== Delete ===========================
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testShowDiscountDeleteHtml() throws Exception {
+	void testDiscountDeleteSuccessful() throws Exception {
 		mockMvc.perform(get("/discounts/delete/{discountId}", 98)).andExpect(status().isOk())
 				.andExpect(view().name("discounts/discountsList"));
+	}
+
+	// ========================== Update ===========================
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testDiscountInitUpdate() throws Exception {
+		mockMvc.perform(get("/discounts/edit/{discountId}", 98)).andExpect(status().isOk())
+				.andExpect(model().attributeExists("discount"))
+				.andExpect(model().attribute("discount", hasProperty("percentage", is(10.0))))
+				.andExpect(model().attribute("discount", hasProperty("quantity", is(1))))
+				.andExpect(model().attribute("discount", hasProperty("product", is(product))))
+				.andExpect(model().attribute("discount", hasProperty("provider", is(provider))))
+				.andExpect(status().isOk())
+				.andExpect(view().name("discounts/editDiscount"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testDiscountProcessUpdateSuccessful() throws Exception {
+		mockMvc.perform(post("/discounts/edit/{discountId}", 98).with(csrf()).param("percentage", "10.0")
+		.param("quantity", "10").param("provider", "99").param("product", "99")).andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("discounts/editDiscount"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testDiscountProcessUpdateFail() throws Exception {
+		mockMvc.perform(post("/discounts/edit/{discountId}", 98).with(csrf()).param("percentage", "10.0")
+		.param("quantity", "-1").param("provider", "99").param("product", "99")).andExpect(status().isOk())
+		.andExpect(model().attributeHasErrors("discount"))
+		.andExpect(model().attributeHasFieldErrors("discount", "quantity"))
+		.andExpect(view().name("discounts/editDiscount"));
 	}
 }
