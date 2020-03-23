@@ -110,6 +110,7 @@ public class InterventionController {
 			ModelMap model) {
 		
 		System.out.println("Name: "+model.getAttribute("name"));
+		intervention.setVisit(visit);
 		
 		if (result.hasErrors()) {
 			model.put("intervention", intervention);
@@ -155,7 +156,7 @@ public class InterventionController {
 	}
 	
 	@GetMapping(value = "interventions/{interventionId}/delete")
-	public String deleteProvider(@PathVariable("interventionId") int interventionId, @PathVariable("visitId") int visitId, ModelMap model) {
+	public String deleteIntervention(@PathVariable("interventionId") int interventionId, @PathVariable("visitId") int visitId, ModelMap model) {
 
 		Visit visit = visitService.findVisitById(visitId);
 		visit.setIntervention(null);

@@ -63,8 +63,8 @@ public class Visit extends BaseEntity {
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
 	
-	@OneToOne
-	@JoinColumn(name = "intervention_id")
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "intervention_id")
 	private Intervention intervention;
 
 	/**
