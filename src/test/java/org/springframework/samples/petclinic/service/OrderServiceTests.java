@@ -58,6 +58,8 @@ public class OrderServiceTests {
 		this.productService.save(product);
 
 		discount.setPercentage(10.1);
+		discount.setProvider(provider);
+		discount.setQuantity(10);
 		discount.setProduct(product);
 		this.discountService.save(discount);
 	}
