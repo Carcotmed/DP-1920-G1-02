@@ -108,7 +108,8 @@ public class InterventionControllerTests {
 				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("name", "Castracion nueva")
 						.param("description", "Nueva descripcion").param("vet", "1").param("visit", "1")
 						.param("requiredProducts", "{1}"))
-				.andExpect(status().is2xxSuccessful());
+				.andExpect(status().is2xxSuccessful())
+				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
 	}
 
 	@WithMockUser(value = "spring")
