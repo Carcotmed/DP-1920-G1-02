@@ -67,7 +67,7 @@ public class DiscountController {
 			modelMap.put("discount", discount);
 			return "discounts/editDiscount";
 		} else {
-			this.discountService.saveDiscount(discount);
+			this.discountService.save(discount);
 		}
 		return "/discounts/discountList";
 	}
@@ -90,7 +90,7 @@ public class DiscountController {
 			Discount discountToUpdate = this.discountService.findDiscountById(discountId);
 			BeanUtils.copyProperties(discount, discountToUpdate, "id");
 
-			this.discountService.saveDiscount(discountToUpdate);
+			this.discountService.save(discountToUpdate);
 		}
 		return "redirect:/discounts";
 	}

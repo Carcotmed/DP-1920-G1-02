@@ -20,5 +20,8 @@ public interface DiscountRepository extends CrudRepository<Discount, Integer> {
 	
 	@Query ("SELECT d FROM Discount d WHERE d.provider.id = ?1")
 	Collection<Discount> findAllByProviderId(int providerId) throws DataAccessException;
+	
+	@Query("SELECT d FROM Discount d")
+	Collection<Discount> findDiscounts() throws DataAccessException;
 
 }
