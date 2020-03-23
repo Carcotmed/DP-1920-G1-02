@@ -25,7 +25,7 @@ public class DiscountService {
 	}
 	
 	@Transactional
-	public void save(Discount discount) {
+	public void save(@Valid Discount discount) {
 		discountRepo.save(discount);
 	}
 
@@ -39,7 +39,7 @@ public class DiscountService {
 	}
 
 	public Collection<Discount> findDiscounts() {
-		return (Collection<Discount>) this.discountRepo.findAll();
+		return this.discountRepo.findDiscounts();
 	}
 	
 	public Collection<Discount> findAllByProductId(int productId) {
@@ -48,10 +48,6 @@ public class DiscountService {
 	
 	public Collection<Discount> findAllByProviderId(int providerId) {
 		return this.discountRepo.findAllByProviderId(providerId);
-	}
-
-	public void saveDiscount(@Valid Discount discount) {
-		this.discountRepo.save(discount);
 	}
 
 
