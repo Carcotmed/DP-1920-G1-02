@@ -26,10 +26,7 @@ public class ProviderService {
 	@Autowired
 	private ProductRepository productRepo;
 
-	@Transactional(readOnly = true)
-	public Iterable<Provider> findAll() {
-		return providerRepo.findAll();
-	}
+
 
 	@Transactional
 	public Collection<Provider> findProviders() throws DataAccessException{
@@ -51,13 +48,6 @@ public class ProviderService {
 	public void deleteProvider(Provider provider) {
 		providerRepo.delete(provider);
 		
-	}
-
-	public Collection<Product> findAllProductsByProviderId(int providerId) {
-		
-		List <Product> products = new ArrayList <Product> (productRepo.findAllByProviderId (providerId));
-		
-		return products;
 	}
 
 }

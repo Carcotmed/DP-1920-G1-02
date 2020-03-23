@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -9,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
+import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,13 +27,16 @@ public class ProviderController {
 	@Autowired
 	private ProviderService providerService;
 
+	@Autowired
+	private ProductService productService;
+
 	private static final String VIEWS_PROVIDERS_CREATE_OR_UPDATE_FORM = "providers/createOrUpdateProviderForm";
 
 	@RequestMapping()
-	public String ProductsList(ModelMap modelMap) {
+	public String ProvidersList(ModelMap modelMap) {
 
 		String vista = "providers/providersList";
-		Iterable<Provider> providers = providerService.findAll();
+		Collection<Provider> providers = providerService.findProviders();
 		modelMap.addAttribute("providers", providers);
 		return vista;
 	}
@@ -61,16 +66,6 @@ public class ProviderController {
 		return VIEWS_PROVIDERS_CREATE_OR_UPDATE_FORM;
 	}
 
-	/**
-	 *
-	 * @param pet
-	 * @param result
-	 * @param petId
-	 * @param model
-	 * @param owner
-	 * @param model
-	 * @return
-	 */
 	@PostMapping(value = "{providerId}/edit")
 	public String processUpdateForm(@Valid Provider provider, BindingResult result,
 			@PathVariable("providerId") int providerId, ModelMap model) {
@@ -90,8 +85,7 @@ public class ProviderController {
 	@GetMapping(value = "{providerId}/delete")
 	public String deleteProvider(@PathVariable("providerId") int providerId, ModelMap model) {
 
-		List<Product> productsOfProvider = new ArrayList<Product>(
-				providerService.findAllProductsByProviderId(providerId));
+		List<Product> productsOfProvider = new ArrayList<Product>(productService.findAllByProviderId(providerId));
 
 		if (productsOfProvider.isEmpty()) {
 
@@ -104,7 +98,7 @@ public class ProviderController {
 
 		}
 
-		return ProductsList(model);
+		return ProvidersList(model);
 	}
 
 }
