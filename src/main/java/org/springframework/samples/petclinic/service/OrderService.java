@@ -33,13 +33,18 @@ public class OrderService {
 		orderRepo.save(order);
 	}
 
-	public void deleteDiscount(Order order) {
+	public void deleteOrder(Order order) {
 		this.orderRepo.delete(order);
 	}
 	
 	@Transactional
 	public Order findOrderById(int orderId) throws DataAccessException {
 		return this.orderRepo.findOrderById(orderId);
+	}
+	
+	@Transactional
+	public Collection<Order> findAllOrdersByDiscountId(int discountId){
+		return this.orderRepo.findAllOrdersByDiscountId(discountId);
 	}
 
 }

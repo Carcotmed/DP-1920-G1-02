@@ -14,4 +14,7 @@ public interface OrderRepository extends CrudRepository<Order, Integer>{
 	
 	@Query("SELECT o FROM Order o")
 	Collection<Order> findAllOrders() throws DataAccessException;
+
+	@Query("SELECT o FROM Order o WHERE o.discount.id = ?1")
+	Collection<Order> findAllOrdersByDiscountId(int discountId) throws DataAccessException;
 }

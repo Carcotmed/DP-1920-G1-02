@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
 
@@ -14,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.samples.petclinic.model.Discount;
+import org.springframework.samples.petclinic.model.Order;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.util.EntityUtils;
@@ -33,6 +37,9 @@ public class DiscountServiceTests {
 
 	@Autowired
 	public ProviderService providerService;
+	
+	@Autowired
+	public OrderService orderService;
 
 	Product product = new Product();
 	Provider provider = new Provider();
@@ -130,6 +137,9 @@ public class DiscountServiceTests {
 	public void shouldDeleteDiscount() {
 		Collection<Discount> discounts = this.discountService.findDiscounts();
 		int found = discounts.size();
+		Collection<Order> orders = this.orderService.findAllOrdersByDiscountId(1);
+		orders.stream().forEach(x -> this.orderService.deleteOrder(x));
+		
 		this.discountService.deleteDiscount(this.discountService.findDiscountById(1));
 		assertThat(this.discountService.findDiscounts().size()).isEqualTo(found - 1);
 	}
@@ -139,7 +149,54 @@ public class DiscountServiceTests {
 	public void shouldNotDeleteDiscount() {
 		Collection<Discount> discounts = this.discountService.findDiscounts();
 		int found = discounts.size();
-		this.discountService.deleteDiscount(this.discountService.findDiscountById(50));
+		Collection<Order> orders = this.orderService.findAllOrdersByDiscountId(50);
+		assertTrue(orders.isEmpty());
+		assertThrows(InvalidDataAccessApiUsageException.class, () -> this.discountService.deleteDiscount(this.discountService.findDiscountById(50)));
 		assertThat(this.discountService.findDiscounts().size()).isEqualTo(found);
 	}
+
+  //9 update+
+	@Test
+	@Transactional
+	public void shouldUpdateDiscount() {
+		Discount discount = new Discount();
+
+		discount.setPercentage(80.0);
+		discount.setProduct(product);
+		discount.setProvider(provider);
+		discount.setQuantity(1);
+
+		discountService.save(discount);
+		
+		Discount discountAct = this.discountService.findDiscounts().stream().filter(x -> x.getPercentage().equals(80.0)).collect(Collectors.toList()).get(0);
+		discountAct.setPercentage(30.01);
+		
+		discountService.save(discountAct);
+
+		assertThat(discountService.findDiscountById(discountAct.getId()).getPercentage()).isEqualTo(30.01);
+	}
+	
+	 //10 update-
+		@Test
+		@Transactional
+		public void shouldNotUpdateDiscount() {
+			Discount discount = new Discount();
+
+			discount.setPercentage(80.0);
+			discount.setProduct(product);
+			discount.setProvider(provider);
+			discount.setQuantity(1);
+
+			this.discountService.save(discount);
+			
+			Discount discountAct = this.discountService.findDiscounts().stream().filter(x -> x.getPercentage().equals(80.0)).collect(Collectors.toList()).get(0);
+			
+			discountAct.setPercentage(300.01);
+			this.discountService.save(discountAct);
+			
+			assertThrows(ConstraintViolationException.class, () -> this.discountService.findDiscountById(discountAct.getId()).getPercentage().equals(80.0));
+		}
+
+
+
 }
