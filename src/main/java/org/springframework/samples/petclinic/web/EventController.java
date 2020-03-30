@@ -16,7 +16,7 @@
 
 package org.springframework.samples.petclinic.web;
 
-import java.util.Map;
+import java.time.LocalDate;
 
 import javax.validation.Valid;
 
@@ -26,7 +26,6 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Participation;
 import org.springframework.samples.petclinic.service.EventService;
 import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -59,10 +58,14 @@ public class EventController {
 
 	@GetMapping()
 	public String showEvents(final ModelMap model) {
-		GrantedAuthority authority = new SimpleGrantedAuthority("veterinarian");
-		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(authority)) {
-			model.put("events", this.eventService.findAllEvents());
-		} else {
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				model.put("events", this.eventService.findAllEvents());
+			} else {
+				model.put("events", this.eventService.findAllPublishedEvents());
+			}
+		} catch (Exception e) {
 			model.put("events", this.eventService.findAllPublishedEvents());
 		}
 		return "events/eventsList";
@@ -71,81 +74,150 @@ public class EventController {
 	@GetMapping("/{eventId}")
 	public String showEvent(@PathVariable("eventId") final int eventId, final ModelMap model) {
 		Event event = this.eventService.findEventById(eventId);
-		if (event.getCapacity() <= this.eventService.findParticipationsByEventId(eventId).size()) {
-			model.put("registered", true);
-		} else {
-			try {
-				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-				Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
-				Boolean registered = this.eventService.findParticipationByIds(eventId, owner.getId()) != null;
-				model.put("registered", registered);
-			} catch (Exception e) {
+		if (event != null) {
+			if (event.getCapacity() <= this.eventService.findParticipationsByEventId(eventId).size()) {
 				model.put("registered", true);
+			} else {
+				try {
+					User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+					Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
+					Boolean registered = this.eventService.findParticipationByIds(eventId, owner.getId()) != null;
+					model.put("registered", registered);
+				} catch (Exception e) {
+					model.put("registered", true);
+				}
 			}
+			model.put("event", event);
+			model.put("reserved", this.eventService.findParticipationsByEventId(eventId).size());
+			return "events/eventDetails";
+		} else {
+			model.put("error", "The event you are trying to see doesn't exist");
+			return this.showEvents(model);
 		}
-		model.put("event", event);
-		model.put("reserved", this.eventService.findParticipationsByEventId(eventId).size());
-		return "events/eventDetails";
 	}
 
 	@GetMapping(value = "/new")
-	public String initCreationForm(final Map<String, Object> model) {
-		Event event = new Event();
-		event.setPublished(false);
-		model.put("event", event);
-		return "events/createOrUpdateEventForm";
+	public String initCreationForm(final ModelMap model) {
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				Event event = new Event();
+				event.setPublished(false);
+				model.put("event", event);
+				return "events/createOrUpdateEventForm";
+			} else {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			model.put("error", "You can't create an event if you are not a veterinarian");
+			return this.showEvents(model);
+		}
 	}
 
 	@PostMapping(value = "/new")
 	public String processCreationForm(@Valid final Event event, final BindingResult result, final ModelMap model) {
-		if (result.hasErrors()) {
-			model.put("event", event);
-			return "events/createOrUpdateEventForm";
-		} else {
-			event.setPublished(false);
-			this.eventService.save(event);
-			return "redirect:/events";
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				if (result.hasErrors()) {
+					model.put("event", event);
+					return "events/createOrUpdateEventForm";
+				} else {
+					if (event.getCapacity() == null) {
+						event.setCapacity(0);
+					}
+					if (event.getDate() == null) {
+						event.setDate(LocalDate.now().plusDays(1));
+					}
+					event.setPublished(false);
+					this.eventService.save(event);
+					return "redirect:/events";
+				}
+			} else {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			model.put("error", "You can't create an event if you are not a veterinarian");
 		}
+		return this.showEvents(model);
 	}
 
 	@GetMapping(value = "/edit/{eventId}")
 	public String initUpdateForm(@PathVariable("eventId") final int eventId, final ModelMap model) {
-		Event event = this.eventService.findEventById(eventId);
-		if (event.getPublished()) {
-			model.put("error", "No se puede editar un evento ya publicado");
-			return this.showEvent(eventId, model);
-		} else {
-			model.put("event", event);
-			return "events/createOrUpdateEventForm";
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				Event event = this.eventService.findEventById(eventId);
+				if (event.getPublished()) {
+					model.put("error", "You can't edit an already published event");
+					return this.showEvent(eventId, model);
+				} else {
+					model.put("event", event);
+					return "events/createOrUpdateEventForm";
+				}
+			} else {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			model.put("error", "You can't update an event if you are not a veterinarian");
 		}
+		return this.showEvent(eventId, model);
 	}
 
 	@PostMapping(value = "/edit/{eventId}")
 	public String processUpdateForm(@PathVariable("eventId") final int eventId, @Valid final Event event, final BindingResult result, final ModelMap model) {
-		if (result.hasErrors()) {
-			model.put("event", event);
-			return "events/createOrUpdateEventForm";
-		} else {
-			event.setPublished(false);
-			event.setId(eventId);
-			this.eventService.save(event);
-			return "redirect:/events/" + eventId;
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				if (!this.eventService.findEventById(eventId).getPublished()) {
+					if (result.hasErrors()) {
+						model.put("event", event);
+						return "events/createOrUpdateEventForm";
+					} else {
+						if (event.getCapacity() == null) {
+							event.setCapacity(0);
+						}
+						if (event.getDate() == null) {
+							event.setDate(LocalDate.now().plusDays(1));
+						}
+						event.setPublished(false);
+						event.setId(eventId);
+						this.eventService.save(event);
+						return "redirect:/events/" + eventId;
+					}
+				} else {
+					throw new Exception();
+				}
+			} else {
+				model.put("error", "You can't update a published event");
+				return this.showEvent(eventId, model);
+			}
+		} catch (Exception e) {
+			model.put("error", "You can't update an event if you are not a veterinarian");
 		}
+		return this.showEvent(eventId, model);
 	}
 
 	@GetMapping(value = "/publish/{eventId}")
 	public String publishEvent(@PathVariable("eventId") final int eventId, final ModelMap model) {
 		Event event = this.eventService.findEventById(eventId);
 		try {
-			Boolean b = event.getCapacity() != null && event.getDate() != null && event.getDescription() != null && event.getPlace() != null;
-			if (b) {
-				event.setPublished(true);
-				this.eventService.save(event);
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				Boolean b = event.getCapacity() != null && event.getDate() != null && event.getDescription() != null && event.getPlace() != null;
+				if (b) {
+					event.setPublished(true);
+					this.eventService.save(event);
+				} else {
+					model.addAttribute("error", "Every field must be completed to publish the event");
+				}
 			} else {
-				model.addAttribute("publishError", "Every field must be completed to publish the event");
+				throw new IllegalAccessException();
 			}
 		} catch (NullPointerException e) {
 			model.addAttribute("error", "Every field must be completed to publish the event");
+		} catch (Exception e) {
+			model.put("error", "You can't publish an event if you are not a veterinarian");
 		}
 		return this.showEvent(eventId, model);
 	}
@@ -153,25 +225,41 @@ public class EventController {
 	@GetMapping(value = "/delete/{eventId}")
 	public String deleteEvent(@PathVariable("eventId") final int eventId, final ModelMap model) {
 		Event event = this.eventService.findEventById(eventId);
-		if (event.getPublished()) {
-			model.put("error", "No se puede eliminar un evento ya publicado");
-			return this.showEvent(eventId, model);
-		} else {
-			this.eventService.delete(event);
-			return this.showEvents(model);
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				if (event.getPublished()) {
+					model.put("error", "No se puede eliminar un evento ya publicado");
+					return this.showEvent(eventId, model);
+				} else {
+					this.eventService.delete(event);
+					return this.showEvents(model);
+				}
+			} else {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			model.put("error", "You can't delete an event unless you are veterinarian");
 		}
+		return this.showEvent(eventId, model);
 	}
 
 	@GetMapping(value = "/newParticipation/{eventId}")
 	public String initCreationParticipationForm(@PathVariable("eventId") final int eventId, final ModelMap model) {
 		Event event = this.eventService.findEventById(eventId);
+		Boolean registered = false;
 		if (event.getCapacity() <= this.eventService.findParticipationsByEventId(eventId).size()) {
 			model.put("error", "This event is already full");
 			return this.showEvent(eventId, model);
 		} else {
-			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
-			Boolean registered = this.eventService.findParticipationByIds(eventId, owner.getId()) != null;
+			try {
+				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
+				registered = this.eventService.findParticipationByIds(eventId, owner.getId()) != null;
+				model.put("petsOwned", owner.getPets());
+			} catch (Exception e) {
+
+			}
 			if (registered) {
 				model.put("error", "You are already registered in this event");
 				return this.showEvent(eventId, model);
@@ -179,7 +267,6 @@ public class EventController {
 				if (event.getPublished()) {
 					Participation participation = new Participation();
 					model.put("participation", participation);
-					model.put("petsOwned", owner.getPets());
 					return "events/createOrUpdateParticipationForm";
 				} else {
 					model.put("error", "You cant participate in this event until it is published");
@@ -191,13 +278,24 @@ public class EventController {
 
 	@PostMapping(value = "/newParticipation/{eventId}")
 	public String processCreationParticipationForm(@PathVariable("eventId") final int eventId, final Participation participation, final BindingResult result, final ModelMap model) {
+		Owner owner;
 		if (result.hasErrors()) {
 			model.put("participation", participation);
 			return "events/createOrUpdateParticipationForm";
 		} else {
 			Event event = this.eventService.findEventById(eventId);
-			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Owner owner = this.ownerService.findOwnerByUsername(user.getUsername());
+			try {
+				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				owner = this.ownerService.findOwnerByUsername(user.getUsername());
+			} catch (Exception e) {
+				System.out.println("---------------------------------------------------------------------");
+				owner = new Owner();
+				owner.setAddress("dgsggfdg");
+				owner.setCity("city");
+				owner.setFirstName("first");
+				owner.setLastName("last");
+				owner.setTelephone("758697048");
+			}
 			participation.setEvent(event);
 			participation.setOwner(owner);
 			this.eventService.saveParticipation(participation);
