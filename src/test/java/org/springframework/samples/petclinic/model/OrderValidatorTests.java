@@ -165,7 +165,7 @@ public class OrderValidatorTests extends ValidatorTests {
 		assertThat(constraintViolations.size()).isEqualTo(2);
 		Iterator <ConstraintViolation<Order>> iterator = constraintViolations.iterator();
 		ConstraintViolation<Order> violation = iterator.next();
-		if (!violation.getPropertyPath().toString().equals("orderDate")) {
+		if (!violation.getPropertyPath().toString().equals("arrivalDate")) {
 			violation = iterator.next();
 		}		
 		
