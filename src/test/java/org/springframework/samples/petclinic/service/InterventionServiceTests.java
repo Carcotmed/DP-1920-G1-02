@@ -131,13 +131,20 @@ public class InterventionServiceTests {
 	
 	@Test
 	@Transactional
-	void shouldNotInsertInterventionIntoDatabaseWithNullDescription() {
+	void shouldNotInsertInterventionIntoDatabaseWithNullProducts() {
 		
-		intervention.setDescription(null);
+		Intervention newIntervention = new Intervention();
+		newIntervention.setName("Castración");
+		newIntervention.setDescription("Descripción de la intervencion");
+		newIntervention.setVet(vetService.findVetById(1));
+		newIntervention.setVisit(visitService.findVisitById(2));
+		newIntervention.setRequiredProducts(null);
+		
+		newIntervention.setDescription(null);
 						
-		assertThat (intervention.getDescription()).isNull();
+		assertThat (newIntervention.getRequiredProducts()).isNull();
 
-		assertThrows(ConstraintViolationException.class, () -> interventionService.saveIntervention(intervention));
+		assertThrows(ConstraintViolationException.class, () -> interventionService.saveIntervention(newIntervention));
 
 	}
 	

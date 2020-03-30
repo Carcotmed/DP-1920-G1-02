@@ -45,13 +45,13 @@ public class InterventionValidatorTests {
 	}
 	
 	@Test
-	void shouldNotValidateWhenDescriptionNull() {
+	void shouldNotValidateWhenDescriptionBlank() {
 		
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Intervention intervention = new Intervention();
 		
 		intervention.setName("Name");
-		intervention.setDescription(null);
+		intervention.setDescription("    ");
 		intervention.setVet(new Vet ());
 		intervention.setVisit(new Visit ());
 		intervention.setRequiredProducts(Arrays.asList(new Product (), new Product()));
@@ -60,7 +60,7 @@ public class InterventionValidatorTests {
 		Set<ConstraintViolation<Intervention>> constraintViolations = validator.validate(intervention);
 
 		assertThat(constraintViolations.size()).isEqualTo(1);
-		assertThat (constraintViolations.iterator().next().getMessage()).isEqualTo("must not be null");
+		assertThat (constraintViolations.iterator().next().getMessage()).isEqualTo("must not be blank");
 		
 	}
 	
@@ -106,7 +106,7 @@ public class InterventionValidatorTests {
 	}
 	
 	@ParameterizedTest
-	@ValueSource(strings = { "                       ", "", "   " })
+	@ValueSource(strings = { "                       ", "   " })
 	void shouldNotValidateWhenNameParametizedByEmpty(String name) {
 		
 		LocaleContextHolder.setLocale(Locale.ENGLISH);

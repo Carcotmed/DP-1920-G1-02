@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-public class ProductTests extends ValidatorTests {
+public class ProductValidatorTests extends ValidatorTests {
 	
 
 	Provider provider = new Provider();
