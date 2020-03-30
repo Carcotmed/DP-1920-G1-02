@@ -102,10 +102,10 @@ public class ProductTests extends ValidatorTests {
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
 
-			assertThat(constraintViolations.size()).isEqualTo(2);
+			assertThat(constraintViolations.size()).isEqualTo(1);
 			ConstraintViolation<Product> violation = constraintViolations.iterator().next();
 			assertThat(violation.getPropertyPath().toString()).isEqualTo("name");
-			assertThat(violation.getMessage()).isEqualTo("size must be between 3 and 50");		}
+			assertThat(violation.getMessage()).isEqualTo("must not be blank");		}
 
 		// 5 -
 		@Test

@@ -79,7 +79,7 @@ public class OrderTests extends ValidatorTests{
 			assertThat(constraintViolations.size()).isEqualTo(1);
 			ConstraintViolation<Order> violation = constraintViolations.iterator().next();
 			assertThat(violation.getPropertyPath().toString()).isEqualTo("quantity");
-			assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 0");
+			assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 1");
 		}
 
 		// 3 -
