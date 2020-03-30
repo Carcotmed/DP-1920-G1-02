@@ -21,7 +21,7 @@ import lombok.Data;
 public class Order extends BaseEntity {
 
 	@NotNull
-	@Min(0)
+	@Min(1)
 	private Integer		quantity;
 
 	@NotNull

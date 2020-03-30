@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -19,10 +19,10 @@ public class Discount extends BaseEntity {
 
 	@NotNull
 	@Digits(fraction = 2, integer = 2)
-	@Min(1)
+	@DecimalMin("1.0")
 	private Double	percentage;
 
-	@Min(0)
+	@Min(1)
 	@NotNull
 	private Integer	quantity;
 

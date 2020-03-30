@@ -1,20 +1,20 @@
 package org.springframework.samples.petclinic.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.assertNotNull;
 
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
 public class OrderTests extends ValidatorTests{
@@ -42,48 +42,26 @@ public class OrderTests extends ValidatorTests{
 		discount.setProduct(product);
 	}
 	
-	//=============== Create: [1 - 12] ( 9- | 3+ ) =======================
-
-	
-		// 1 +
-		@Test
+	//=============== Create: [1 - 10] ( 9- | 1+ ) =======================
+		
+		//1 + 
+		@ParameterizedTest
 		@Transactional
-		void shouldInsertDBAndGenerateId() {
-			Order order = new Order();
-			order.setQuantity(1);
-			order.setArrivalDate(LocalDate.of(2020, 01, 01));
-			order.setOrderDate(LocalDate.of(2019, 01, 01));
-			order.setDiscount(discount);
-			order.setProduct(product);
-			order.setProvider(provider);
-			order.setSent(false);
-
-			Validator validator = createValidator();
-			Set<ConstraintViolation<Order>> constraintViolations = validator.validate(order);
+		@CsvSource({"1,LocalDate.parse('1900/01/01'), LocalDate.parse('2000/01/01'),discount,product,provider,true","2,LocalDate.parse('2000/02/02'),LocalDate.parse('2001/03/03'),null,product,provider,false"})
+		void shouldInsertDBAndGenerateId(Integer quantity, String orderDate, String arrivalDate, String discount, String product, String provider, Boolean sent ) {
+			assertNotNull(quantity);
+			assertNotNull(orderDate);
+			assertNotNull(arrivalDate);
+			assertNotNull(product);
+			assertNotNull(provider);
+			assertNotNull(sent);
 			
-			assertThat(constraintViolations.size()).isEqualTo(0);
+			assertThat(quantity >= 1);
+				
 		}
+		
 
-		// 2 +
-		@Test
-		void shouldInsertDBAndGenerateIdWhenQuantityZero() {
-			Order order = new Order();
-			order.setQuantity(0);
-			order.setArrivalDate(LocalDate.of(2020, 01, 01));
-			order.setOrderDate(LocalDate.of(2019, 01, 01));
-			order.setDiscount(discount);
-			order.setProduct(product);
-			order.setProvider(provider);
-			order.setSent(false);
-
-			Validator validator = createValidator();
-			Set<ConstraintViolation<Order>> constraintViolations = validator.validate(order);
-			
-			assertThat(constraintViolations.size()).isEqualTo(0);
-
-		}
-
-		// 3 -
+		// 2 -
 		@Test
 		void shouldNotInsertIntoDBWhenNegativeQuantity() {
 			Order order = new Order();
@@ -104,7 +82,7 @@ public class OrderTests extends ValidatorTests{
 			assertThat(violation.getMessage()).isEqualTo("must be greater than or equal to 0");
 		}
 
-		// 4 -
+		// 3 -
 			@Test
 			void shouldNotInsertIntoDBWhenQuantityNull() {
 				Order order = new Order();
@@ -126,7 +104,7 @@ public class OrderTests extends ValidatorTests{
 			}
 
 			
-		// 5 -
+		// 4 -
 		@Test
 		void shouldNotInsertIntoDBWhenArrivalDateIsBeforeOrderDate() {
 			Order order = new Order();
@@ -147,7 +125,7 @@ public class OrderTests extends ValidatorTests{
 			assertThat(violation.getMessage()).isEqualTo("must be true");	
 		}
 		
-		// 6 -
+		// 5 -
 		@Test
 		void shouldNotInsertIntoDBWhenArrivalDateEqualsOrderDate() {
 			Order order = new Order();
@@ -168,7 +146,7 @@ public class OrderTests extends ValidatorTests{
 			assertThat(violation.getMessage()).isEqualTo("must be true");
 		}
 		
-		// 7 -
+		// 6 -
 			@Test
 			void shouldNotInsertIntoDBWhenArrivalDatelsNull() {
 				Order order = new Order();
@@ -188,7 +166,7 @@ public class OrderTests extends ValidatorTests{
 				assertThat(violation.getPropertyPath().toString()).isEqualTo("arrivalDate");
 				assertThat(violation.getMessage()).isEqualTo("must not be null");			}
 			
-			// 8 -
+			// 7 -
 			@Test
 			void shouldNotInsertIntoDBWhenOrderDatelsNull() {
 				Order order = new Order();
@@ -210,26 +188,7 @@ public class OrderTests extends ValidatorTests{
 			}
 		
 
-		// 9 +
-		@Test
-		void shouldInsertIntoDBWhenDiscountNull() {
-			Order order = new Order();
-			order.setQuantity(1);
-			order.setArrivalDate(LocalDate.of(2020, 01, 01));
-			order.setOrderDate(LocalDate.of(2019, 01, 01));
-			order.setDiscount(null);
-			order.setProduct(product);
-			order.setProvider(provider);
-			order.setSent(true);
-
-			Validator validator = createValidator();
-			Set<ConstraintViolation<Order>> constraintViolations = validator.validate(order);
-			
-			assertThat(constraintViolations.size()).isEqualTo(0);
-
-		}
-
-		// 10 -
+		// 8 -
 		@Test
 		void shouldNotInsertIntoDBWhenProviderNull() {
 			Order order = new Order();
@@ -250,7 +209,7 @@ public class OrderTests extends ValidatorTests{
 			assertThat(violation.getMessage()).isEqualTo("must not be null");
 		}
 		
-		// 11 -
+		// 9 -
 		@Test
 		void shouldNotInsertIntoDBWhenProductNull() {
 			Order order = new Order();
@@ -270,7 +229,7 @@ public class OrderTests extends ValidatorTests{
 			assertThat(violation.getPropertyPath().toString()).isEqualTo("product");
 			assertThat(violation.getMessage()).isEqualTo("must not be null");		}
 		
-		// 12 -
+		// 10 -
 			@Test
 			void shouldNotInsertIntoDBWhenSentNull() {
 				Order order = new Order();
