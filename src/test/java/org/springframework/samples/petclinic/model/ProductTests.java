@@ -94,7 +94,7 @@ public class ProductTests extends ValidatorTests {
 			Product product = new Product();
 
 			product.setAllAvailable(false);
-			product.setName(""); // Fail
+			product.setName("    "); // Fail
 			product.setPrice(99.9);
 			product.setProvider(provider);
 			product.setQuantity(1);

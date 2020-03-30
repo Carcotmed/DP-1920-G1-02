@@ -50,7 +50,9 @@ public class InterventionServiceTests {
 		Visit visit = visitService.findVisitById(2);
 		visit.setIntervention(intervention);
 		intervention.setVisit(visit);
-		intervention.setRequiredProducts(new ArrayList<Product>(productService.findProducts()));
+		List <Product> productList = new ArrayList <Product> ();
+		productList.addAll(productService.findProducts());
+		intervention.setRequiredProducts(productList);
 
 	}
 
@@ -109,7 +111,7 @@ public class InterventionServiceTests {
 	@Transactional
 	@ValueSource(strings = { "Intervención 24", "Castración", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaa",
 			"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" })
-	public void shouldInsertProviderIntoDatabaseWithParametizedNames(String name) {
+	void shouldInsertInterventionIntoDatabaseWithParametizedNames(String name) {
 
 		intervention.setName(name);
 		assertThat(intervention.getName()).isEqualTo(name);
@@ -127,13 +129,13 @@ public class InterventionServiceTests {
 
 	}
 	
-	@ParameterizedTest
+	@Test
 	@Transactional
-	@ValueSource(strings = { "", " " })
-	public void shouldNotInsertProviderIntoDatabaseWithParametizedNames(String name) {
-
-		intervention.setName(name);
-		assertThat(intervention.getName()).isEqualTo(name);
+	void shouldNotInsertInterventionIntoDatabaseWithNullDescription() {
+		
+		intervention.setDescription(null);
+						
+		assertThat (intervention.getDescription()).isNull();
 
 		assertThrows(ConstraintViolationException.class, () -> interventionService.saveIntervention(intervention));
 

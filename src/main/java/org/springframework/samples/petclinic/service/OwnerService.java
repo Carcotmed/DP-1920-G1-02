@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OwnerService {
 
+	@Autowired
 	private OwnerRepository		ownerRepository;
 
 	@Autowired
@@ -67,10 +68,17 @@ public class OwnerService {
 	public void saveOwner(final Owner owner) throws DataAccessException {
 		//creating owner
 		this.ownerRepository.save(owner);
-		//creating user
-		this.userService.saveUser(owner.getUser());
-		//creating authorities
-		this.authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
+		
+		if (owner.getUser() != null) {
+			
+			//creating user
+			this.userService.saveUser(owner.getUser());
+			//creating authorities
+			this.authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
+			
+		}
+		
+		
 	}
 
 }

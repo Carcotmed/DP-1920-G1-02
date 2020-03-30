@@ -1,10 +1,9 @@
 
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,10 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import org.ehcache.spi.service.OptionalServiceDependencies;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -32,6 +29,7 @@ import lombok.Data;
 public class Intervention extends NamedEntity {
 
 	@Column(name = "description")
+	@NotBlank
 	private String			description;
 
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
@@ -45,5 +43,11 @@ public class Intervention extends NamedEntity {
 	@ManyToMany
 	@NotNull
 	private List<Product>	requiredProducts;
+
+	public Intervention() {
+		this.requiredProducts = new ArrayList<Product> ();
+	}
+	
+	
 	
 }

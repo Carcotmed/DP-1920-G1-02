@@ -25,7 +25,7 @@ public class InterventionValidatorTests {
 	}
 	
 	@ParameterizedTest
-	@ValueSource(strings = { "Descripción", "", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaa" })
+	@ValueSource(strings = { "Descripción", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaa" })
 	void shouldValidateWhenDescriptionParametized(String description) {
 		
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
@@ -41,6 +41,26 @@ public class InterventionValidatorTests {
 		Set<ConstraintViolation<Intervention>> constraintViolations = validator.validate(intervention);
 
 		assertThat(constraintViolations.size()).isEqualTo(0);
+		
+	}
+	
+	@Test
+	void shouldNotValidateWhenDescriptionNull() {
+		
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Intervention intervention = new Intervention();
+		
+		intervention.setName("Name");
+		intervention.setDescription(null);
+		intervention.setVet(new Vet ());
+		intervention.setVisit(new Visit ());
+		intervention.setRequiredProducts(Arrays.asList(new Product (), new Product()));
+
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Intervention>> constraintViolations = validator.validate(intervention);
+
+		assertThat(constraintViolations.size()).isEqualTo(1);
+		assertThat (constraintViolations.iterator().next().getMessage()).isEqualTo("must not be null");
 		
 	}
 	
@@ -61,7 +81,7 @@ public class InterventionValidatorTests {
 		Set<ConstraintViolation<Intervention>> constraintViolations = validator.validate(intervention);
 
 		assertThat(constraintViolations.size()).isEqualTo(0);
-		
+				
 	}
 	
 	@ParameterizedTest
@@ -86,7 +106,7 @@ public class InterventionValidatorTests {
 	}
 	
 	@ParameterizedTest
-	@ValueSource(strings = { "                       ", "", " " })
+	@ValueSource(strings = { "                       ", "", "   " })
 	void shouldNotValidateWhenNameParametizedByEmpty(String name) {
 		
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
