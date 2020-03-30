@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.security.InvalidParameterException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -57,7 +59,7 @@ public class EventService {
 		return this.eventRepository.findEventById(eventId);
 	}
 
-	public Event findParticipationByIds(final int eventId, final int ownerId) {
+	public Participation findParticipationByIds(final int eventId, final int ownerId) {
 		return this.participationRepository.findParticipationByIds(eventId, ownerId);
 	}
 
@@ -66,13 +68,21 @@ public class EventService {
 	}
 
 	@Transactional
-	public void save(final Event event) throws DataAccessException {
-		this.eventRepository.save(event);
+	public Event save(final Event event) throws DataAccessException {
+		if (event.getPublished()) {
+			if (event.getCapacity().equals(null) || event.getDate().equals(null) || event.getDescription().equals(null) || event.getPlace().equals(null)) {
+				throw new InvalidParameterException("Event must not be empty if published");
+			}
+		}
+		if (event.getDate().isBefore(LocalDate.now())) {
+			throw new InvalidParameterException("Event must not have a past date");
+		}
+		return this.eventRepository.save(event);
 	}
 
 	@Transactional
-	public void saveParticipation(final Participation participation) throws DataAccessException {
-		this.participationRepository.save(participation);
+	public Participation saveParticipation(final Participation participation) throws DataAccessException {
+		return this.participationRepository.save(participation);
 	}
 
 	public Collection<Event> findAllPublishedEvents() {

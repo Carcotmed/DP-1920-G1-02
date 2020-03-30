@@ -49,4 +49,5 @@
     <sec:authorize access="hasAuthority('veterinarian')">
 		<a class="btn btn-default" href='<spring:url value="/events/new" htmlEscape="true"/>'>Add Event</a>
 	</sec:authorize>
+	<c:out value="${error}"></c:out>
 </petclinic:layout>

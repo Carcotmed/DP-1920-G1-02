@@ -74,9 +74,14 @@ INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (3
 
 INSERT INTO interventions (id, visit_id, vet_id, name, description) VALUES (1, 1, 1, 'Castracion', 'Cortar las bolas');
 
-INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2018-01-01', 'true', 'Descripcion', 30, 'Place');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2018-01-01', 'true', 'Descripcion1', 10, 'Place1');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (2, '2020-02-02', 'true', 'Descripcion2', 20, 'Place2');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (3, '2019-03-03', 'true', 'Descripcion3', 30, 'Place3');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', 'true', 'Descripcion4', 40, 'Place4');
 
 INSERt INTO participations(id, event_id, owner_id) VAlUES (1, 1, 1);
+INSERt INTO participations(id, event_id, owner_id) VAlUES (2, 2, 2);
+INSERt INTO participations(id, event_id, owner_id) VAlUES (3, 1, 3);
 
 UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
 INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (1, 1, 1, 45.0, 10);
