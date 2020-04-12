@@ -34,6 +34,24 @@ public class ProductService {
 
 	public Collection<Product> findAllByProviderId(int providerId) {
 		return this.productRepo.findAllByProviderId(providerId);
-	}	
+	}
+	
+	@Transactional
+	public void useOne(@Valid Product product) {
+		
+		product.setQuantity(product.getQuantity()-1);
+		
+		this.productRepo.save(product);
+		
+	}
+	
+	@Transactional
+	public void addOne(@Valid Product product) {
+		
+		product.setQuantity(product.getQuantity()+1);
+		
+		this.productRepo.save(product);
+		
+	}
 	
 }

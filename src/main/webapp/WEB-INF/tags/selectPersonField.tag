@@ -23,7 +23,7 @@
 				<c:forEach items="${names}" var="person">
 
 					<form:option value="${person}"
-						label="${person.firstName} ${person.lastName}"></form:option>
+						label="${person.firstName} ${person.lastName}"/>
 
 				</c:forEach>
 
