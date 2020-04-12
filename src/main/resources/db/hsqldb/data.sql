@@ -58,10 +58,10 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '201
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
 
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 1, '2013-01-01', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (1, 1, '2013-01-01', 'rabies shot', 'Owners Father');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (2, 8, '2013-01-02', 'rabies shot', 'Owners Mother');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (3, 8, '2013-01-03', 'neutered', 'Owners Brother');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (4, 7, '2013-01-04', 'spayed', 'Owners Sister');
 
 INSERT INTO providers(id,name,phone,address,email) VALUES (1,'Pipo1','123456789','Calle Pipo nº1','pipo1@gmail.com');
 INSERT INTO providers(id,name,phone,address,email) VALUES (2,'Pipo2','223456789','Calle Pipo nº2','pipo2@gmail.com');
