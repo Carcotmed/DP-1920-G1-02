@@ -37,10 +37,13 @@
 						</spring:url>
 						<a href="${fn:escapeXml(editUrl)}">Edit</a>
 
-						<spring:url	value="/orders/delete/{orderId}" var="deleteUrl">
-							<spring:param name="orderId" value="${order.id}" />
-						</spring:url>
-						<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+						<c:if test="${!order.sent}">
+							<spring:url	value="/orders/delete/{orderId}" var="deleteUrl">
+								<spring:param name="orderId" value="${order.id}" />
+							</spring:url>
+							<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+						</c:if>
+						
 
 					</td>
 				</tr>
