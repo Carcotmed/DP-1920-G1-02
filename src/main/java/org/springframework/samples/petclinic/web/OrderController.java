@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.List;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Discount;
 import org.springframework.samples.petclinic.model.Order;
@@ -19,6 +20,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -110,6 +112,29 @@ public class OrderController {
 		}
 		
 		return view;
+	}
+	
+	@GetMapping("/edit/{orderId}")
+	public String initUpdateForm(@PathVariable("orderId") int orderId, ModelMap modelMap) {
+		String view = "orders/editOrder";
+		Order order = this.orderService.findOrderById(orderId);
+		modelMap.put("order", order);
+		return view;
+	}
+	
+	@PostMapping("/edit/{orderId}")
+	public String processUpdateForm(@Valid Order order, BindingResult result,
+			@PathVariable("orderId") int orderId, ModelMap modelMap) {
+		if (result.hasErrors()) {
+			modelMap.put("order", order);
+			return "orders/editOrder";
+		} else {
+			Order orderToUpdate = this.orderService.findOrderById(orderId);
+			BeanUtils.copyProperties(order, orderToUpdate, "id");
+
+			this.orderService.save(orderToUpdate);
+		}
+		return "redirect:/orders";
 	}
 	
 	
