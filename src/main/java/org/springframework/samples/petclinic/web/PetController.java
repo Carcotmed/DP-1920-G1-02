@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.BeanUtils;
@@ -153,6 +154,26 @@ public class PetController {
 		ModelAndView mav = new ModelAndView("pets/petDetails");
 		mav.addObject(this.petService.findPetById(petId));
 		return mav;
+	}
+	
+	@GetMapping(value = "/pets/{petId}/visits/addUrgentVisit")
+	public String createUrgentVisit(@PathVariable("petId") int petId, Map<String, Object> model) {
+		
+		Visit urgentVisit;
+		urgentVisit = new Visit ();
+		urgentVisit.setDescription("Urgent Visit");
+		
+		System.out.println("Visit: "+urgentVisit.getDescription());
+		
+		Pet pet;
+		pet = petService.findPetById(petId);
+		
+		urgentVisit.setPet(pet);
+		
+		petService.saveVisit(urgentVisit);
+		
+		
+		return "redirect:/owners/{ownerId}/pets/{petId}/visits/"+urgentVisit.getId()+"/interventions/new";
 	}
 
 }

@@ -15,7 +15,6 @@
 		id="add-intervention-form">
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Name" name="name" />
-			<petclinic:inputField label="Description" name="description" />
 			<petclinic:selectPersonField label="Vet" name="vet" size="5" names="${vets}" />
 			<petclinic:selectMultipleField label="Products" name="requiredProducts" size="10" names="${products}"/>
 			

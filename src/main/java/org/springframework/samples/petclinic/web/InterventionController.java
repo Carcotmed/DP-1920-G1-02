@@ -108,8 +108,9 @@ public class InterventionController {
 	@PostMapping(value = "/interventions/new")
 	public String processCreationForm(Visit visit, @Valid Intervention intervention, BindingResult result,
 			ModelMap model) {
+	
+		System.out.println("Patata");
 		
-		System.out.println("Name: "+model.getAttribute("name"));
 		intervention.setVisit(visit);
 		
 		if (result.hasErrors()) {

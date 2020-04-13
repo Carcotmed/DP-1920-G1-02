@@ -28,10 +28,6 @@ import lombok.Data;
 
 public class Intervention extends NamedEntity {
 
-	@Column(name = "description")
-	@NotBlank
-	private String			description;
-
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "visit_id")
 	private Visit			visit;
