@@ -13,6 +13,10 @@
 
 	<table class="table table-striped">
 		<tr>
+			<th>Sponsor</th>
+			<td><c:out value="${event.sponsor.name}" /></td>
+		</tr>
+		<tr>
 			<th>Date</th>
 			<td><c:out value="${event.date}" /></td>
 		</tr>
@@ -67,5 +71,14 @@
 		</sec:authorize>
 	</c:if>
 	<br>
+		<sec:authorize access="hasAuthority('admin')">
+			<c:if test="${event.published && !hasSponsor}">
+				<spring:url value="/events/newSponsor/{eventId}"
+					var="sponsorUrl">
+					<spring:param name="eventId" value="${event.id}" />
+				</spring:url>
+				<a href="${fn:escapeXml(sponsorUrl)}" class="btn btn-default">New sponsor</a>
+			</c:if>
+		</sec:authorize>
 	<c:out value="${error}"></c:out>
 </petclinic:layout>
