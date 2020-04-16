@@ -75,11 +75,25 @@ public class AdoptionController {
 		} catch (Exception e) {
 			model.put("isOwner", false);
 		}
-		System.out.println("Hola");
-		System.out.println(this.petService.findAdoptablePets());
-		System.out.println("Adios");
 		model.put("pets", this.petService.findAdoptablePets());
 		return "adoptions/adoptionsList";
+	}
+
+	@GetMapping("/myAdoptions")
+	public String showMyAdoptions(final ModelMap model) {
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("owner"))) {
+				model.put("adoptions", this.adoptionService.findAdoptionsByOwner(this.ownerService.findOwnerByUsername(user.getUsername()).getId()));
+				return "adoptions/myAdoptionsList";
+			} else {
+				model.put("error", "Only owners can access to this feature");
+				return this.showAdoptions(model);
+			}
+		} catch (Exception e) {
+			model.put("error", "Only owners can access to this feature");
+			return this.showAdoptions(model);
+		}
 	}
 
 	@GetMapping(value = "/new/{petId}")
@@ -107,6 +121,11 @@ public class AdoptionController {
 				adoption.setOwner(this.ownerService.findOwnerByUsername(user.getUsername()));
 				adoption.setPet(this.petService.findPetById(petId));
 				adoption.setDate(LocalDate.now().plusDays(1));
+				if (adoption.getEnd() != null && adoption.getEnd().isBefore(adoption.getDate())) {
+					model.put("adoption", adoption);
+					model.put("error", "You can't adopt a pet for less than 1 days");
+					return "adoptions/createOrUpdateAdoptionForm";
+				}
 				this.adoptionService.save(adoption);
 				Pet pet = this.petService.findPetById(petId);
 				Owner owner1 = pet.getOwner();

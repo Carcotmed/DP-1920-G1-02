@@ -16,6 +16,9 @@
 
 package org.springframework.samples.petclinic.repository;
 
+import java.util.Collection;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.petclinic.model.Adoption;
 
@@ -31,5 +34,8 @@ import org.springframework.samples.petclinic.model.Adoption;
  * @author Michael Isvy
  */
 public interface AdoptionRepository extends CrudRepository<Adoption, Integer> {
+
+	@Query("SELECT adoption FROM Adoption adoption WHERE adoption.owner.id = :ownerId")
+	Collection<Adoption> findAdoptionsByOwner(Integer ownerId);
 
 }
