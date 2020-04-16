@@ -96,6 +96,23 @@ public class AdoptionController {
 		}
 	}
 
+	@GetMapping("/allAdoptions")
+	public String showAllAdoptions(final ModelMap model) {
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+				model.put("adoptions", this.adoptionService.findAllAdoptions());
+				return "adoptions/allAdoptionsList";
+			} else {
+				model.put("error", "Only vets can access to this feature");
+				return this.showAdoptions(model);
+			}
+		} catch (Exception e) {
+			model.put("error", "Only vets can access to this feature");
+			return this.showAdoptions(model);
+		}
+	}
+
 	@GetMapping(value = "/new/{petId}")
 	public String initCreationForm(@PathVariable("petId") final int petId, final ModelMap model) {
 		try {

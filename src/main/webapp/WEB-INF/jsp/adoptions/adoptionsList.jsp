@@ -47,6 +47,7 @@
     </table>
     <sec:authorize access="hasAuthority('veterinarian')">
 		<a class="btn btn-default" href='<spring:url value="/adoptions/newAdoptable" htmlEscape="true"/>'>Add Pet</a>
+		<a class="btn btn-default" href='<spring:url value="/adoptions/allAdoptions" htmlEscape="true"/>'>List all adoptions</a>
 	</sec:authorize>
     <sec:authorize access="hasAuthority('owner')">
 		<a class="btn btn-default" href='<spring:url value="/adoptions/myAdoptions" htmlEscape="true"/>'>List my adoptions</a>

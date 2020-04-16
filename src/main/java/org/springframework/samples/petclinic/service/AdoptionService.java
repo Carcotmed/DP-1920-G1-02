@@ -50,4 +50,8 @@ public class AdoptionService {
 		return this.adoptionRepository.findAdoptionsByOwner(ownerId);
 	}
 
+	public Collection<Adoption> findAllAdoptions() {
+		return this.adoptionRepository.findAllAdoptions();
+	}
+
 }
