@@ -100,7 +100,7 @@ public class AdoptionController {
 	public String showAllAdoptions(final ModelMap model) {
 		try {
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("admin")) || user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
 				model.put("adoptions", this.adoptionService.findAllAdoptions());
 				return "adoptions/allAdoptionsList";
 			} else {
@@ -194,5 +194,33 @@ public class AdoptionController {
 			}
 			return this.showAdoptions(model);
 		}
+	}
+
+	@GetMapping("/delete/{adoptionId}")
+	public String deleteAdoption(@PathVariable("adoptionId") final int adoptionId, final ModelMap model) {
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("admin"))) {
+				Adoption adoption = this.adoptionService.findById(adoptionId);
+				if (adoption != null) {
+					Pet pet = adoption.getPet();
+					pet.setOwner(this.ownerService.findOwnerByFirstName("Vet"));
+					this.petService.savePet(pet);
+					Owner owner = adoption.getOwner();
+					owner.removePet(pet);
+					this.ownerService.saveOwner(owner);
+					this.adoptionService.delete(adoption);
+					return this.showAllAdoptions(model);
+				} else {
+					model.put("error", "The adoption you are trying to delete doesn't exist");
+					return this.showAllAdoptions(model);
+				}
+			} else {
+				model.put("error", "Only administrators can delete adoptions");
+			}
+		} catch (Exception e) {
+			model.put("error", "Only administrators can delete adoptions");
+		}
+		return this.showAdoptions(model);
 	}
 }
