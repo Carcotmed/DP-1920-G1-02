@@ -4,6 +4,8 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Future;
 
@@ -33,5 +35,9 @@ public class Event extends BaseEntity {
 	private Integer		capacity;
 
 	private String		place;
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "provider_id")
+	private Provider	sponsor;
 
 }

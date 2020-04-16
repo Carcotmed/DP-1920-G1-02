@@ -18,6 +18,7 @@
             <th style="width: 250px;">Place</th>
             <th style="width: 100px">Capacity</th>
             <th>Description</th>
+            <th>Sponsor</th>
             <th></th>
         </tr>
         </thead>
@@ -35,6 +36,9 @@
 	            </td>
 	            <td>
 	                <c:out value="${event.description}"/>
+	            </td>
+	            <td>
+	                <c:out value="${event.sponsor.name}"/>
 	            </td>
 	            <td>
 		                <spring:url value="/events/{eventId}" var="eventUrl">
