@@ -21,7 +21,8 @@
 	    <form:form modelAttribute="adoption" class="form-horizontal" id="add-adoption-form">
 	        <div class="form-group has-feedback">
 	        	<p>Select when you want to give back the pet you are adopting, in case you want to hold it forever just leave the following field empty</p>
-	            <petclinic:inputField label="End" name="end"/>
+	            <petclinic:inputField label="End date" name="end"/>
+				<c:out value="${error}"></c:out>
 	        </div>
 	        <div class="form-group">
 	            <div class="col-sm-offset-2 col-sm-10">

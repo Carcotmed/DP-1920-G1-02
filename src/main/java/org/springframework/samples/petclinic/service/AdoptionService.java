@@ -16,6 +16,8 @@
 
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,10 @@ public class AdoptionService {
 
 	public void save(@Valid final Adoption adoption) {
 		this.adoptionRepository.save(adoption);
+	}
+
+	public Collection<Adoption> findAdoptionsByOwner(final Integer ownerId) {
+		return this.adoptionRepository.findAdoptionsByOwner(ownerId);
 	}
 
 }
