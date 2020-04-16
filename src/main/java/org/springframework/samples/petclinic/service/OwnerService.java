@@ -68,17 +68,20 @@ public class OwnerService {
 	public void saveOwner(final Owner owner) throws DataAccessException {
 		//creating owner
 		this.ownerRepository.save(owner);
-		
+
 		if (owner.getUser() != null) {
-			
+
 			//creating user
 			this.userService.saveUser(owner.getUser());
 			//creating authorities
 			this.authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-			
+
 		}
-		
-		
+
+	}
+
+	public Owner findOwnerByFirstName(final String name) {
+		return this.ownerRepository.findByFirstName(name);
 	}
 
 }
