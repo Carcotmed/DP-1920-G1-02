@@ -20,6 +20,9 @@
             <th>Owner</th>
             <th>Date</th>
             <th>End date</th>
+            <sec:authorize access="hasAuthority('admin')">
+            	<th>Actions</th>
+            </sec:authorize>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +40,14 @@
 	            <td>
 	                <c:out value="${adoption.end}"/>
 	            </td>
+	            <sec:authorize access="hasAuthority('admin')">
+	            	<td>
+						<spring:url value="/adoptions/delete/{adoptionId}" var="adoptionUrl">
+							<spring:param name="adoptionId" value="${adoption.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(adoptionUrl)}">Delete</a>
+	            	</td>
+	            </sec:authorize>
 	        </tr>
         </c:forEach>
         </tbody>

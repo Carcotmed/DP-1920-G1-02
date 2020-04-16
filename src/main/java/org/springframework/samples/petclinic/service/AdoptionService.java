@@ -54,4 +54,12 @@ public class AdoptionService {
 		return this.adoptionRepository.findAllAdoptions();
 	}
 
+	public Adoption findById(final int adoptionId) {
+		return this.adoptionRepository.findById(adoptionId).orElse(null);
+	}
+
+	public void delete(final Adoption adoption) {
+		this.adoptionRepository.delete(adoption);
+	}
+
 }
