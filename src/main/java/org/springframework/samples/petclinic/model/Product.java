@@ -32,4 +32,7 @@ public class Product extends NamedEntity{
 	@JoinColumn(name="provider_id")
 	private Provider provider;
 	
+	@NotNull
+	private Boolean enabled;
+	
 }
