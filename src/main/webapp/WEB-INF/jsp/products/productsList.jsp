@@ -15,12 +15,12 @@
 			<tr>
 				<th style="width: 150px;">Name</th>
 				<th style="width: 200px;">Price (EUR)</th>
-				<th>Quantity</th>
+				<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
+					<th>Quantity</th>
+				</sec:authorize>
 				<th>All Available</th>
 				<th>Provider</th>
-				<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
-					<th>Stock</th>
-				</sec:authorize>
+
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -29,12 +29,11 @@
 				<tr>
 					<td><c:out value="${product.name}" /></td>
 					<td><c:out value="${product.price}" /></td>
-					<td><c:out value="${product.quantity}" /></td>
+					<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
+						<td><c:out value="${product.quantity}" /></td>
+					</sec:authorize>
 					<td><c:out value="${product.allAvailable}" /></td>
 					<td><c:out value="${product.provider.name}" /></td>
-				<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
-						<td><c:out value="${product.stock}" /></td>
-					</sec:authorize>
 
 					<td><spring:url value="/products/delete/{productId}"
 							var="productUrl">
