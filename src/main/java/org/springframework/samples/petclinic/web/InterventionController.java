@@ -114,12 +114,36 @@ public class InterventionController {
 		model.put("vets", this.interventionService.getAvailableVets(visit));
 
 		System.out.println("Name: " + model.getAttribute("name"));
+
 		intervention.setVisit(visit);
 
 		if (result.hasErrors()) {
 			model.put("intervention", intervention);
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
+
+			if (intervention.getVet() == null) {
+				model.put("noVetError", "You must choose a vet.");
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+			}
+
+			Boolean allAvailable = intervention.getRequiredProducts().stream().allMatch(p -> p.getQuantity() != 0);
+
+			if (allAvailable)
+				intervention.getRequiredProducts().stream().forEach(p -> productService.useOne(p));
+
+			else {
+
+				List<String> productsUnavailable = intervention.getRequiredProducts().stream()
+						.filter(p -> p.getQuantity() == 0).map(p -> p.getName()).collect(Collectors.toList());
+
+				model.put("notEnoughError", "There aren't enough of " + productsUnavailable);
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+
+			}
+
 			visit.setIntervention(intervention);
 			this.interventionService.saveIntervention(intervention);
 			return "redirect:/owners/{ownerId}/pets/{petId}";
@@ -153,8 +177,36 @@ public class InterventionController {
 			model.put("intervention", intervention);
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
+
 			Intervention interventionToUpdate = this.interventionService.findInterventionById(interventionId);
+
+			List<Product> oldProducts = interventionToUpdate.getRequiredProducts();
+			oldProducts.stream().forEach(p -> productService.addOne(p));
+
 			BeanUtils.copyProperties(intervention, interventionToUpdate, "id", "visit");
+
+			if (interventionToUpdate.getVet() == null) {
+				model.put("noVetError", "You must choose a vet.");
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+			}
+
+			Boolean allAvailable = interventionToUpdate.getRequiredProducts().stream()
+					.allMatch(p -> p.getQuantity() != 0);
+
+			if (allAvailable)
+				interventionToUpdate.getRequiredProducts().stream().forEach(p -> productService.useOne(p));
+
+			else {
+
+				List<String> productsUnavailable = intervention.getRequiredProducts().stream()
+						.filter(p -> p.getQuantity() == 0).map(p -> p.getName()).collect(Collectors.toList());
+
+				model.put("notEnoughError", "There aren't enough of " + productsUnavailable);
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+
+			}
 
 			this.interventionService.saveIntervention(interventionToUpdate);
 
@@ -171,6 +223,9 @@ public class InterventionController {
 		visitService.saveVisit(visit);
 
 		Intervention intervention = interventionService.findInterventionById(interventionId);
+
+		for (Product p : intervention.getRequiredProducts())
+			productService.addOne(p);
 		interventionService.deleteIntervention(intervention);
 
 		return "redirect:/owners/{ownerId}/pets/{petId}";

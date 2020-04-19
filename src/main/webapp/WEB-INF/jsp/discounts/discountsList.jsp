@@ -20,6 +20,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${discounts}" var="discount">
+			<c:if test="${discount.enabled}">
 				<tr>
 					<td><c:out value="${discount.product.name}" /></td>
 					<td><c:out value="${discount.percentage}" /></td>
@@ -39,6 +40,7 @@
 
 					</td>
 				</tr>
+			</c:if>
 			</c:forEach>
 		</tbody>
 	</table>

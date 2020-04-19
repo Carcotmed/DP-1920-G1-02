@@ -24,6 +24,7 @@ public class InterventionValidatorTests {
 		return localValidatorFactoryBean;
 	}
 	
+	/*
 	@ParameterizedTest
 	@ValueSource(strings = { "Descripción", "aaa", "aaaaaaaaaaaaaaaaaaaaaaaaa" })
 	void shouldValidateWhenDescriptionParametized(String description) {
@@ -63,6 +64,7 @@ public class InterventionValidatorTests {
 		assertThat (constraintViolations.iterator().next().getMessage()).isEqualTo("must not be blank");
 		
 	}
+	*/
 	
 	@ParameterizedTest
 	@ValueSource(strings = { "Name", "....", "ASD asdasdasads", "                       a", "asd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" })
@@ -72,7 +74,7 @@ public class InterventionValidatorTests {
 		Intervention intervention = new Intervention();
 		
 		intervention.setName(name);
-		intervention.setDescription("Descripcion");
+		//intervention.setDescription("Descripcion");
 		intervention.setVet(new Vet ());
 		intervention.setVisit(new Visit ());
 		intervention.setRequiredProducts(Arrays.asList(new Product (), new Product()));
@@ -92,7 +94,7 @@ public class InterventionValidatorTests {
 		Intervention intervention = new Intervention();
 		
 		intervention.setName(name);
-		intervention.setDescription("Descripcion");
+		//intervention.setDescription("Descripcion");
 		intervention.setVet(new Vet ());
 		intervention.setVisit(new Visit ());
 		intervention.setRequiredProducts(Arrays.asList(new Product (), new Product()));
@@ -113,7 +115,7 @@ public class InterventionValidatorTests {
 		Intervention intervention = new Intervention();
 		
 		intervention.setName(name);
-		intervention.setDescription("Descripcion");
+		//intervention.setDescription("Descripcion");
 		intervention.setVet(new Vet ());
 		intervention.setVisit(new Visit ());
 		intervention.setRequiredProducts(Arrays.asList(new Product (), new Product()));
@@ -134,7 +136,7 @@ public class InterventionValidatorTests {
 		Intervention intervention = new Intervention();
 		
 		intervention.setName("Name");
-		intervention.setDescription("Description");
+		//intervention.setDescription("Description");
 		intervention.setVet(new Vet ());
 		intervention.setVisit(new Visit ());
 		intervention.setRequiredProducts(new ArrayList <Product> ());
@@ -153,7 +155,7 @@ public class InterventionValidatorTests {
 		Intervention intervention = new Intervention();
 		
 		intervention.setName("Name");
-		intervention.setDescription("Description");
+		//intervention.setDescription("Description");
 		intervention.setVet(new Vet ());
 		intervention.setVisit(new Visit ());
 		intervention.setRequiredProducts(null);

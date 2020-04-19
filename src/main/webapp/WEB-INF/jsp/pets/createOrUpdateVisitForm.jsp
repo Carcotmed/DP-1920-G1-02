@@ -24,6 +24,7 @@
                 <th>Birth Date</th>
                 <th>Type</th>
                 <th>Owner</th>
+                <th>Bringer</th>
             </tr>
             </thead>
             <tr>
@@ -31,6 +32,7 @@
                 <td><petclinic:localDate date="${visit.pet.birthDate}" pattern="yyyy/MM/dd"/></td>
                 <td><c:out value="${visit.pet.type.name}"/></td>
                 <td><c:out value="${visit.pet.owner.firstName} ${visit.pet.owner.lastName}"/></td>
+                <td><c:out value="${visit.bringer}"/></td>
             </tr>
         </table>
 
@@ -38,6 +40,8 @@
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Date" name="date"/>
                 <petclinic:inputField label="Description" name="description"/>
+                <petclinic:inputField label="Bringer (leave blank for owner)" name="bringer"/>
+                
             </div>
 
             <div class="form-group">
