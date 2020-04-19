@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -113,7 +114,15 @@ public class OrderController {
 	}
 	
 	
-	
+	@GetMapping("/delete/{orderId}")
+	public String deleteDiscount(@PathVariable("orderId") int orderId, ModelMap modelMap) {
+		Order order = orderService.findOrderById(orderId);
+		if(!order.getSent()) {
+			orderService.deleteOrder(order);
+		}
+		return ordersList(modelMap);
+
+	}
 
 	
 }

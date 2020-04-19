@@ -88,9 +88,9 @@ INSERt INTO participations(id, event_id, owner_id) VAlUES (2, 2, 2);
 INSERt INTO participations(id, event_id, owner_id) VAlUES (3, 1, 3);
 
 UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (1, 1, 1, 45.0, 10);
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (2, 2, 1, 55.0, 50);
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (3, 1, 3, 65.0, 20);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (1, 1, 1, 45.0, 10,true);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (2, 2, 1, 55.0, 50,true);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (3, 1, 3, 65.0, 20,false);
 
 
 INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (1,3,'2013-01-01','2013-01-02',true,1,1,1);

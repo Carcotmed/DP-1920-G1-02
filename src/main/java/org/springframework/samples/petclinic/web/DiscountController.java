@@ -57,7 +57,9 @@ public class DiscountController {
 	@GetMapping("/new")
 	public String initCreateDiscount(ModelMap modelMap) {
 		String view = "discounts/editDiscount";
-		modelMap.addAttribute("discount", new Discount());
+		Discount discount = new Discount();
+		discount.setEnabled(true);
+		modelMap.addAttribute("discount", discount);
 		return view;
 	}
 	
@@ -99,7 +101,8 @@ public class DiscountController {
 	@GetMapping("/delete/{discountId}")
 	public String deleteDiscount(@PathVariable("discountId") int discountId, ModelMap modelMap) {
 		Discount discount = discountService.findDiscountById(discountId);
-		discountService.deleteDiscount(discount);
+		discount.setEnabled(false);
+		modelMap.put("discount",discount);
 		return discountsList(modelMap);
 
 	}
