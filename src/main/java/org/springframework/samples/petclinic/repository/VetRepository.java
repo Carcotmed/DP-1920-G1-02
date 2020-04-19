@@ -44,4 +44,7 @@ public interface VetRepository extends CrudRepository<Vet, Integer>{
 	@Query ("SELECT v FROM Vet v WHERE v.id = ?1")
 	Vet findVetById (Integer vetId);
 
+	@Query ("SELECT COUNT(i) FROM Intervention i WHERE i.vet = ?1")
+	Integer countInterventionsOfVet(Vet vet);
+
 }
