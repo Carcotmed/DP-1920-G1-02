@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Discount;
 import org.springframework.samples.petclinic.model.Order;
@@ -61,6 +62,29 @@ public class ProductController {
 			return "products/editProduct";
 		} else {
 			this.productService.save(product);
+		}
+		return "redirect:/products";
+	}
+	
+	@GetMapping("/edit/{productId}")
+	public String initUpdateForm(@PathVariable("productId") int productId, ModelMap modelMap) {
+		String view = "products/editProduct";
+		Product product = this.productService.findProductById(productId);
+		modelMap.put("product", product);
+		return view;
+	}
+	
+	@PostMapping("/edit/{productId}")
+	public String processUpdateForm(@Valid Product product, BindingResult result,
+			@PathVariable("productId") int productId, ModelMap modelMap) {
+		if (result.hasErrors()) {
+			modelMap.put("product", product);
+			return "products/editProduct";
+		} else {
+			Product productToUpdate = this.productService.findProductById(productId);
+			BeanUtils.copyProperties(product, productToUpdate, "id");
+
+			this.productService.save(productToUpdate);
 		}
 		return "redirect:/products";
 	}

@@ -65,4 +65,10 @@ public class ProductService {
 		this.productRepo.delete(product);
 	}
 	
+	
+	@Transactional
+	public Product findProductById(int productId) throws DataAccessException {
+		return this.productRepo.findProductById(productId);
+	}
+	
 }

@@ -35,9 +35,17 @@
 					</sec:authorize>
 					<td><c:out value="${product.allAvailable}" /></td>
 					<td><c:out value="${product.provider.name}" /></td>
+					<td>
+					<sec:authorize access="hasAuthority('admin')">
+					
+					
+					<spring:url value="/products/edit/{productId}" var="editProductUrl">
+							<spring:param name="productId" value="${product.id}" />
+						</spring:url>
+						<a href="${fn:escapeXml(editProductUrl)}">Edit</a>
+					</sec:authorize>
+						<spring:url value="/products/delete/{productId}" var="productUrl">
 
-					<td><spring:url value="/products/delete/{productId}"
-							var="productUrl">
 							<spring:param name="productId" value="${product.id}" />
 						</spring:url> <a href="${fn:escapeXml(productUrl)}">Delete</a></td>
 
