@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="products">
 	<h2>Products</h2>
@@ -13,9 +15,12 @@
 			<tr>
 				<th style="width: 150px;">Name</th>
 				<th style="width: 200px;">Price (EUR)</th>
-				<th>Quantity</th>
+				<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
+					<th>Quantity</th>
+				</sec:authorize>
 				<th>All Available</th>
 				<th>Provider</th>
+
 				<th>Actions</th>
 			</tr>
 		</thead>
@@ -25,20 +30,23 @@
 				<tr>
 					<td><c:out value="${product.name}" /></td>
 					<td><c:out value="${product.price}" /></td>
-					<td><c:out value="${product.quantity}" /></td>
+					<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
+						<td><c:out value="${product.quantity}" /></td>
+					</sec:authorize>
 					<td><c:out value="${product.allAvailable}" /></td>
 					<td><c:out value="${product.provider.name}" /></td>
-					<td>
-						<spring:url value="/products/delete/{productId}" var="productUrl">
+
+					<td><spring:url value="/products/delete/{productId}"
+							var="productUrl">
 							<spring:param name="productId" value="${product.id}" />
-						</spring:url>
-						<a href="${fn:escapeXml(productUrl)}">Delete</a>
-					</td>
+						</spring:url> <a href="${fn:escapeXml(productUrl)}">Delete</a></td>
+
 				</tr>
 				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>
 	<spring:url value="/products/new" var="productUrl" />
-	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(productUrl)}'" value='Create'>	
+	<input type=button class="btn btn-default"
+		onClick="location.href='${fn:escapeXml(productUrl)}'" value='Create'>
 </petclinic:layout>
