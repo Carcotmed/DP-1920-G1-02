@@ -66,9 +66,4 @@ public class ProductService {
 	}
 	
 	
-	@Transactional
-	public Product findProductById(int productId) throws DataAccessException {
-		return this.productRepo.findProductById(productId);
-	}
-	
 }
