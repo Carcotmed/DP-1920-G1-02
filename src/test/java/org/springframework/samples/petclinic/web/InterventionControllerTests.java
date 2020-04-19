@@ -83,7 +83,7 @@ public class InterventionControllerTests {
 		intervention = new Intervention();
 		intervention.setId(TEST_INTERVENTION_ID);
 		intervention.setName("Castración");
-		intervention.setDescription("Descripción de la intervencion");
+		//intervention.setDescription("Descripción de la intervencion");
 		intervention.setVet(vet);
 		intervention.setVisit(visit);
 		intervention.setRequiredProducts(requiredProducts);

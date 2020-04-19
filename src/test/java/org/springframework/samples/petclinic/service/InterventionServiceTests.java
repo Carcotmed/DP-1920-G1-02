@@ -45,7 +45,7 @@ public class InterventionServiceTests {
 
 		intervention = new Intervention();
 		intervention.setName("Castración");
-		intervention.setDescription("Descripción de la intervencion");
+		//intervention.setDescription("Descripción de la intervencion");
 		intervention.setVet(vetService.findVetById(1));
 		Visit visit = visitService.findVisitById(2);
 		visit.setIntervention(intervention);
@@ -95,7 +95,7 @@ public class InterventionServiceTests {
 		Intervention interventionToUpdate = interventionService.findInterventionById(id);
 		assertThat(interventionToUpdate).isNotNull();
 		interventionToUpdate.setName("Nombre modificado");
-		interventionToUpdate.setDescription("Descripcion modificada");
+		//interventionToUpdate.setDescription("Descripcion modificada");
 		List<Product> modifiedList = new ArrayList<Product>(productService.findProducts());
 		modifiedList.remove(0);
 		interventionToUpdate.setRequiredProducts(modifiedList);
@@ -103,7 +103,7 @@ public class InterventionServiceTests {
 		interventionService.saveIntervention(interventionToUpdate);
 
 		assertThat(interventionService.findInterventionById(id).getName()).isEqualTo("Nombre modificado");
-		assertThat(interventionService.findInterventionById(id).getDescription()).isEqualTo("Descripcion modificada");
+		//assertThat(interventionService.findInterventionById(id).getDescription()).isEqualTo("Descripcion modificada");
 
 	}
 
@@ -135,12 +135,12 @@ public class InterventionServiceTests {
 		
 		Intervention newIntervention = new Intervention();
 		newIntervention.setName("Castración");
-		newIntervention.setDescription("Descripción de la intervencion");
+		//newIntervention.setDescription("Descripción de la intervencion");
 		newIntervention.setVet(vetService.findVetById(1));
 		newIntervention.setVisit(visitService.findVisitById(2));
 		newIntervention.setRequiredProducts(null);
 		
-		newIntervention.setDescription(null);
+		//newIntervention.setDescription(null);
 						
 		assertThat (newIntervention.getRequiredProducts()).isNull();
 

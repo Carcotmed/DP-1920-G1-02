@@ -32,6 +32,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -153,6 +169,26 @@ public class PetController {
 		model.put("pet", pet);
 		model.put("isAdoptable", pet.getOwner().getFirstName().equals("Vet"));
 		return "pets/petDetails";
+	}
+	
+	@GetMapping(value = "/pets/{petId}/visits/addUrgentVisit")
+	public String createUrgentVisit(@PathVariable("petId") int petId, Map<String, Object> model) {
+		
+		Visit urgentVisit;
+		urgentVisit = new Visit ();
+		urgentVisit.setDescription("Urgent Visit");
+		
+		System.out.println("Visit: "+urgentVisit.getDescription());
+		
+		Pet pet;
+		pet = petService.findPetById(petId);
+		
+		urgentVisit.setPet(pet);
+		
+		petService.saveVisit(urgentVisit);
+		
+		
+		return "redirect:/owners/{ownerId}/pets/{petId}/visits/"+urgentVisit.getId()+"/interventions/new";
 	}
 
 }

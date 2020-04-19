@@ -76,7 +76,7 @@ INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) V
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (2,'Collar',21.50,5,true,2,true);
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (3,'Juguete',40.50,5,true,4,true);
 
-INSERT INTO interventions (id, visit_id, vet_id, name, description) VALUES (1, 1, 1, 'Castracion', 'Cortar las bolas');
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (1, 1, 1, 'Castracion');
 
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1');
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', 'true', 'Descripcion2', 20, 'Place2');

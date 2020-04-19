@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -91,4 +92,9 @@ public class VisitController {
 		}
 	}
 
+	@GetMapping(value = "/owners/*/pets/{petId}/visits")
+	public String showVisits(@PathVariable int petId, Map<String, Object> model) {
+		model.put("visits", this.petService.findPetById(petId).getVisits());
+		return "visitList";
+	}
 }

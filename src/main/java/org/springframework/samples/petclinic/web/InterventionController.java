@@ -109,7 +109,7 @@ public class InterventionController {
 	@PostMapping(value = "/interventions/new")
 	public String processCreationForm(Visit visit, @Valid Intervention intervention, BindingResult result,
 			ModelMap model) {
-
+    
 		intervention.setVisit(visit);
 
 		if (result.hasErrors()) {
