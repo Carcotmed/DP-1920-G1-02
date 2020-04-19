@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Discount;
+import org.springframework.samples.petclinic.model.Order;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,15 @@ public class ProductService {
 		
 		this.productRepo.save(product);
 		
+	}
+	
+	@Transactional
+	public Product findProductById(int productId) throws DataAccessException {
+		return this.productRepo.findProductById(productId);
+	}
+	
+	public void deleteProduct(Product product) {
+		this.productRepo.delete(product);
 	}
 	
 }

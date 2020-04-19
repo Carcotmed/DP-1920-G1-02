@@ -21,6 +21,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${products}" var="product">
+			<c:if test="${product.enabled}">
 				<tr>
 					<td><c:out value="${product.name}" /></td>
 					<td><c:out value="${product.price}" /></td>
@@ -34,6 +35,7 @@
 						<a href="${fn:escapeXml(productUrl)}">Delete</a>
 					</td>
 				</tr>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>
