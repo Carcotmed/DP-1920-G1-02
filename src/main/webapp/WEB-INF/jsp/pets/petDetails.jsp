@@ -64,6 +64,7 @@
 			<tr>
 				<th>Visit Date</th>
 				<th>Description</th>
+				<th>Bringer</th>
 				<th>Intervention</th>
 				<th>Vet</th>
 				<th>Actions</th>
@@ -75,6 +76,7 @@
 				<td><petclinic:localDate date="${visit.date}"
 						pattern="yyyy-MM-dd" /></td>
 				<td><c:out value="${visit.description}" /></td>
+				<td><c:out value="${visit.bringer}" /></td>
 
 				<c:if test="${not empty visit.intervention}">
 
