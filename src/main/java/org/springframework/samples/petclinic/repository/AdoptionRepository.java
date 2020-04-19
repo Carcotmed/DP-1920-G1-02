@@ -16,16 +16,14 @@
 
 package org.springframework.samples.petclinic.repository;
 
-import java.util.List;
+import java.util.Collection;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
+import org.springframework.samples.petclinic.model.Adoption;
 
 /**
- * Repository class for <code>Pet</code> domain objects All method names are compliant
+ * Repository class for <code>Owner</code> domain objects All method names are compliant
  * with Spring Data naming conventions so this interface can easily be extended for Spring
  * Data See here:
  * http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
@@ -35,29 +33,12 @@ import org.springframework.samples.petclinic.model.PetType;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-public interface PetRepository extends CrudRepository<Pet, Integer> {
+public interface AdoptionRepository extends CrudRepository<Adoption, Integer> {
 
-	/**
-	 * Retrieve all <code>PetType</code>s from the data store.
-	 *
-	 * @return a <code>Collection</code> of <code>PetType</code>s
-	 */
-	@Query("SELECT pt FROM PetType pt")
-	List<PetType> findPetTypes() throws DataAccessException;
+	@Query("SELECT adoption FROM Adoption adoption WHERE adoption.owner.id = :ownerId")
+	Collection<Adoption> findAdoptionsByOwner(Integer ownerId);
 
-	/**
-	 * Retrieve a <code>Pet</code> from the data store by id.
-	 *
-	 * @param id
-	 *            the id to search for
-	 * @return the <code>Pet</code> if found
-	 * @throws org.springframework.dao.DataRetrievalFailureException
-	 *             if not found
-	 */
-	@Query("SELECT p FROM Pet p WHERE p.id = ?1")
-	Pet findById(int id) throws DataAccessException;
-
-	@Query("SELECT p FROM Pet p WHERE p.owner.firstName = 'Vet'")
-	List<Pet> findAdoptables() throws DataAccessException;
+	@Query("SELECT adoption FROM Adoption adoption")
+	Collection<Adoption> findAllAdoptions();
 
 }

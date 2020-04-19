@@ -57,6 +57,9 @@ public class Visit extends BaseEntity {
 	@NotEmpty
 	@Column(name = "description")
 	private String description;
+	
+	@Column(name = "bringer")
+	private String bringer;
 
 	/**
 	 * Holds value of property pet.
@@ -138,6 +141,14 @@ public class Visit extends BaseEntity {
 	 */
 	public void setIntervention(Intervention intervention) {
 		this.intervention = intervention;
+	}
+
+	public String getBringer() {
+		return bringer;
+	}
+
+	public void setBringer(String bringer) {
+		this.bringer = bringer;
 	}
 
 }

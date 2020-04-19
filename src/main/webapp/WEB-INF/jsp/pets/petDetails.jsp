@@ -3,17 +3,22 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="pets">
 
 	<h2>Pet Information</h2>
 
+	<c:out value="${error}"></c:out>
+	
 	<table class="table table-striped">
 		<tr>
 			<th>Name</th>
 			<th>Birth Date</th>
 			<th>Pet Type</th>
 			<th>Owner Name</th>
+			<th></th>
 
 
 		</tr>
@@ -25,6 +30,16 @@
 			<td><b><c:out value="${pet.type.name}" /></b></td>
 			<td><b><c:out
 						value="${pet.owner.firstName} ${pet.owner.lastName}" /></b></td>
+    		<c:if test="${isAdoptable}">
+	    		<sec:authorize access="hasAuthority('owner')">
+					<td>
+			                <spring:url value="/adoptions/new/{petId}" var="adoptionUrl">
+			             		<spring:param name="petId" value="${pet.id}"/>
+				         	</spring:url>
+				          	<a href="${fn:escapeXml(adoptionUrl)}" class="btn btn-default">Adopt</a>
+					</td>
+				</sec:authorize>
+			</c:if>
 		</tr>
 
 
@@ -41,6 +56,7 @@
 	<br />
 	<br />
 	<h2>Visits</h2>
+	
 
 
 	<table class="table table-striped">
@@ -48,6 +64,7 @@
 			<tr>
 				<th>Visit Date</th>
 				<th>Visit Description</th>
+				<th>Bringer</th>
 				<th>Intervention</th>
 				<th>Vet</th>
 				<th>Actions</th>
@@ -59,6 +76,7 @@
 				<td><petclinic:localDate date="${visit.date}"
 						pattern="yyyy-MM-dd" /></td>
 				<td><c:out value="${visit.description}" /></td>
+				<td><c:out value="${visit.bringer}" /></td>
 
 				<c:if test="${not empty visit.intervention}">
 

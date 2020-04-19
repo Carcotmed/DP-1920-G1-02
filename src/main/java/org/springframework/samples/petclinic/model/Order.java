@@ -28,7 +28,6 @@ public class Order extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	orderDate;
 
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate	arrivalDate;
 
@@ -51,10 +50,13 @@ public class Order extends BaseEntity {
 	
 	@AssertTrue
 	public boolean isValidDate() {
-		if(arrivalDate == null | orderDate == null) {
+		if(orderDate == null) {
 			return false;
-		}
+		}else if(arrivalDate == null) {
+			return true;
+		}else {
 		return arrivalDate.isAfter(orderDate);
+		}
 	}
 
 }
