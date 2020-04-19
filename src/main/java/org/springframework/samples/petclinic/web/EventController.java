@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Participation;
 import org.springframework.samples.petclinic.service.EventService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -46,14 +47,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/events")
 public class EventController {
 
-	private final EventService	eventService;
-	private final OwnerService	ownerService;
+	private final EventService		eventService;
+	private final OwnerService		ownerService;
+	private final ProviderService	providerService;
 
 
 	@Autowired
-	public EventController(final EventService eventService, final OwnerService ownerService) {
+	public EventController(final ProviderService providerService, final EventService eventService, final OwnerService ownerService) {
 		this.eventService = eventService;
 		this.ownerService = ownerService;
+		this.providerService = providerService;
 	}
 
 	@GetMapping()
@@ -89,6 +92,7 @@ public class EventController {
 			}
 			model.put("event", event);
 			model.put("reserved", this.eventService.findParticipationsByEventId(eventId).size());
+			model.put("hasSponsor", event.getSponsor() != null);
 			return "events/eventDetails";
 		} else {
 			model.put("error", "The event you are trying to see doesn't exist");
@@ -220,6 +224,53 @@ public class EventController {
 			model.put("error", "You can't publish an event if you are not a veterinarian");
 		}
 		return this.showEvent(eventId, model);
+	}
+
+	@GetMapping(value = "/newSponsor/{eventId}")
+	public String initSponsorEvent(@PathVariable("eventId") final int eventId, final ModelMap model) {
+		Event event = this.eventService.findEventById(eventId);
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("admin")) && event.getPublished() == true) {
+				if (event.getSponsor() != null) {
+					model.put("error", "This event already has an sponsor");
+					return this.showEvent(eventId, model);
+				}
+				model.put("sponsors", this.providerService.findProviders());
+				model.put("event", event);
+				return "events/sponsor";
+			} else {
+				throw new IllegalAccessException();
+			}
+		} catch (Exception e) {
+			model.put("error", "You can't select an sponsor if you are not an admin or the event is not published");
+		}
+		return this.showEvent(eventId, model);
+	}
+
+	@PostMapping(value = "/newSponsor/{eventId}")
+	public String processSponsorEvent(@PathVariable("eventId") final int eventId, final Event event, final BindingResult result, final ModelMap model) {
+		if (result.hasErrors() || event.getSponsor() == null) {
+			model.put("error", "You can't leave this field empty");
+			model.put("sponsors", this.providerService.findProviders());
+			model.put("event", event);
+			return "events/sponsor";
+		} else {
+			try {
+				Event event2 = this.eventService.findEventById(eventId);
+				event2.setSponsor(event.getSponsor());
+				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+				if (user.getAuthorities().contains(new SimpleGrantedAuthority("admin")) && event2.getPublished()) {
+					this.eventService.save(event2);
+					return this.showEvents(model);
+				} else {
+					throw new IllegalAccessException();
+				}
+			} catch (Exception e) {
+				model.put("error", "You can't select an sponsor if you are not an admin or the event is not published");
+			}
+			return this.showEvent(eventId, model);
+		}
 	}
 
 	@GetMapping(value = "/delete/{eventId}")

@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -47,7 +48,9 @@ public class ProductController {
 	@GetMapping("/new")
 	public String initCreateProduct(ModelMap modelMap) {
 		String view = "products/editProduct";
-		modelMap.addAttribute("product", new Product());
+		Product product = new Product();
+		product.setEnabled(true);
+		modelMap.addAttribute("product", product);
 		return view;
 	}
 	
@@ -62,5 +65,14 @@ public class ProductController {
 		return "redirect:/products";
 	}
 	
+	
+	@GetMapping("/delete/{productId}")
+	public String deleteProduct(@PathVariable("productId") int productId, ModelMap modelMap) {
+		Product product = productService.findProductById(productId);
+		product.setEnabled(false);
+		modelMap.addAttribute("product", product);
+		return productsList(modelMap);
+
+	}
 	
 }

@@ -44,6 +44,8 @@ INSERT INTO owners(id,first_name,last_name,address,city,telephone) VALUES (8, 'M
 INSERT INTO owners(id,first_name,last_name,address,city,telephone) VALUES (9, 'David', 'Schroeder', '2749 Blackhawk Trail', 'Madison', '6085559435');
 INSERT INTO owners(id,first_name,last_name,address,city,telephone) VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Waunakee', '6085555487');
 
+INSERT INTO owners(id,first_name,last_name,address,city,telephone) VALUES (11, 'Vet', '', '2395 Independence La.', 'Waunakee', '6089999487');
+
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
@@ -57,26 +59,28 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Adoptable1', '2010-06-08', 1, 11);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Adoptable2', '2012-06-08', 2, 11);
 
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 1, '2013-01-01', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (1, 1, '2013-01-01', 'rabies shot', 'Owners Father');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (2, 8, '2013-01-02', 'rabies shot', 'Owners Mother');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (3, 8, '2013-01-03', 'neutered', 'Owners Brother');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (4, 7, '2013-01-04', 'spayed', 'Owners Sister');
 
 INSERT INTO providers(id,name,phone,address,email) VALUES (1,'Pipo1','123456789','Calle Pipo nº1','pipo1@gmail.com');
 INSERT INTO providers(id,name,phone,address,email) VALUES (2,'Pipo2','223456789','Calle Pipo nº2','pipo2@gmail.com');
 INSERT INTO providers(id,name,phone,address,email) VALUES (3,'Pipo3','323456789','Calle Pipo nº3','pipo3@gmail.com');
 INSERT INTO providers(id,name,phone,address,email) VALUES (4,'Pipo4','423456789','Calle Pipo nº4','pipo4@gmail.com');
 
-INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (1,'Pomadita',20.50,5,true,1);
-INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (2,'Collar',21.50,5,true,2);
-INSERT INTO products(id,name,price,quantity,all_available,provider_id) VALUES (3,'Juguete',40.50,5,true,4);
+INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (1,'Pomadita',20.50,5,true,1,true);
+INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (2,'Collar',21.50,5,true,2,true);
+INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (3,'Juguete',40.50,5,true,4,true);
 
 INSERT INTO interventions (id, visit_id, vet_id, name, description) VALUES (1, 1, 1, 'Castracion', 'Cortar las bolas');
 
-INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2018-01-01', 'true', 'Descripcion1', 10, 'Place1');
-INSERt INTO events(id, date, published, description, capacity, place) VAlUES (2, '2020-02-02', 'true', 'Descripcion2', 20, 'Place2');
-INSERt INTO events(id, date, published, description, capacity, place) VAlUES (3, '2019-03-03', 'true', 'Descripcion3', 30, 'Place3');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', 'true', 'Descripcion2', 20, 'Place2');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (3, '2029-03-03', 'true', 'Descripcion3', 30, 'Place3');
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', 'true', 'Descripcion4', 40, 'Place4');
 
 INSERt INTO participations(id, event_id, owner_id) VAlUES (1, 1, 1);
@@ -84,9 +88,9 @@ INSERt INTO participations(id, event_id, owner_id) VAlUES (2, 2, 2);
 INSERt INTO participations(id, event_id, owner_id) VAlUES (3, 1, 3);
 
 UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (1, 1, 1, 45.0, 10);
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (2, 2, 1, 55.0, 50);
-INSERT INTO discounts(id,product_id,provider_id,percentage,quantity) VALUES (3, 1, 3, 65.0, 20);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (1, 1, 1, 45.0, 10,true);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (2, 2, 1, 55.0, 50,true);
+INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (3, 1, 3, 65.0, 20,false);
 
 
 INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (1,3,'2013-01-01',null,true,1,1,1);

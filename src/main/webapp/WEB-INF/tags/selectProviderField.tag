@@ -20,10 +20,10 @@
 
 		<div class="col-sm-10">
 			<form:select class="form-control" path="${name}" size="${size}">
-				<c:forEach items="${names}" var="person">
+				<c:forEach items="${names}" var="provider">
 
-					<form:option value="${person}"
-						label="${person.firstName} ${person.lastName}"/>
+					<form:option value="${provider}"
+						label="${provider.name}"></form:option>
 
 				</c:forEach>
 

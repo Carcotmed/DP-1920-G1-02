@@ -31,14 +31,23 @@
 					<td><c:out value="${order.sent}" /></td>
 					<td><c:out value="${order.provider.name}" /></td>
 					<td><c:out value="${order.discount.percentage}" /></td>
-					<td><c:if test="${empty order.arrivalDate}">
+					<td>
+            
+            <c:if test="${empty order.arrivalDate}">
 							<spring:url value="/orders/edit/{orderId}" var="editUrl">
 								<spring:param name="orderId" value="${order.id}" />
 							</spring:url>
+              
 							<a href="${fn:escapeXml(editUrl)}">Edit</a>
-						</c:if> <spring:url value="/orders/delete/{orderId}" var="deleteUrl">
+              
+						</c:if>
+            
+            <spring:url value="/orders/delete/{orderId}" var="deleteUrl">
 							<spring:param name="orderId" value="${order.id}" />
-						</spring:url> <a href="${fn:escapeXml(deleteUrl)}">Delete</a></td>
+            </spring:url>
+            <a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+        </c:if>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

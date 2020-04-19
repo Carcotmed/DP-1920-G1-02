@@ -16,7 +16,18 @@
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Name" name="name" />
 			<petclinic:inputField label="Description" name="description" />
+			
+			<c:if test="${not empty noVetError}">
+				<c:out value="${noVetError}"></c:out>
+				<c:set var="noVetError" value=""/>
+			</c:if>
 			<petclinic:selectPersonField label="Vet" name="vet" size="5" names="${vets}" />
+			
+			<c:if test="${not empty notEnoughError}">
+				<c:out value="${notEnoughError}"></c:out>
+				<c:set var="notEnoughError" value=""/>
+			</c:if>
+			
 			<petclinic:selectMultipleField label="Products" name="requiredProducts" size="10" names="${products}"/>
 			
 		</div>

@@ -138,7 +138,15 @@ public class OrderController {
 	}
 	
 	
-	
+	@GetMapping("/delete/{orderId}")
+	public String deleteDiscount(@PathVariable("orderId") int orderId, ModelMap modelMap) {
+		Order order = orderService.findOrderById(orderId);
+		if(!order.getSent()) {
+			orderService.deleteOrder(order);
+		}
+		return ordersList(modelMap);
+
+	}
 
 	
 }
