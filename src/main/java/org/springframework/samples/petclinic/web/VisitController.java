@@ -25,6 +25,7 @@ import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -51,10 +52,11 @@ public class VisitController {
 	}
 
 	/**
-	 * Called before each and every @GetMapping or @PostMapping annotated method. 2 goals:
-	 * - Make sure we always have fresh data - Since we do not use the session scope, make
-	 * sure that Pet object always has an id (Even though id is not part of the form
-	 * fields)
+	 * Called before each and every @GetMapping or @PostMapping annotated method. 2
+	 * goals: - Make sure we always have fresh data - Since we do not use the
+	 * session scope, make sure that Pet object always has an id (Even though id is
+	 * not part of the form fields)
+	 * 
 	 * @param petId
 	 * @return Pet
 	 */
@@ -66,19 +68,25 @@ public class VisitController {
 		return visit;
 	}
 
-	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
+	// Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is
+	// called
 	@GetMapping(value = "/owners/*/pets/{petId}/visits/new")
 	public String initNewVisitForm(@PathVariable("petId") int petId, Map<String, Object> model) {
 		return "pets/createOrUpdateVisitForm";
 	}
 
-	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
+	// Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is
+	// called
 	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/visits/new")
 	public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateVisitForm";
-		}
-		else {
+		} else {
+
+			if (visit.getBringer() == null || visit.getBringer().trim().isEmpty()) {
+				String ownerName = visit.getPet().getOwner().getFirstName() + " " + visit.getPet().getOwner().getLastName();
+				visit.setBringer(ownerName + " (Owner)");
+			}
 			this.petService.saveVisit(visit);
 			return "redirect:/owners/{ownerId}/pets/{petId}";
 		}
@@ -89,5 +97,4 @@ public class VisitController {
 		model.put("visits", this.petService.findPetById(petId).getVisits());
 		return "visitList";
 	}
-
 }

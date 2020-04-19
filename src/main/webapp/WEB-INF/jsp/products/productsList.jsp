@@ -15,18 +15,24 @@
 			<tr>
 				<th style="width: 150px;">Name</th>
 				<th style="width: 200px;">Price (EUR)</th>
-				<th>Quantity</th>
+				<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
+					<th>Quantity</th>
+				</sec:authorize>
 				<th>All Available</th>
 				<th>Provider</th>
+
 				<th>Actions</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${products}" var="product">
+			<c:if test="${product.enabled}">
 				<tr>
 					<td><c:out value="${product.name}" /></td>
 					<td><c:out value="${product.price}" /></td>
-					<td><c:out value="${product.quantity}" /></td>
+					<sec:authorize access="hasAnyAuthority('admin','veterinarian')">
+						<td><c:out value="${product.quantity}" /></td>
+					</sec:authorize>
 					<td><c:out value="${product.allAvailable}" /></td>
 					<td><c:out value="${product.provider.name}" /></td>
 					<td>
@@ -39,14 +45,16 @@
 						<a href="${fn:escapeXml(editProductUrl)}">Edit</a>
 					</sec:authorize>
 						<spring:url value="/products/delete/{productId}" var="productUrl">
+
 							<spring:param name="productId" value="${product.id}" />
-						</spring:url>
-						<a href="${fn:escapeXml(productUrl)}">Delete</a>
-					</td>
+						</spring:url> <a href="${fn:escapeXml(productUrl)}">Delete</a></td>
+
 				</tr>
+				</c:if>
 			</c:forEach>
 		</tbody>
 	</table>
 	<spring:url value="/products/new" var="productUrl" />
-	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(productUrl)}'" value='Create'>	
+	<input type=button class="btn btn-default"
+		onClick="location.href='${fn:escapeXml(productUrl)}'" value='Create'>
 </petclinic:layout>
