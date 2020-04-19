@@ -27,29 +27,32 @@
 					<td><c:out value="${order.product.name}" /></td>
 					<td><c:out value="${order.quantity}" /></td>
 					<td><c:out value="${order.orderDate}" /></td>
-					<td><c:out value="${order.arrivalDate}"/></td>
-					<td><c:out value="${order.sent}"/></td>
-					<td><c:out value="${order.provider.name}"/></td>
-					<td><c:out value="${order.discount.percentage}"/></td>
+					<td><c:out value="${order.arrivalDate}" /></td>
+					<td><c:out value="${order.sent}" /></td>
+					<td><c:out value="${order.provider.name}" /></td>
+					<td><c:out value="${order.discount.percentage}" /></td>
 					<td>
-						<spring:url value="/orders/edit/{orderId}" var="editUrl">
-							<spring:param name="orderId" value="${order.id}" />
-						</spring:url>
-						<a href="${fn:escapeXml(editUrl)}">Edit</a>
-
-						<c:if test="${!order.sent}">
-							<spring:url	value="/orders/delete/{orderId}" var="deleteUrl">
+            
+            <c:if test="${empty order.arrivalDate}">
+							<spring:url value="/orders/edit/{orderId}" var="editUrl">
 								<spring:param name="orderId" value="${order.id}" />
 							</spring:url>
-							<a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+              
+							<a href="${fn:escapeXml(editUrl)}">Edit</a>
+              
 						</c:if>
-						
-
+            
+            <spring:url value="/orders/delete/{orderId}" var="deleteUrl">
+							<spring:param name="orderId" value="${order.id}" />
+            </spring:url>
+            <a href="${fn:escapeXml(deleteUrl)}">Delete</a>
+        </c:if>
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	<spring:url value="/orders/new" var="newOrderUrl" />
-	<input type=button class="btn btn-default" onClick="location.href='${fn:escapeXml(newOrderUrl)}'" value='Create'>
+	<input type=button class="btn btn-default"
+		onClick="location.href='${fn:escapeXml(newOrderUrl)}'" value='Create'>
 </petclinic:layout>
