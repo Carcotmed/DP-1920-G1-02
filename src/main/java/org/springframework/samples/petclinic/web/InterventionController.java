@@ -40,6 +40,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Visit;
@@ -65,7 +67,6 @@ public class InterventionController {
 	private final InterventionService interventionService;
 	private final ProductService productService;
 
-
 	@Autowired
 	public InterventionController(VetService vetService, VisitService visitService,
 			InterventionService interventionService, ProductService productService) {
@@ -79,7 +80,7 @@ public class InterventionController {
 	public Collection<Vet> populateVets() {
 		return this.vetService.findVets();
 	}
-	
+
 	@ModelAttribute("products")
 	public Collection<Product> populateProducts() {
 		return this.productService.findProducts();
@@ -108,14 +109,36 @@ public class InterventionController {
 	@PostMapping(value = "/interventions/new")
 	public String processCreationForm(Visit visit, @Valid Intervention intervention, BindingResult result,
 			ModelMap model) {
-		
-		System.out.println("Name: "+model.getAttribute("name"));
+
 		intervention.setVisit(visit);
-		
+
 		if (result.hasErrors()) {
 			model.put("intervention", intervention);
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
+
+			if (intervention.getVet() == null) {
+				model.put("noVetError", "You must choose a vet.");
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+			}
+
+			Boolean allAvailable = intervention.getRequiredProducts().stream().allMatch(p -> p.getQuantity() != 0);
+
+			if (allAvailable)
+				intervention.getRequiredProducts().stream().forEach(p -> productService.useOne(p));
+
+			else {
+
+				List<String> productsUnavailable = intervention.getRequiredProducts().stream()
+						.filter(p -> p.getQuantity() == 0).map(p -> p.getName()).collect(Collectors.toList());
+
+				model.put("notEnoughError", "There aren't enough of " + productsUnavailable);
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+
+			}
+
 			visit.setIntervention(intervention);
 			this.interventionService.saveIntervention(intervention);
 			return "redirect:/owners/{ownerId}/pets/{petId}";
@@ -125,6 +148,7 @@ public class InterventionController {
 	@GetMapping(value = "/interventions/{interventionId}/edit")
 	public String initUpdateForm(@PathVariable("interventionId") int interventionId, ModelMap model) {
 		Intervention intervention = this.interventionService.findInterventionById(interventionId);
+
 		model.put("intervention", intervention);
 		return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 	}
@@ -146,25 +170,55 @@ public class InterventionController {
 			model.put("intervention", intervention);
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
+
 			Intervention interventionToUpdate = this.interventionService.findInterventionById(interventionId);
+
+			List<Product> oldProducts = interventionToUpdate.getRequiredProducts();
+			oldProducts.stream().forEach(p -> productService.addOne(p));
+
 			BeanUtils.copyProperties(intervention, interventionToUpdate, "id", "visit");
+
+			if (interventionToUpdate.getVet() == null) {
+				model.put("noVetError", "You must choose a vet.");
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+			}
+
+			Boolean allAvailable = interventionToUpdate.getRequiredProducts().stream()
+					.allMatch(p -> p.getQuantity() != 0);
+
+			if (allAvailable)
+				interventionToUpdate.getRequiredProducts().stream().forEach(p -> productService.useOne(p));
+
+			else {
+
+				List<String> productsUnavailable = intervention.getRequiredProducts().stream()
+						.filter(p -> p.getQuantity() == 0).map(p -> p.getName()).collect(Collectors.toList());
+
+				model.put("notEnoughError", "There aren't enough of " + productsUnavailable);
+				model.put("intervention", intervention);
+				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+
+			}
 
 			this.interventionService.saveIntervention(interventionToUpdate);
 
 			return "redirect:/owners/{ownerId}/pets/{petId}";
 		}
 	}
-	
+
 	@GetMapping(value = "interventions/{interventionId}/delete")
-	public String deleteIntervention(@PathVariable("interventionId") int interventionId, @PathVariable("visitId") int visitId, ModelMap model) {
+	public String deleteIntervention(@PathVariable("interventionId") int interventionId,
+			@PathVariable("visitId") int visitId, ModelMap model) {
 
 		Visit visit = visitService.findVisitById(visitId);
 		visit.setIntervention(null);
-		visitService.saveVisit (visit);
-		
-			Intervention intervention = interventionService.findInterventionById(interventionId);
-			interventionService.deleteIntervention(intervention);
+		visitService.saveVisit(visit);
 
+		Intervention intervention = interventionService.findInterventionById(interventionId);
+		for (Product p : intervention.getRequiredProducts())
+			productService.addOne(p);
+		interventionService.deleteIntervention(intervention);
 
 		return "redirect:/owners/{ownerId}/pets/{petId}";
 	}
