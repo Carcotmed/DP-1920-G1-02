@@ -60,5 +60,9 @@ public class VetService {
 	public Vet findVetById (Integer vetId) throws DataAccessException {
 		return vetRepository.findVetById (vetId);
 	}
+	
+	public Integer countInterventionsOfVet (Vet vet) {
+		return vetRepository.countInterventionsOfVet (vet);
+	}
 
 }
