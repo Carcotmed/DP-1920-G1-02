@@ -35,6 +35,7 @@ class EventValidatorTests {
 		event.setDescription("Description");
 		event.setPlace("Place");
 		event.setPublished(false);
+		event.setSponsor(new Provider());
 
 		Validator validator = this.createValidator();
 		Set<ConstraintViolation<Event>> constraintViolations = validator.validate(event);
