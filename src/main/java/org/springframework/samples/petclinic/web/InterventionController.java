@@ -29,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -122,10 +123,12 @@ public class InterventionController {
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
 
+			Boolean mustReturn = false;
+			
 			if (intervention.getVet() == null) {
-				model.put("noVetError", "You must choose a vet.");
+				result.rejectValue("vet", "noVetError", "You must choose a vet");
 				model.put("intervention", intervention);
-				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
+				mustReturn = true;
 			}
 
 			Boolean allAvailable = intervention.getRequiredProducts().stream().allMatch(p -> p.getQuantity() != 0);
@@ -138,11 +141,13 @@ public class InterventionController {
 				List<String> productsUnavailable = intervention.getRequiredProducts().stream()
 						.filter(p -> p.getQuantity() == 0).map(p -> p.getName()).collect(Collectors.toList());
 
-				model.put("notEnoughError", "There aren't enough of " + productsUnavailable);
+				result.rejectValue("requiredProducts", "notEnoughProduct", "There aren't enough of " + productsUnavailable);
 				model.put("intervention", intervention);
-				return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
-
+				mustReturn = true;
+				
 			}
+			
+			if (mustReturn) return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 
 			visit.setIntervention(intervention);
 			this.interventionService.saveIntervention(intervention);

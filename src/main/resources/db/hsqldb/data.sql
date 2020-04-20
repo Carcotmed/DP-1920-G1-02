@@ -75,6 +75,7 @@ INSERT INTO providers(id,name,phone,address,email) VALUES (4,'Pipo4','423456789'
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (1,'Pomadita',20.50,5,true,1,true);
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (2,'Collar',21.50,5,true,2,true);
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (3,'Juguete',40.50,5,true,4,true);
+INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (4,'Jeringuilla',20.50,0,true,1,true);
 
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (1, 1, 1, 'Castracion');
 

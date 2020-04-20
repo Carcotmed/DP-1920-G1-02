@@ -18,11 +18,6 @@
 
 			<petclinic:selectPersonField label="Vet" name="vet" size="5" names="${vets}" />
 			
-			<c:if test="${not empty notEnoughError}">
-				<c:out value="${notEnoughError}"></c:out>
-				<c:set var="notEnoughError" value=""/>
-			</c:if>
-			
 			<petclinic:selectMultipleField label="Products" name="requiredProducts" size="10" names="${products}"/>
 			
 		</div>

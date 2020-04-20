@@ -28,6 +28,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -54,7 +55,7 @@ public class Visit extends BaseEntity {
 	/**
 	 * Holds value of property description.
 	 */
-	@NotEmpty
+	@NotBlank
 	@Column(name = "description")
 	private String description;
 	
