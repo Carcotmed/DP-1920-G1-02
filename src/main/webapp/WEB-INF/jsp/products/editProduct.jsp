@@ -37,6 +37,9 @@
                 		<option value="${provider.id}">${provider.name}</option>
                 	</c:forEach>
                 </select>
+                
+                 <input type="hidden" value="true" name="enabled" />
+  
             </div>
 
             <div class="form-group">

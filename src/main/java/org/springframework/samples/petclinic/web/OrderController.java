@@ -118,7 +118,11 @@ public class OrderController {
 	public String initUpdateForm(@PathVariable("orderId") int orderId, ModelMap modelMap) {
 		String view = "orders/editOrder";
 		Order order = this.orderService.findOrderById(orderId);
-		modelMap.put("order", order);
+		if(order.getArrivalDate() != null) {
+			view = "orders";
+		}else {
+			modelMap.put("order", order);
+		}
 		return view;
 	}
 	
@@ -139,9 +143,9 @@ public class OrderController {
 	
 	
 	@GetMapping("/delete/{orderId}")
-	public String deleteDiscount(@PathVariable("orderId") int orderId, ModelMap modelMap) {
+	public String deleteOrder(@PathVariable("orderId") int orderId, ModelMap modelMap) {
 		Order order = orderService.findOrderById(orderId);
-		if(!order.getSent()) {
+		if(order.getSent() == false) {
 			orderService.deleteOrder(order);
 		}
 		return ordersList(modelMap);

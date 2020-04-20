@@ -43,12 +43,12 @@ public class OrderValidatorTests extends ValidatorTests {
 		discount.setProduct(product);
 	}
 
-	// =============== Create: [1 - 10] ( 9- | 1+ ) =======================
+	// =============== Create: [1 - 10] ( 8- | 1+ ) =======================
 
 	// 1 +
 	@ParameterizedTest
 	@Transactional
-	@CsvSource({ "1,LocalDate.parse('1900/01/01'), LocalDate.parse('2000/01/01'),discount,product,provider,true",
+	@CsvSource({ "1,LocalDate.parse('1900/01/01'),null,discount,product,provider,true",
 			"2,LocalDate.parse('2000/02/02'),LocalDate.parse('2001/03/03'),null,product,provider,false" })
 	void shouldInsertDBAndGenerateId(Integer quantity, String orderDate, String arrivalDate, String discount,
 			String product, String provider, Boolean sent) {
@@ -147,33 +147,8 @@ public class OrderValidatorTests extends ValidatorTests {
 		assertThat(violation.getMessage()).isEqualTo("must be true");
 	}
 
+
 	// 6 -
-	@Test
-	void shouldNotInsertIntoDBWhenArrivalDatelsNull() {
-		Order order = new Order();
-		order.setQuantity(1);
-		order.setArrivalDate(null); // Fail
-		order.setOrderDate(LocalDate.of(2020, 01, 01));
-		order.setDiscount(discount);
-		order.setProduct(product);
-		order.setProvider(provider);
-		order.setSent(false);
-
-		Validator validator = createValidator();
-		Set<ConstraintViolation<Order>> constraintViolations = validator.validate(order);
-
-		assertThat(constraintViolations.size()).isEqualTo(2);
-		Iterator <ConstraintViolation<Order>> iterator = constraintViolations.iterator();
-		ConstraintViolation<Order> violation = iterator.next();
-		if (!violation.getPropertyPath().toString().equals("arrivalDate")) {
-			violation = iterator.next();
-		}		
-		
-		assertThat(violation.getPropertyPath().toString()).isEqualTo("arrivalDate");
-		assertThat(violation.getMessage()).isEqualTo("must not be null");
-	}
-
-	// 7 -
 	@Test
 	void shouldNotInsertIntoDBWhenOrderDatelsNull() {
 		Order order = new Order();
@@ -200,7 +175,7 @@ public class OrderValidatorTests extends ValidatorTests {
 		assertThat(violation.getMessage()).isEqualTo("must not be null");
 	}
 
-	// 8 -
+	// 7 -
 	@Test
 	void shouldNotInsertIntoDBWhenProviderNull() {
 		Order order = new Order();
@@ -221,7 +196,7 @@ public class OrderValidatorTests extends ValidatorTests {
 		assertThat(violation.getMessage()).isEqualTo("must not be null");
 	}
 
-	// 9 -
+	// 8 -
 	@Test
 	void shouldNotInsertIntoDBWhenProductNull() {
 		Order order = new Order();
@@ -242,7 +217,7 @@ public class OrderValidatorTests extends ValidatorTests {
 		assertThat(violation.getMessage()).isEqualTo("must not be null");
 	}
 
-	// 10 -
+	// 9 -
 	@Test
 	void shouldNotInsertIntoDBWhenSentNull() {
 		Order order = new Order();
