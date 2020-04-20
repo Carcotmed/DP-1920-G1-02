@@ -177,9 +177,7 @@ public class PetController {
 		Visit urgentVisit;
 		urgentVisit = new Visit ();
 		urgentVisit.setDescription("Urgent Visit");
-		
-		System.out.println("Visit: "+urgentVisit.getDescription());
-		
+				
 		Pet pet;
 		pet = petService.findPetById(petId);
 		
