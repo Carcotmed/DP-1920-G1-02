@@ -17,8 +17,10 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Event;
 import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.service.EventService;
 import org.springframework.samples.petclinic.service.OwnerService;
+import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -42,6 +44,8 @@ class EventControllerTests {
 
 	private static final int	TEST_EVENT_ID3	= 3;
 
+	private static final int	TEST_EVENT_ID4	= 4;
+
 	@MockBean
 	private OwnerService		ownerService;
 
@@ -51,6 +55,9 @@ class EventControllerTests {
 	@MockBean
 	private UserService			userService;
 
+	@MockBean
+	private ProviderService		providerService;
+
 	@Autowired
 	private MockMvc				mockMvc;
 
@@ -59,6 +66,8 @@ class EventControllerTests {
 	private Event				event2;
 
 	private Event				event3;
+
+	private Event				event4;
 
 
 	@BeforeEach
@@ -88,6 +97,22 @@ class EventControllerTests {
 		this.event3.setDate(LocalDate.now().plusMonths(4));
 		this.event3.setPublished(false);
 		BDDMockito.given(this.eventService.findEventById(EventControllerTests.TEST_EVENT_ID3)).willReturn(this.event3);
+
+		Provider p1 = new Provider();
+		p1.setAddress("address");
+		p1.setEmail("email@jdbhjkf.dhjkbdj");
+		p1.setName("name");
+		p1.setPhone("748576879");
+		this.event4 = new Event();
+		this.event4.setId(EventControllerTests.TEST_EVENT_ID4);
+		this.event4.setCapacity(4);
+		this.event4.setDate(LocalDate.parse("2030-01-01"));
+		this.event4.setDescription("Descr");
+		this.event4.setPlace("Place");
+		this.event4.setPublished(true);
+		this.event4.setSponsor(p1);
+		BDDMockito.given(this.eventService.findEventById(EventControllerTests.TEST_EVENT_ID4)).willReturn(this.event4);
+
 		List<Event> list1 = new ArrayList<>();
 		list1.add(this.event1);
 		list1.add(this.event2);
@@ -95,6 +120,7 @@ class EventControllerTests {
 		BDDMockito.given(this.eventService.findAllEvents()).willReturn(list1);
 		List<Event> list2 = new ArrayList<>();
 		list2.add(this.event1);
+		list2.add(this.event4);
 		BDDMockito.given(this.eventService.findAllPublishedEvents()).willReturn(list2);
 
 	}
@@ -144,6 +170,7 @@ class EventControllerTests {
 	void testShowEventsAsOwner() throws Exception {
 		List<Event> expected = new ArrayList<>();
 		expected.add(this.event1);
+		expected.add(this.event4);
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/events")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attribute("events", expected)).andExpect(MockMvcResultMatchers.view().name("events/eventsList"));
 	}
 
@@ -272,5 +299,64 @@ class EventControllerTests {
 	void testProcessCreationParticipationFormOnUnpublishedEvent() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", EventControllerTests.TEST_EVENT_ID2).requestAttr("pets", new ArrayList<Pet>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.view().name("redirect:/events/" + EventControllerTests.TEST_EVENT_ID2));
+	}
+
+	@WithMockUser(value = "spring", authorities = "admin")
+	@Test
+	void testInitSelectSponsorFormSuccess() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/newSponsor/{eventId}", EventControllerTests.TEST_EVENT_ID1)).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error"))
+			.andExpect(MockMvcResultMatchers.model().attributeExists("sponsors")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("events/sponsor"));
+	}
+
+	@WithMockUser(value = "spring", authorities = "admin")
+	@Test
+	void testInitSelectSponsorAlreadySelected() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/newSponsor/{eventId}", EventControllerTests.TEST_EVENT_ID4)).andExpect(MockMvcResultMatchers.model().attributeExists("error")).andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name("events/eventDetails"));
+	}
+
+	@WithMockUser(value = "spring", authorities = "veterinarian")
+	@Test
+	void testInitSelectSponsorAsVet() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/newSponsor/{eventId}", EventControllerTests.TEST_EVENT_ID1)).andExpect(MockMvcResultMatchers.model().attributeExists("error")).andExpect(MockMvcResultMatchers.status().isOk())
+			.andExpect(MockMvcResultMatchers.view().name("events/eventDetails"));
+	}
+
+	@WithMockUser(value = "spring", authorities = "admin", username = "owner1")
+	@Test
+	void testProcessSelectSponsorFormSuccess() throws Exception {
+		Provider p1 = new Provider();
+		p1.setAddress("address");
+		p1.setEmail("email@djbvj.hgdjkfh");
+		p1.setName("name");
+		p1.setPhone("958675847");
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newSponsor/{eventId}", EventControllerTests.TEST_EVENT_ID1).requestAttr("sponsor", p1).with(SecurityMockMvcRequestPostProcessors.csrf()))
+			.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("events/eventsList"));
+	}
+
+	@WithMockUser(value = "spring", authorities = "veterinarian", username = "owner1")
+	@Test
+	void testProcessSelectSponsorAsVet() throws Exception {
+		Provider p1 = new Provider();
+		p1.setAddress("address");
+		p1.setEmail("email@djbvj.hgdjkfh");
+		p1.setName("name");
+		p1.setPhone("958675847");
+		this.event1.setSponsor(p1);
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newSponsor/{eventId}", EventControllerTests.TEST_EVENT_ID1).requestAttr("event", this.event1).requestAttr("sponsor", p1).with(SecurityMockMvcRequestPostProcessors.csrf()))
+			.andExpect(MockMvcResultMatchers.model().attributeExists("error")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("events/eventDetails"));
+	}
+
+	@WithMockUser(value = "spring", authorities = "admin", username = "owner1")
+	@Test
+	void testProcessSelectSponsorAlreadySelected() throws Exception {
+		Provider p1 = new Provider();
+		p1.setAddress("address");
+		p1.setEmail("email@djbvj.hgdjkfh");
+		p1.setName("name");
+		p1.setPhone("958675847");
+		this.event1.setSponsor(p1);
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newSponsor/{eventId}", EventControllerTests.TEST_EVENT_ID4).requestAttr("event", this.event1).requestAttr("sponsor", p1).with(SecurityMockMvcRequestPostProcessors.csrf()))
+			.andExpect(MockMvcResultMatchers.model().attributeExists("error")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.view().name("events/eventDetails"));
 	}
 }

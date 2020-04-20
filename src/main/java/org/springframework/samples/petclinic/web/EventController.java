@@ -250,7 +250,7 @@ public class EventController {
 
 	@PostMapping(value = "/newSponsor/{eventId}")
 	public String processSponsorEvent(@PathVariable("eventId") final int eventId, final Event event, final BindingResult result, final ModelMap model) {
-		if (result.hasErrors() || event.getSponsor() == null) {
+		if (result.hasErrors()) {
 			model.put("error", "You can't leave this field empty");
 			model.put("sponsors", this.providerService.findProviders());
 			model.put("event", event);
@@ -258,9 +258,13 @@ public class EventController {
 		} else {
 			try {
 				Event event2 = this.eventService.findEventById(eventId);
-				event2.setSponsor(event.getSponsor());
 				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				if (user.getAuthorities().contains(new SimpleGrantedAuthority("admin")) && event2.getPublished()) {
+					if (this.eventService.findEventById(eventId).getSponsor() != null) {
+						model.put("error", "This event already has an sponsor");
+						return this.showEvent(eventId, model);
+					}
+					event2.setSponsor(event.getSponsor());
 					this.eventService.save(event2);
 					return this.showEvents(model);
 				} else {
