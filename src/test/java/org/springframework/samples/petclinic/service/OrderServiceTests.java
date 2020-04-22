@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,10 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceMockedTests {
-
-	@Mock
-	private OrderRepository orderRepo;
+public class OrderServiceTests {
 	
 	@Autowired
 	protected OrderService orderService;
@@ -51,10 +49,9 @@ public class OrderServiceMockedTests {
 	Provider provider = new Provider();
 	Product product = new Product();
 	Discount discount = new Discount();
-
+	
 	@BeforeEach
 	void init() {
-		orderService = new OrderService(orderRepo);
 		
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
@@ -76,13 +73,14 @@ public class OrderServiceMockedTests {
 		discount.setProduct(product);
 		discount.setEnabled(true);
 		this.discountService.save(discount);
-		
+	
 	}
 
 	// 1 Save+
 	@Test
 	@Transactional
 	void shouldInsertDBAndGenerateId() {
+
 		Integer found = this.orderService.findAllOrders().size();
 		Order order = new Order();
 		order.setQuantity(1);
@@ -119,8 +117,6 @@ public class OrderServiceMockedTests {
 	@Test
 	@Transactional
 	void shouldFindAllOrders() {
-		
-		when(orderRepo.findOrderById(any(Order.class))).thenReturn(new Order());
 
 		Collection<Order> orders = this.orderService.findAllOrders();
 		assertThat(orders.size()).isEqualTo(3);
@@ -162,6 +158,7 @@ public class OrderServiceMockedTests {
 	// 6 delete+
 	@Test
 	public void shouldDeleteOrder() {
+		
 		Collection<Order> orders = this.orderService.findAllOrders();
 		int found = orders.size();
 		this.orderService.deleteOrder(this.orderService.findOrderById(1));
@@ -171,6 +168,7 @@ public class OrderServiceMockedTests {
 	//7 delete -
 	@Test
 	public void shouldNotDeleteOrder() {
+
 		Collection<Order> orders = this.orderService.findAllOrders();
 		int found = orders.size();
 		assertThrows(InvalidDataAccessApiUsageException.class, () -> this.orderService.deleteOrder(this.orderService.findOrderById(99)));
@@ -180,6 +178,7 @@ public class OrderServiceMockedTests {
 	//8 delete - 
 	@Test
 	public void shouldNotDeleteWhenSent() {
+
 		Collection<Order> orders = this.orderService.findAllOrders();
 		int found = orders.size();
 		Order order = this.orderService.findOrderById(99);
@@ -191,6 +190,7 @@ public class OrderServiceMockedTests {
 	@Test
 	@Transactional
 	public void shouldUpdateOrder() {
+
 		Order order = new Order();
 		
 		order.setQuantity(99);
@@ -216,6 +216,7 @@ public class OrderServiceMockedTests {
 	@Test
 	@Transactional
 	public void shouldNotUpdateOrder() {
+
 		Order order = new Order();
 		
 		order.setQuantity(99);
@@ -240,6 +241,7 @@ public class OrderServiceMockedTests {
 	@Test
 	@Transactional
 	public void shouldNotUpdateOrderWithArrivalDate() {
+
 		Order order = new Order();
 		
 		order.setQuantity(99);
