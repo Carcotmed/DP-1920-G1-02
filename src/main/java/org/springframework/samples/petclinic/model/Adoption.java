@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
@@ -36,4 +37,21 @@ public class Adoption extends BaseEntity {
 	@NotNull
 	private Owner		owner;
 
+
+	@AssertTrue
+	public boolean isValidDate() {
+		if (this.end == null) {
+			return true;
+		} else {
+			return this.end.isAfter(this.date);
+		}
+	}
+	@AssertTrue
+	public boolean isValidEnd() {
+		if (this.end == null) {
+			return true;
+		} else {
+			return this.end.isAfter(LocalDate.now());
+		}
+	}
 }

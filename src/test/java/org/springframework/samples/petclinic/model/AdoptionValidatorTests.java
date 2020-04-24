@@ -2,6 +2,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 
@@ -108,12 +109,12 @@ class AdoptionValidatorTests {
 	}
 
 	@Test
-	void shouldNotValidateWhenPastEnd() {
+	void shouldNotValidateWhenDateIsAfterEnd() {
 
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Adoption adoption = new Adoption();
-		adoption.setDate(LocalDate.now().plusDays(3));
-		adoption.setEnd(LocalDate.now().minusDays(12));
+		adoption.setDate(LocalDate.now().plusDays(10));
+		adoption.setEnd(LocalDate.now().plusDays(5));
 		adoption.setOwner(AdoptionValidatorTests.owner1);
 		adoption.setPet(AdoptionValidatorTests.pet1);
 		Validator validator = this.createValidator();
@@ -121,7 +122,30 @@ class AdoptionValidatorTests {
 
 		Assertions.assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Adoption> violation = constraintViolations.iterator().next();
-		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("end");
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("validDate");
+		Assertions.assertThat(violation.getMessage()).isEqualTo("must be true");
+	}
+
+	@Test
+	void shouldNotValidateWhenPastEnd() {
+
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Adoption adoption = new Adoption();
+		adoption.setDate(LocalDate.now().minusDays(13));
+		adoption.setEnd(LocalDate.now().minusDays(12));
+		adoption.setOwner(AdoptionValidatorTests.owner1);
+		adoption.setPet(AdoptionValidatorTests.pet1);
+		Validator validator = this.createValidator();
+		Set<ConstraintViolation<Adoption>> constraintViolations = validator.validate(adoption);
+
+		Assertions.assertThat(constraintViolations.size()).isEqualTo(2);
+		Iterator<ConstraintViolation<Adoption>> iterator = constraintViolations.iterator();
+		ConstraintViolation<Adoption> violation = iterator.next();
+		if (!violation.getPropertyPath().toString().equals("validEnd")) {
+			violation = iterator.next();
+		}
+
+		Assertions.assertThat(violation.getPropertyPath().toString()).isEqualTo("validEnd");
 	}
 
 }

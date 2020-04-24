@@ -18,8 +18,6 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Adoption;
 import org.springframework.samples.petclinic.repository.AdoptionRepository;
@@ -42,12 +40,16 @@ public class AdoptionService {
 		this.adoptionRepository = adoptionRepository;
 	}
 
-	public void save(@Valid final Adoption adoption) {
-		this.adoptionRepository.save(adoption);
+	public Adoption save(final Adoption adoption) {
+		return this.adoptionRepository.save(adoption);
 	}
 
 	public Collection<Adoption> findAdoptionsByOwner(final Integer ownerId) {
 		return this.adoptionRepository.findAdoptionsByOwner(ownerId);
+	}
+
+	public Collection<Adoption> findAdoptionsByPet(final Integer petId) {
+		return this.adoptionRepository.findAdoptionsByPet(petId);
 	}
 
 	public Collection<Adoption> findAllAdoptions() {

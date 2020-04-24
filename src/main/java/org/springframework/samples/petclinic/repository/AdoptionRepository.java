@@ -41,4 +41,7 @@ public interface AdoptionRepository extends CrudRepository<Adoption, Integer> {
 	@Query("SELECT adoption FROM Adoption adoption")
 	Collection<Adoption> findAllAdoptions();
 
+	@Query("SELECT adoption FROM Adoption adoption WHERE adoption.pet.id = :petId")
+	Collection<Adoption> findAdoptionsByPet(Integer petId);
+
 }

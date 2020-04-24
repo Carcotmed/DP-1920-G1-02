@@ -21,7 +21,9 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.repository.PetRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,9 @@ public class OwnerService {
 
 	@Autowired
 	private OwnerRepository		ownerRepository;
+
+	@Autowired
+	private PetRepository		petRepository;
 
 	@Autowired
 	private UserService			userService;
@@ -82,6 +87,17 @@ public class OwnerService {
 
 	public Owner findOwnerByFirstName(final String name) {
 		return this.ownerRepository.findByFirstName(name);
+	}
+
+	public void delete(final Owner owner) {
+		if (owner.getPets() != null) {
+			for (Pet pet : owner.getPets()) {
+				pet.setOwner(this.ownerRepository.findByFirstName("vet"));
+				this.petRepository.save(pet);
+			}
+			this.ownerRepository.delete(owner);
+		}
+
 	}
 
 }

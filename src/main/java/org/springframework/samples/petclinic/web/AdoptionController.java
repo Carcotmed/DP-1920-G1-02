@@ -104,11 +104,11 @@ public class AdoptionController {
 				model.put("adoptions", this.adoptionService.findAllAdoptions());
 				return "adoptions/allAdoptionsList";
 			} else {
-				model.put("error", "Only vets can access to this feature");
+				model.put("error", "Only vets and admins can access to this feature");
 				return this.showAdoptions(model);
 			}
 		} catch (Exception e) {
-			model.put("error", "Only vets can access to this feature");
+			model.put("error", "Only vets and admins can access to this feature");
 			return this.showAdoptions(model);
 		}
 	}
@@ -143,9 +143,12 @@ public class AdoptionController {
 					model.put("error", "You can't adopt a pet for less than 1 days");
 					return "adoptions/createOrUpdateAdoptionForm";
 				}
-				this.adoptionService.save(adoption);
 				Pet pet = this.petService.findPetById(petId);
 				Owner owner1 = pet.getOwner();
+				if (owner1.getFirstName() != "Vet") {
+					model.put("error", "You can't adopt a pet which another person owns");
+					return this.showAdoptions(model);
+				}
 				owner1.removePet(pet);
 				this.ownerService.saveOwner(owner1);
 				Owner owner2 = this.ownerService.findOwnerByUsername(user.getUsername());
@@ -153,6 +156,7 @@ public class AdoptionController {
 				this.ownerService.saveOwner(owner2);
 				pet.setOwner(owner2);
 				this.petService.savePet(pet);
+				this.adoptionService.save(adoption);
 				return this.showAdoptions(model);
 			} else {
 				throw new Exception();
@@ -170,28 +174,46 @@ public class AdoptionController {
 
 	@GetMapping(value = "/newAdoptable")
 	public String initCreationForm(final ModelMap model) {
-		Pet pet = new Pet();
-		Owner owner = this.ownerService.findOwnerByFirstName("Vet");
-		pet.setOwner(owner);
-		model.put("ownerId", owner.getId());
-		model.put("pet", pet);
-		return "pets/createOrUpdatePetForm";
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian")) || user.getAuthorities().contains(new SimpleGrantedAuthority("admin"))) {
+				Pet pet = new Pet();
+				Owner owner = this.ownerService.findOwnerByFirstName("Vet");
+				pet.setOwner(owner);
+				model.put("ownerId", owner.getId());
+				model.put("pet", pet);
+				return "pets/createOrUpdatePetForm";
+			} else {
+				throw new Exception();
+			}
+		} catch (Exception e) {
+			model.put("error", "You can't register a new adoptable pet if you are not a veterinarian or an admin");
+			return this.showAdoptions(model);
+		}
 	}
 
 	@PostMapping(value = "/newAdoptable")
 	public String processCreationForm(@Valid final Pet pet, final BindingResult result, final ModelMap model) {
-		if (result.hasErrors()) {
-			model.put("pet", pet);
-			return "pets/createOrUpdatePetForm";
-		} else {
-			try {
-				Owner owner = this.ownerService.findOwnerByFirstName("Vet");
-				owner.addPet(pet);
-				this.petService.savePet(pet);
-			} catch (DuplicatedPetNameException ex) {
-				result.rejectValue("name", "duplicate", "already exists");
-				return "pets/createOrUpdatePetForm";
+		try {
+			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian")) || user.getAuthorities().contains(new SimpleGrantedAuthority("admin"))) {
+				if (result.hasErrors()) {
+					model.put("pet", pet);
+					return "pets/createOrUpdatePetForm";
+				} else {
+					Owner owner = this.ownerService.findOwnerByFirstName("Vet");
+					owner.addPet(pet);
+					this.petService.savePet(pet);
+					return this.showAdoptions(model);
+				}
+			} else {
+				throw new Exception();
 			}
+		} catch (DuplicatedPetNameException ex) {
+			result.rejectValue("name", "duplicate", "already exists");
+			return "pets/createOrUpdatePetForm";
+		} catch (Exception e) {
+			model.put("error", "You can't register a new adoptable pet if you are not a veterinarian or an admin");
 			return this.showAdoptions(model);
 		}
 	}
