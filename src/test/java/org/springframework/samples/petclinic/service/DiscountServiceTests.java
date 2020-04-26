@@ -59,6 +59,7 @@ public class DiscountServiceTests {
 		product.setPrice(20.02);
 		product.setProvider(provider);
 		product.setQuantity(19);
+		product.setEnabled(true);
 		this.productService.save(product);
 
 	}
@@ -74,7 +75,8 @@ public class DiscountServiceTests {
 		discount.setProduct(product);
 		discount.setProvider(provider);
 		discount.setQuantity(1);
-
+		discount.setEnabled(true);
+		
 		discountService.save(discount);
 
 		assertThat(discount.getId().longValue()).isNotEqualTo(0);
@@ -91,6 +93,7 @@ public class DiscountServiceTests {
 		discount.setProduct(product);
 		discount.setProvider(provider);
 		discount.setQuantity(null);
+		discount.setEnabled(true);
 
 		assertThrows(ConstraintViolationException.class, () -> discountService.save(discount));
 
@@ -165,6 +168,8 @@ public class DiscountServiceTests {
 		discount.setProduct(product);
 		discount.setProvider(provider);
 		discount.setQuantity(1);
+		discount.setEnabled(true);
+
 
 		discountService.save(discount);
 		
@@ -186,6 +191,8 @@ public class DiscountServiceTests {
 			discount.setProduct(product);
 			discount.setProvider(provider);
 			discount.setQuantity(1);
+			discount.setEnabled(true);
+
 
 			this.discountService.save(discount);
 			

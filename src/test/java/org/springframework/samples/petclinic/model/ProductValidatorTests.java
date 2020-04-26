@@ -42,6 +42,7 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(99.9);
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -59,6 +60,7 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(99.9);
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -79,6 +81,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(99.9);
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -98,6 +102,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(99.9);
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -117,6 +123,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(99.9);
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -137,6 +145,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(99.9);
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -156,6 +166,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(null); // Fail
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -175,6 +187,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(111.11); // Fail
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -194,6 +208,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(11.111); // Fail
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -213,6 +229,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(-1.1); // Fail
 			product.setProvider(provider);
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -232,6 +250,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(1.1);
 			product.setProvider(null); // Fail
 			product.setQuantity(1);
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -251,6 +271,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(1.1);
 			product.setProvider(provider);
 			product.setQuantity(null); // Fail
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
@@ -270,6 +292,8 @@ public class ProductValidatorTests extends ValidatorTests {
 			product.setPrice(1.1);
 			product.setProvider(provider);
 			product.setQuantity(-1); // Fail
+			product.setEnabled(true);
+
 
 			Validator validator = createValidator();
 			Set<ConstraintViolation<Product>> constraintViolations = validator.validate(product);
