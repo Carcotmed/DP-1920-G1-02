@@ -46,6 +46,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "pets")
 public class Pet extends NamedEntity {
+	
+	@Column (name = "imageURL")
+	private String imageURL;
 
 	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -62,6 +65,15 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit>	visits;
 
+	
+
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
 
 	public void setBirthDate(final LocalDate birthDate) {
 		this.birthDate = birthDate;

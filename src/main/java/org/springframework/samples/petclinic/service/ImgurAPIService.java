@@ -1,18 +1,12 @@
-package org.springframework.samples.petclinic.api;
-
-import java.io.File;
+package org.springframework.samples.petclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.elasticsearch.jest.HttpClientConfigBuilderCustomizer;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.api.ImgurResponse;
-import org.springframework.samples.petclinic.service.PetService;
-import org.springframework.security.web.header.Header;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -24,8 +18,8 @@ public class ImgurAPIService {
 	private final static String imageEndpoint = "https://api.imgur.com/3/";
 	private final static String imageUploadEndpoint = imageEndpoint + "upload/";
 
-	@Value("${clientID}")
-	private static String clientID;
+	@Value("${imgurAPI.clientID}")
+	private String clientID;
 
 	@Autowired
 	private PetService petService;
@@ -33,24 +27,27 @@ public class ImgurAPIService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	public String uploadImage(File image) {
-
+	public String uploadImage(String imageBase64, String imageName) throws Exception {
+				
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-		headers.add("Authorization", "Client-ID " + clientID);
+		String trueClientID = "Client-ID " + clientID;
+		System.out.println(trueClientID);
+		headers.add("Authorization", trueClientID);
 
 		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-		body.add("file", image);
-
+		body.add("name", imageName);
+		body.add("image", imageBase64);
+		body.add("type", "base64");
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-		// ResponseEntity<ImgurResponse> asd =
-		// restTemplate.postForEntity(imageUploadEndpoint, image, ImgurResponse.class);
-		ResponseEntity<String> response = restTemplate.postForEntity(imageUploadEndpoint, requestEntity, String.class);
-
-		System.out.println(response);
 		
-		return response.toString();
+		ResponseEntity<ImgurResponse> response = restTemplate.postForEntity(imageUploadEndpoint, requestEntity, ImgurResponse.class);
+		
+		ImgurResponse imgurResponse = response.getBody();
+		
+		System.out.println("ImageId: "+imgurResponse.getData().getId());
+		
+		return imgurResponse.getData().getLink();
 		
 	}
 
