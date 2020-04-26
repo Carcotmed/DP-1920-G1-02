@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.mockito.BDDMockito.given;
 
 import java.time.LocalDate;
 
@@ -115,6 +114,10 @@ public class OrderControllerTests {
 		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount));
 		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product));
 		given(this.orderService.findOrderById(98)).willReturn(order1);
+		given(this.productService.findAllByProviderId(provider.getId())).willReturn(Lists.newArrayList(product));
+		given(this.discountService.findAllByProductId(product.getId())).willReturn(Lists.newArrayList(discount));
+		given(this.discountService.findAllByProviderId(provider.getId())).willReturn(Lists.newArrayList(discount));
+
 
 	}
 	
@@ -133,7 +136,7 @@ public class OrderControllerTests {
 		@WithMockUser(value = "spring")
 		@Test
 		void testOrderProcessCreateSuccessful() throws Exception {
-			mockMvc.perform(post("/orders/new").with(csrf()).param("orderDate", "LocalDate.of(2020, 2, 1)")
+			mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
 					.param("arrivalDate", "null").param("quantity", "1").param("sent", "false")
 					.param("provider", "99").param("product", "99").param("discount", "99")).andExpect(status().is2xxSuccessful())
 					.andExpect(view().name("orders/editOrder"));
