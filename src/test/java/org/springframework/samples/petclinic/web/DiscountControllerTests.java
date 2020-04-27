@@ -66,6 +66,7 @@ public class DiscountControllerTests {
 		product.setPrice(20.02);
 		product.setProvider(provider);
 		product.setQuantity(19);
+		product.setEnabled(true);
 
 		Discount discount1 = new Discount();
 		discount1.setId(98);
@@ -73,6 +74,7 @@ public class DiscountControllerTests {
 		discount1.setProduct(product);
 		discount1.setProvider(provider);
 		discount1.setQuantity(1);
+		discount1.setEnabled(true);
 
 		Discount discount2 = new Discount();
 		discount2.setId(99);
@@ -80,6 +82,8 @@ public class DiscountControllerTests {
 		discount2.setProduct(product);
 		discount2.setProvider(provider);
 		discount2.setQuantity(2);
+		discount2.setEnabled(true);
+
 
 		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount1, discount2));
 		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));

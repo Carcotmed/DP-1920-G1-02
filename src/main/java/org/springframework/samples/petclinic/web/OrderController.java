@@ -101,9 +101,11 @@ public class OrderController {
 		}else if(!error3){
 			modelMap.addAttribute("createError", "The selected provider doesn't provide the selected discount");
 			view = "orders/editOrder";
-		}else if(order.getArrivalDate().isBefore(order.getOrderDate())) {                        //Arrival date is after order date
-			modelMap.addAttribute("createError", "The arrival date can't be before the order date");
-			view = "orders/editOrder";
+		}else if(order.getArrivalDate() != null) {
+			if(order.getArrivalDate().isBefore(order.getOrderDate())) {                        //Arrival date is after order date
+				modelMap.addAttribute("createError", "The arrival date can't be before the order date");
+				view = "orders/editOrder";
+			}
 		}else if (result.hasErrors()) {
 			modelMap.put("order", order);
 			view = "orders/editOrder";
@@ -118,7 +120,11 @@ public class OrderController {
 	public String initUpdateForm(@PathVariable("orderId") int orderId, ModelMap modelMap) {
 		String view = "orders/editOrder";
 		Order order = this.orderService.findOrderById(orderId);
-		modelMap.put("order", order);
+		if(order.getArrivalDate() != null) {
+			view = "orders";
+		}else {
+			modelMap.put("order", order);
+		}
 		return view;
 	}
 	
@@ -139,9 +145,9 @@ public class OrderController {
 	
 	
 	@GetMapping("/delete/{orderId}")
-	public String deleteDiscount(@PathVariable("orderId") int orderId, ModelMap modelMap) {
+	public String deleteOrder(@PathVariable("orderId") int orderId, ModelMap modelMap) {
 		Order order = orderService.findOrderById(orderId);
-		if(!order.getSent()) {
+		if(order.getSent() == false) {
 			orderService.deleteOrder(order);
 		}
 		return ordersList(modelMap);

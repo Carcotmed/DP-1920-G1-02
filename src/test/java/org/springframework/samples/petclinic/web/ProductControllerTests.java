@@ -48,21 +48,25 @@ public class ProductControllerTests {
 		product1.setId(98);
 		product1.setPrice(1.1);
 		product1.setQuantity(1);
+		product1.setEnabled(true);
 		
 		Product product2 = new Product();
-		product1.setName("producto2");
-		product1.setId(99);
-		product1.setPrice(2.2);
-		product1.setQuantity(2);
+		product2.setName("producto2");
+		product2.setId(99);
+		product2.setPrice(2.2);
+		product2.setEnabled(true);
+		product2.setQuantity(2);
 		
 		Provider provider = new Provider();
 		provider.setAddress("Calle pipo numero 1");
 		provider.setEmail("pipo@gmail.com");
 		provider.setId(99);
+		product2.setEnabled(true);
 		provider.setName("Pipo");
 		provider.setPhone("123456789");
 		
 		product1.setProvider(provider);
+		product2.setProvider(provider);
 
 		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product1, product2));
 
