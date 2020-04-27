@@ -55,6 +55,7 @@ public class ProductControllerTests {
 		provider.setAddress("Calle pipo numero 1");
 		provider.setEmail("pipo@gmail.com");
 		provider.setId(99);
+		product2.setEnabled(true);
 		provider.setName("Pipo");
 		provider.setPhone("123456789");
 
@@ -64,6 +65,7 @@ public class ProductControllerTests {
 		product1.setQuantity(1);
 		product1.setEnabled(true);
 		product1.setProvider(provider);
+		product2.setProvider(provider);
 
 		product2.setName("producto2");
 		product2.setId(99);

@@ -11,7 +11,23 @@
 	<h2>Pet Information</h2>
 
 	<c:out value="${error}"></c:out>
-	
+
+	<c:if test="${not empty pet.imageURL}">
+
+		<img src="${pet.imageURL}" height="200" width="200">
+
+	</c:if>
+	<c:if test="${empty pet.imageURL}">
+		<spring:url value="/owners/{ownerId}/pets/{petId}/images/uploadImage"
+			var="addImageURL">
+			<spring:param name="ownerId" value="${owner.id}" />
+			<spring:param name="petId" value="${pet.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(addImageURL)}" class="btn btn-default">Add
+			Image</a>
+
+	</c:if>
+
 	<table class="table table-striped">
 		<tr>
 			<th>Name</th>
@@ -30,13 +46,12 @@
 			<td><b><c:out value="${pet.type.name}" /></b></td>
 			<td><b><c:out
 						value="${pet.owner.firstName} ${pet.owner.lastName}" /></b></td>
-    		<c:if test="${isAdoptable}">
-	    		<sec:authorize access="hasAuthority('owner')">
-					<td>
-			                <spring:url value="/adoptions/new/{petId}" var="adoptionUrl">
-			             		<spring:param name="petId" value="${pet.id}"/>
-				         	</spring:url>
-				          	<a href="${fn:escapeXml(adoptionUrl)}" class="btn btn-default">Adopt</a>
+			<c:if test="${isAdoptable}">
+				<sec:authorize access="hasAuthority('owner')">
+					<td><spring:url value="/adoptions/new/{petId}"
+							var="adoptionUrl">
+							<spring:param name="petId" value="${pet.id}" />
+						</spring:url> <a href="${fn:escapeXml(adoptionUrl)}" class="btn btn-default">Adopt</a>
 					</td>
 				</sec:authorize>
 			</c:if>
@@ -56,7 +71,7 @@
 	<br />
 	<br />
 	<h2>Visits</h2>
-	
+
 
 
 	<table class="table table-striped">
@@ -107,7 +122,7 @@
 				<c:if test="${empty visit.intervention}">
 
 					<td><c:out value="No intervention" /></td>
-					
+
 					<td><c:out value="No vet" /></td>
 
 					<td><spring:url

@@ -54,9 +54,9 @@ public class InterventionService {
 		return this.interventionRepository.getInterventionsOfDay (date);
 	}
 	
-	public Collection<Vet> getAvailableVets(Visit visit) {
+	public Collection<Vet> getAvailableVets(LocalDate date) {
 
-		Collection<Intervention> interventionsOfDay = this.getInterventionsOfDay(visit.getDate());
+		Collection<Intervention> interventionsOfDay = this.getInterventionsOfDay(date);
 		
 		Collection<Vet> allVets = this.vetRepository.findAll();
 

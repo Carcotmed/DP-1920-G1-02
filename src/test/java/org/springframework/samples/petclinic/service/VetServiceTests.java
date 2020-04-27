@@ -88,6 +88,14 @@ class VetServiceTests {
 		assertThat(vet.getSpecialties().get(0).getName()).isEqualTo("dentistry");
 		assertThat(vet.getSpecialties().get(1).getName()).isEqualTo("surgery");
 	}
+	
+	@Test
+	void shouldCountInterventions() {
+		
+		Vet vet = vetService.findVetById(1);
+		assertThat (vetService.countInterventionsOfVet(vet)).isEqualTo(4);
+		
+	}
 
 
 }
