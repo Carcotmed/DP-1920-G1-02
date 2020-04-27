@@ -12,4 +12,5 @@ public interface ProviderRepository extends CrudRepository<Provider, Integer>{
 	@Query("SELECT p FROM Provider p WHERE p.id = ?1")
 	Provider findProviderById(int providerId) throws DataAccessException;
 	
+	
 }

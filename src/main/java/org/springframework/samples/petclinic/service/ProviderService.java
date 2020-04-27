@@ -43,6 +43,7 @@ public class ProviderService {
 	public Provider findProviderById(int id) throws DataAccessException {
 		return providerRepo.findProviderById(id);
 	}
+	
 
 	@Transactional
 	public void deleteProvider(Provider provider) {
