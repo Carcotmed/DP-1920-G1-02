@@ -87,7 +87,6 @@ public class InterventionControllerTests {
 		intervention = new Intervention();
 		intervention.setId(TEST_INTERVENTION_ID);
 		intervention.setName("Castración");
-		// intervention.setDescription("Descripción de la intervencion");
 		intervention.setVet(vet);
 		intervention.setVisit(visit);
 		intervention.setRequiredProducts(requiredProducts);
@@ -120,7 +119,7 @@ public class InterventionControllerTests {
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new", TEST_OWNER_ID,
 				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("name", "Castracion nueva")
-						.param("description", "Nueva descripcion").param("vet", "1").param("visit", "1")
+						.param("vet", "1").param("visit", "1")
 						.param("requiredProducts", "{1}"))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
@@ -130,7 +129,7 @@ public class InterventionControllerTests {
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new", TEST_OWNER_ID,
-				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("description", "Nueva descripcion").param("vet", "1")
+				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("vet", "1")
 						.param("visit", "1").param("requiredProducts", "{1}"))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("intervention"))
 				.andExpect(model().attributeHasFieldErrors("intervention", "name"))
@@ -144,7 +143,7 @@ public class InterventionControllerTests {
 		product.setQuantity(0);
 
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new", TEST_OWNER_ID,
-				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("description", "Nueva descripcion").param("vet", "1")
+				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("vet", "1")
 						.param("visit", "1").param("requiredProducts", "{"+TEST_PRODUCT_ID+"}"))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("intervention"))
 				.andExpect(model().attributeHasFieldErrors("intervention", "requiredProducts"))
@@ -159,8 +158,6 @@ public class InterventionControllerTests {
 				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("intervention"))
 				.andExpect(model().attribute("intervention", hasProperty("name", is("Castración"))))
-				.andExpect(model().attribute("intervention",
-						hasProperty("description", is("Descripción de la intervencion"))))
 				.andExpect(model().attribute("intervention", hasProperty("vet", is(vet))))
 				.andExpect(model().attribute("intervention", hasProperty("visit", is(visit))))
 				.andExpect(model().attribute("intervention", hasProperty("requiredProducts", is(requiredProducts))))
@@ -173,7 +170,7 @@ public class InterventionControllerTests {
 	void testProcessEditFormSuccess() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/edit",
 				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID).with(csrf())
-						.param("name", "Castración updated").param("description", "Descripción updated")
+						.param("name", "Castración updated")
 						.param("vet", "" + TEST_VET_ID).param("visit", "" + TEST_VISIT_ID))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
@@ -185,7 +182,7 @@ public class InterventionControllerTests {
 	void testProcessEditFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/edit",
 				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID).with(csrf()).param("name", "aa")
-						.param("description", "Descripción updated").param("vet", "").param("visit", ""))
+						.param("vet", "").param("visit", ""))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("intervention"))
 				.andExpect(model().attributeHasFieldErrors("intervention", "name", "vet", "visit"))
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));

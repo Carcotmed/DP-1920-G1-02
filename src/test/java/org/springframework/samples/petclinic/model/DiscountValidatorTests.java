@@ -66,10 +66,13 @@ public class DiscountValidatorTests extends ValidatorTests {
 		discount.setPercentage(percentage); // Fail
 		discount.setProduct(product);
 		discount.setProvider(provider);
+		discount.setEnabled(true);
 		discount.setQuantity(1);
 
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Discount>> constraintViolations = validator.validate(discount);
+		
+		constraintViolations.forEach(x -> System.out.println(x));
 
 		assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Discount> violation = constraintViolations.iterator().next();
@@ -86,6 +89,7 @@ public class DiscountValidatorTests extends ValidatorTests {
 		discount.setPercentage(percentage); // Fail
 		discount.setProduct(product);
 		discount.setProvider(provider);
+		discount.setEnabled(true);
 		discount.setQuantity(1);
 
 		Validator validator = createValidator();
@@ -105,11 +109,12 @@ public class DiscountValidatorTests extends ValidatorTests {
 		discount.setPercentage(null); // Fail
 		discount.setProduct(product);
 		discount.setProvider(provider);
+		discount.setEnabled(true);
 		discount.setQuantity(1);
 
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Discount>> constraintViolations = validator.validate(discount);
-
+		
 		assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Discount> violation = constraintViolations.iterator().next();
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("percentage");
@@ -124,6 +129,7 @@ public class DiscountValidatorTests extends ValidatorTests {
 		discount.setPercentage(20.0);
 		discount.setProduct(null); // Fail
 		discount.setProvider(provider);
+		discount.setEnabled(true);
 		discount.setQuantity(1);
 
 		Validator validator = createValidator();
@@ -143,6 +149,7 @@ public class DiscountValidatorTests extends ValidatorTests {
 		discount.setPercentage(20.0);
 		discount.setProduct(product);
 		discount.setProvider(null); // Fail
+		discount.setEnabled(true);
 		discount.setQuantity(1);
 
 		Validator validator = createValidator();
@@ -162,6 +169,7 @@ public class DiscountValidatorTests extends ValidatorTests {
 		discount.setPercentage(20.0);
 		discount.setProduct(product);
 		discount.setProvider(provider);
+		discount.setEnabled(true);
 		discount.setQuantity(null); // Fail
 
 		Validator validator = createValidator();
@@ -183,6 +191,7 @@ public class DiscountValidatorTests extends ValidatorTests {
 		discount.setPercentage(20.9);
 		discount.setProduct(product);
 		discount.setProvider(provider);
+		discount.setEnabled(true);
 		discount.setQuantity(quantity); // Fails
 
 		Validator validator = createValidator();
