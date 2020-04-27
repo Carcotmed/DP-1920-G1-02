@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Intervention;
 import org.springframework.samples.petclinic.model.Product;
+import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.InterventionService;
@@ -60,11 +62,13 @@ public class InterventionControllerTests {
 	private static final int TEST_VET_ID = 97;
 	private static final int TEST_PET_ID = 96;
 	private static final int TEST_OWNER_ID = 95;
+	private static final int TEST_PRODUCT_ID = 94;
 
 	private Intervention intervention;
 	private Visit visit;
 	private Vet vet;
 	private List<Product> requiredProducts;
+	private Product product;
 
 	@BeforeEach
 	void setup() {
@@ -83,11 +87,21 @@ public class InterventionControllerTests {
 		intervention = new Intervention();
 		intervention.setId(TEST_INTERVENTION_ID);
 		intervention.setName("Castración");
-		//intervention.setDescription("Descripción de la intervencion");
+		// intervention.setDescription("Descripción de la intervencion");
 		intervention.setVet(vet);
 		intervention.setVisit(visit);
 		intervention.setRequiredProducts(requiredProducts);
 
+		product = new Product();
+		product.setAllAvailable(true);
+		product.setEnabled(true);
+		product.setName("Test Product");
+		product.setPrice(12.0);
+		product.setProvider(new Provider());
+		product.setQuantity(1);
+		product.setId(TEST_PRODUCT_ID);
+
+		given(this.productService.findProductById(TEST_INTERVENTION_ID)).willReturn(product);
 		given(this.interventionService.findInterventionById(TEST_INTERVENTION_ID)).willReturn(intervention);
 		given(this.visitService.findVisitById(TEST_VISIT_ID)).willReturn(visit);
 	}
@@ -125,6 +139,21 @@ public class InterventionControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
+	void testProcessCreateFormNotEnoughProduct() throws Exception {
+
+		product.setQuantity(0);
+
+		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new", TEST_OWNER_ID,
+				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("description", "Nueva descripcion").param("vet", "1")
+						.param("visit", "1").param("requiredProducts", "{"+TEST_PRODUCT_ID+"}"))
+				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("intervention"))
+				.andExpect(model().attributeHasFieldErrors("intervention", "requiredProducts"))
+				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
+
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
 	void testInitEditForm() throws Exception {
 		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/edit",
 				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID)).andExpect(status().isOk())
@@ -148,7 +177,7 @@ public class InterventionControllerTests {
 						.param("vet", "" + TEST_VET_ID).param("visit", "" + TEST_VISIT_ID))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
-		;
+
 	}
 
 	@WithMockUser(value = "spring")

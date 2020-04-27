@@ -66,6 +66,13 @@ INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (1, 1, '201
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (2, 8, '2013-01-02', 'rabies shot', 'Owners Mother');
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (3, 8, '2013-01-03', 'neutered', 'Owners Brother');
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (4, 7, '2013-01-04', 'spayed', 'Owners Sister');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (5, 1, '2013-01-01', 'peluqueria', 'Owners Father');
+
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (6, 1, '2019-01-01', 'Test1', 'Owners Father');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (7, 1, '2019-01-01', 'Test2', 'Owners Father');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (8, 1, '2019-01-01', 'Test3', 'Owners Father');
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (9, 1, '2019-01-01', 'Test4', 'Owners Father');
+
 
 INSERT INTO providers(id,name,phone,address,email) VALUES (1,'Pipo1','123456789','Calle Pipo nº1','pipo1@gmail.com');
 INSERT INTO providers(id,name,phone,address,email) VALUES (2,'Pipo2','223456789','Calle Pipo nº2','pipo2@gmail.com');
@@ -75,8 +82,16 @@ INSERT INTO providers(id,name,phone,address,email) VALUES (4,'Pipo4','423456789'
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (1,'Pomadita',20.50,5,true,1,true);
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (2,'Collar',21.50,5,true,2,true);
 INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (3,'Juguete',40.50,5,true,4,true);
+INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) VALUES (4,'Jeringuilla',20.50,0,true,1,true);
 
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (1, 1, 1, 'Castracion');
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (2, 5, 2, 'Peluquería');
+
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (3, 6, 1, 'Peluquería');
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (4, 7, 1, 'Peluquería');
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (5, 8, 1, 'Peluquería');
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (6, 9, 2, 'Peluquería');
+
 
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1');
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', 'true', 'Descripcion2', 20, 'Place2');
