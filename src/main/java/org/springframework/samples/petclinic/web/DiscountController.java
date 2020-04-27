@@ -71,7 +71,7 @@ public class DiscountController {
 		} else {
 			this.discountService.save(discount);
 		}
-		return "/discounts/discountList";
+		return "redirect:/discounts";
 	}
 	
 	@GetMapping("/edit/{discountId}")

@@ -9,9 +9,11 @@
 	<jsp:body>
         <h2>Discounts</h2>
 
-        <form:form modelAttribute="discount" class="form-horizontal" id="discount-edit-form">
+        <form:form modelAttribute="discount" class="form-horizontal"
+			id="discount-edit-form">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Percentage" name="percentage" />
+                <petclinic:inputField label="Percentage"
+					name="percentage" />
 				<petclinic:inputField label="Quantity" name="quantity" />
 				<div class="form-group has-feedback">
 				<label class="col-sm-2 control-label">Provider</label>
@@ -28,6 +30,9 @@
                 		<option value="${product.id}">${product.name}</option>
                 	</c:forEach>
                 </select>
+                                 <input type="hidden" value="true"
+						name="enabled" />
+                
                 </div>
             </div>
             <div class="form-group">
