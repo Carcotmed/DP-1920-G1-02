@@ -18,16 +18,30 @@
 				<div class="form-group has-feedback">
 				<label class="col-sm-2 control-label">Provider</label>
 				<select class="form-control" id="provider" name="provider">
-                	<c:forEach items="${providers}" var="provider">
-                		<option value="${provider.id}">${provider.name}</option>
+                	<c:forEach items="${providers}" var="providerVar">
+                		<c:choose>
+                			<c:when test="${providerVar.id eq discount.provider.id}">
+                				<option selected value="${providerVar.id}">${providerVar.name}</option>
+                			</c:when>
+                			<c:otherwise>
+                				<option value="${providerVar.id}">${providerVar.name}</option>
+                			</c:otherwise>
+                			</c:choose>
                 	</c:forEach>
                 </select> 
                 </div>
                 <div class="form-group has-feedback">
                 <label class="col-sm-2 control-label">Product</label>
 			    <select class="form-control" id="product" name="product">
-                	<c:forEach items="${products}" var="product">
-                		<option value="${product.id}">${product.name}</option>
+                <c:forEach items="${products}" var="productVar">
+                		<c:choose>
+                			<c:when test="${productVar.id eq discount.product.id}">
+                				<option selected value="${productVar.id}">${productVar.name}</option>
+                			</c:when>
+                			<c:otherwise>
+                				<option value="${productVar.id}">${productVar.name}</option>
+                			</c:otherwise>
+                			</c:choose>
                 	</c:forEach>
                 </select>
                                  <input type="hidden" value="true"

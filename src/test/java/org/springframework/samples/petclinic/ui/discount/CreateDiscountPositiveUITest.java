@@ -33,6 +33,8 @@ public class CreateDiscountPositiveUITest {
 	  @Test
 	  public void testCreateDiscountPositiveUI() throws Exception {
 	    driver.get("http://localhost:8080/");
+	    
+	    //login
 	    driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 	    driver.findElement(By.xpath("//input[@id='username']")).click();
 	    driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -41,8 +43,12 @@ public class CreateDiscountPositiveUITest {
 	    driver.findElement(By.xpath("//input[@id='password']")).clear();
 	    driver.findElement(By.xpath("//input[@id='password']")).sendKeys("4dm1n");
 	    driver.findElement(By.xpath("//button[@type='submit']")).click();
+	    
+	    
 	    driver.findElement(By.xpath("//a[contains(@href, '/providers')]")).click();
 	    driver.findElement(By.xpath("//a[contains(@href, '/discounts')]")).click();
+	    
+	    //Create
 	    driver.findElement(By.xpath("//input[@value='Create']")).click();
 	    driver.findElement(By.xpath("//input[@id='percentage']")).click();
 	    driver.findElement(By.xpath("//input[@id='percentage']")).clear();
@@ -57,7 +63,7 @@ public class CreateDiscountPositiveUITest {
 	    new Select(driver.findElement(By.xpath("//select[@id='product']"))).selectByVisibleText("Juguete");
 	    driver.findElement(By.xpath("//select[@id='product']/option[3]")).click();
 	    driver.findElement(By.xpath("//button[@type='submit']")).click();
-	    assertEquals("Juguete", driver.findElement(By.xpath("//table[@id='discountsTable']/tbody/tr[3]/td")).getText());
+	    assertEquals("Juguete", driver.findElement(By.xpath("//table[@id='discountsTable']/tbody/tr[3]/td[1]")).getText());
 	    assertEquals("12.1", driver.findElement(By.xpath("//table[@id='discountsTable']/tbody/tr[3]/td[2]")).getText());
 	    assertEquals("89", driver.findElement(By.xpath("//table[@id='discountsTable']/tbody/tr[3]/td[3]")).getText());
 	    assertEquals("Pipo2", driver.findElement(By.xpath("//table[@id='discountsTable']/tbody/tr[3]/td[4]")).getText());
