@@ -61,6 +61,7 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Adoptable1', '2010-06-08', 1, 11);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Adoptable2', '2012-06-08', 2, 11);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Luna', '2012-06-08', 1, 1);
 
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (1, 1, '2013-01-01', 'rabies shot', 'Owners Father');
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (2, 8, '2013-01-02', 'rabies shot', 'Owners Mother');
@@ -96,7 +97,8 @@ INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (6, 9, 2, 'Peluque
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1');
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', 'true', 'Descripcion2', 20, 'Place2');
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (3, '2029-03-03', 'true', 'Descripcion3', 30, 'Place3');
-INSERt INTO events(id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', 'true', 'Descripcion4', 40, 'Place4');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', 'false', 'Descripcion4', 40, 'Place4');
+INSERt INTO events(id, date, published, description, capacity, place) VAlUES (5, '2031-04-04', 'false', 'Descripcion5', 40, '');
 
 INSERt INTO participations(id, event_id, owner_id) VAlUES (1, 1, 1);
 INSERt INTO participations(id, event_id, owner_id) VAlUES (2, 2, 2);
