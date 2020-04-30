@@ -8,8 +8,8 @@
 
 <petclinic:layout pageName="images">
 	<h2>
-		<c:if test="${intervention['new']}">New </c:if>
-		Intervention
+		New
+		Image
 	</h2>
 	<form:form modelAttribute="image" class="form-horizontal"
 		id="add-image-form" enctype='multipart/form-data'>

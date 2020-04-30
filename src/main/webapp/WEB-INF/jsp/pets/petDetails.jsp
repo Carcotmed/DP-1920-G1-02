@@ -25,7 +25,16 @@
 		</spring:url>
 		<a href="${fn:escapeXml(addImageURL)}" class="btn btn-default">Add
 			Image</a>
+	</c:if>
 
+	<c:if test="${not empty pet.imageDeleteHash}">
+		<spring:url value="/owners/{ownerId}/pets/{petId}/images/deleteImage"
+			var="deleteImageURL">
+			<spring:param name="ownerId" value="${owner.id}" />
+			<spring:param name="petId" value="${pet.id}" />
+		</spring:url>
+		<a href="${fn:escapeXml(deleteImageURL)}" class="btn btn-default">Delete
+			Image</a>
 	</c:if>
 
 	<table class="table table-striped">
