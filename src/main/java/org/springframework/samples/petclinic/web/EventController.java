@@ -208,12 +208,11 @@ public class EventController {
 		try {
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
-				Boolean b = event.getCapacity() != null && event.getDate() != null && event.getDescription() != null && event.getPlace() != null;
-				if (b) {
+				if (event.getDescription() != "" && event.getPlace() != "") {
 					event.setPublished(true);
 					this.eventService.save(event);
 				} else {
-					model.addAttribute("error", "Every field must be completed to publish the event");
+					throw new NullPointerException();
 				}
 			} else {
 				throw new IllegalAccessException();
@@ -284,7 +283,7 @@ public class EventController {
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
 				if (event.getPublished()) {
-					model.put("error", "No se puede eliminar un evento ya publicado");
+					model.put("error", "You can't delete an event already published");
 					return this.showEvent(eventId, model);
 				} else {
 					this.eventService.delete(event);
@@ -343,7 +342,6 @@ public class EventController {
 				User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 				owner = this.ownerService.findOwnerByUsername(user.getUsername());
 			} catch (Exception e) {
-				System.out.println("---------------------------------------------------------------------");
 				owner = new Owner();
 				owner.setAddress("dgsggfdg");
 				owner.setCity("city");

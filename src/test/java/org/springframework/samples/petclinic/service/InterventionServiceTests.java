@@ -2,26 +2,36 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 
 import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Product;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.samples.petclinic.model.Intervention;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.stereotype.Service;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.mysql.cj.result.LocalDateValueFactory;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class InterventionServiceTests {
@@ -39,6 +49,8 @@ public class InterventionServiceTests {
 	protected ProductService productService;
 
 	Intervention intervention;
+	
+	private static Integer TEST_VET_ID = 1;
 
 	@BeforeEach
 	void instantiateIntervention() {
@@ -46,7 +58,7 @@ public class InterventionServiceTests {
 		intervention = new Intervention();
 		intervention.setName("Castración");
 		//intervention.setDescription("Descripción de la intervencion");
-		intervention.setVet(vetService.findVetById(1));
+		intervention.setVet(vetService.findVetById(TEST_VET_ID));
 		Visit visit = visitService.findVisitById(2);
 		visit.setIntervention(intervention);
 		intervention.setVisit(visit);
@@ -203,6 +215,39 @@ public class InterventionServiceTests {
 		interventionService.deleteIntervention(intervention);
 
 		assertThat(interventionService.findInterventionById(1)).isNull();
+	}
+	
+	// ----------------------- Find Interventions of Date ------------------------
+	
+	@Test
+	void shouldGetInterventionsOfDay () {
+		
+LocalDate date = LocalDate.of(2019, 1, 1);
+		
+		assertThat (interventionService.getInterventionsOfDay(date).size()).isEqualTo(4);
+		
+	}
+	
+	// ---------------------- Get Available Vets ---------------------------------------
+	
+	@Test
+	void shouldGetAllVetsButOne () {
+		
+		LocalDate date = LocalDate.of(2019, 1, 1);
+
+		assertThat (vetService.findVets().size()).isEqualTo(6);
+		assertThat (interventionService.getAvailableVets(date).size()).isEqualTo(5);
+
+	}
+	
+	@Test
+	void shouldGetAllVets () {
+		
+		LocalDate date = LocalDate.of(2000, 1, 1);
+
+		assertThat (vetService.findVets().size()).isEqualTo(6);
+		assertThat (interventionService.getAvailableVets(date).size()).isEqualTo(6);
+
 	}
 
 }

@@ -144,5 +144,16 @@ class PetControllerTests {
 				.andExpect(model().attributeHasErrors("pet")).andExpect(status().isOk())
 				.andExpect(view().name("pets/createOrUpdatePetForm"));
 	}
+    
+    @WithMockUser(value = "spring")
+	@Test
+	void testUrgentVisit() throws Exception {
+		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/addUrgentVisit", TEST_OWNER_ID, TEST_PET_ID))
+		.andExpect(status().is3xxRedirection())
+				//Visita con id null porque no se llega a guardar en la DB
+				.andExpect(view().name("redirect:/owners/{ownerId}/pets/{petId}/visits/null/interventions/new"));
+	}
+    
+    
 
 }

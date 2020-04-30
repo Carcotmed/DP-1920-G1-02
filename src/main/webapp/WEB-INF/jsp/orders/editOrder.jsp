@@ -31,6 +31,7 @@
                 </div>				
                 <petclinic:inputField label="Quantity" name="quantity" />
                 <petclinic:inputField label="Order Date" name="orderDate" />
+				<petclinic:inputField label="Arrival Date" name="arrivalDate" />
                 <petclinic:checkboxInput label="Sent" name="sent" />
                 <div class="form-group has-feedback">
 				<label class="col-sm-2 control-label">Provider</label>

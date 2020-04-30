@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
-
+	
 	@Autowired
 	private OrderRepository orderRepo;
 	
+
+
 	@Transactional
 	public Iterable<Order> findAll(){
 		return this.orderRepo.findAll();
@@ -46,6 +48,11 @@ public class OrderService {
 	@Transactional
 	public Collection<Order> findAllOrdersByDiscountId(int discountId){
 		return this.orderRepo.findAllOrdersByDiscountId(discountId);
+	}
+	
+	@Transactional
+	public Collection<Order> findAllOrdersByProductId(int productId){
+		return this.orderRepo.findAllOrdersByProductId(productId);
 	}
 
 }
