@@ -63,6 +63,8 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Adoptable1', 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Adoptable2', '2012-06-08', 2, 11);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Luna', '2012-06-08', 1, 1);
 
+INSERT INTO adoptions(id,date,pet_id,owner_id) VALUES (1,'2021-04-20',1,1);
+
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (1, 1, '2013-01-01', 'rabies shot', 'Owners Father');
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (2, 8, '2013-01-02', 'rabies shot', 'Owners Mother');
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (3, 8, '2013-01-03', 'neutered', 'Owners Brother');
