@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.api.ImgurResponse;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.ContentTypeOptionsConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -35,9 +36,7 @@ public class ImgurAPIService {
 	public ImgurResponse uploadImage(String imageBase64, String imageName) throws Exception {
 				
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 		String trueClientID = "Client-ID " + clientID;
-		System.out.println(trueClientID);
 		headers.add("Authorization", trueClientID);
 
 		MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
