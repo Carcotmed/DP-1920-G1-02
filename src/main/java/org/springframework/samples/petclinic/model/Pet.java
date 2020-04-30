@@ -49,6 +49,9 @@ public class Pet extends NamedEntity {
 	
 	@Column (name = "imageURL")
 	private String imageURL;
+	
+	@Column (name = "imageDeleteHash")
+	private String imageDeleteHash;
 
 	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -66,6 +69,14 @@ public class Pet extends NamedEntity {
 	private Set<Visit>	visits;
 
 	
+
+	public String getImageDeleteHash() {
+		return imageDeleteHash;
+	}
+
+	public void setImageDeleteHash(String imageDeleteHash) {
+		this.imageDeleteHash = imageDeleteHash;
+	}
 
 	public String getImageURL() {
 		return imageURL;

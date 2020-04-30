@@ -1,9 +1,13 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.api.ImgurResponse;
@@ -17,7 +21,8 @@ public class ImgurAPIService {
 
 	private final static String imageEndpoint = "https://api.imgur.com/3/";
 	private final static String imageUploadEndpoint = imageEndpoint + "upload/";
-
+	private final static String imageDeleteEndpoint = imageEndpoint + "image/";
+	
 	@Value("${imgurAPI.clientID}")
 	private String clientID;
 
@@ -27,7 +32,7 @@ public class ImgurAPIService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	public String uploadImage(String imageBase64, String imageName) throws Exception {
+	public ImgurResponse uploadImage(String imageBase64, String imageName) throws Exception {
 				
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
@@ -44,11 +49,24 @@ public class ImgurAPIService {
 		ResponseEntity<ImgurResponse> response = restTemplate.postForEntity(imageUploadEndpoint, requestEntity, ImgurResponse.class);
 		
 		ImgurResponse imgurResponse = response.getBody();
+				
+		return imgurResponse;
 		
-		System.out.println("ImageId: "+imgurResponse.getData().getId());
+	}
+	
+	public void deleteImage(String deleteHash) throws Exception {
+								
+		String deleteUrl = imageDeleteEndpoint+deleteHash;
+						
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+		String trueClientID = "Client-ID " + clientID;
+		System.out.println(trueClientID);
+		headers.add("Authorization", trueClientID);
 		
-		return imgurResponse.getData().getLink();
-		
+		HttpEntity<?> request = new HttpEntity<Object>(headers);
+		restTemplate.exchange(deleteUrl, HttpMethod.DELETE, request, String.class);
+								
 	}
 
 }
