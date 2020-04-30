@@ -145,8 +145,10 @@ public class AdoptionController {
 				}
 				Pet pet = this.petService.findPetById(petId);
 				Owner owner1 = pet.getOwner();
-				if (owner1.getFirstName() != "Vet") {
+				if (owner1.getId() != 11) {
+					System.out.println(owner1.getFirstName());
 					model.put("error", "You can't adopt a pet which another person owns");
+					System.out.println("--------------------------------------------------------------------------------------------------------------------");
 					return this.showAdoptions(model);
 				}
 				owner1.removePet(pet);
