@@ -111,5 +111,5 @@ INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VAL
 
 
 INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (1,3,'2013-01-01',null,true,1,1,1);
-INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (2,55,'2013-02-01','2013-02-02',false,2,2,2);
+INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (2,55,'2013-02-01',null,false,2,2,2);
 INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (3,7,'2013-03-01','2013-03-02',true,3,3,3);
