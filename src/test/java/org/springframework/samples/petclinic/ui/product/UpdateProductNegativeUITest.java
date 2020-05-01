@@ -32,7 +32,32 @@ public class UpdateProductNegativeUITest {
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }
 
-	 //TODO pendiente de resolver el tema del stock
+	  @Test
+	  public void testUpdateProductNegativeUI() throws Exception {
+	    driver.get("http://localhost:8080/");
+	    //login
+	    driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+	    driver.findElement(By.xpath("//input[@id='username']")).click();
+	    driver.findElement(By.xpath("//input[@id='username']")).clear();
+	    driver.findElement(By.xpath("//input[@id='username']")).sendKeys("admin1");
+	    driver.findElement(By.xpath("//input[@id='password']")).click();
+	    driver.findElement(By.xpath("//input[@id='password']")).clear();
+	    driver.findElement(By.xpath("//input[@id='password']")).sendKeys("4dm1n");
+	    driver.findElement(By.xpath("//button[@type='submit']")).click();
+	    
+	    //list
+	    driver.findElement(By.xpath("//a[contains(@href, '/products')]")).click();
+	    
+	    //update
+	    driver.findElement(By.xpath("//a[contains(@href, '/products/edit/1')]")).click();
+	    driver.findElement(By.xpath("//input[@id='quantity']")).click();
+	    driver.findElement(By.xpath("//input[@id='quantity']")).clear();
+	    driver.findElement(By.xpath("//input[@id='quantity']")).sendKeys("-29");
+	    driver.findElement(By.xpath("//button[@type='submit']")).click();
+
+	    assertEquals("tiene que ser mayor o igual que 0", driver.findElement(By.xpath("//form[@id='product-edit-form']/div/div[3]/div/span[2]")).getText());
+
+	  }
 
 	  @AfterEach
 	  public void tearDown() throws Exception {

@@ -58,6 +58,9 @@ public class ProductController {
 	@PostMapping("/new")
 	public String processCreateForm(@Valid Product product, BindingResult result, ModelMap modelMap) {	
 		if (result.hasErrors()) {
+			if(product.getQuantity() != null) {
+				product.setQuantity(null);
+			}
 			modelMap.put("product", product);
 			return "products/editProduct";
 		} else {

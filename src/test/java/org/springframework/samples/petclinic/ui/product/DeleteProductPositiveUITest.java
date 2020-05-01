@@ -35,7 +35,7 @@ public class DeleteProductPositiveUITest {
 	  }
 
 	  @Test
-	  public void testCreateProductPositiveUI() throws Exception {
+	  public void testDeleteProductPositiveUI() throws Exception {
 	    driver.get("http://localhost:8080/");
 	    //login
 	    driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();

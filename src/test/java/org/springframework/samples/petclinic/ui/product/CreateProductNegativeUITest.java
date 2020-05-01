@@ -32,7 +32,39 @@ public class CreateProductNegativeUITest {
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	  }
 
-	//TODO problema con quantity al ser vet
+	  @Test
+	  public void testCreateProductNegativeUI() throws Exception {
+	    driver.get("http://localhost:8080/");
+	    //login
+	    driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
+	    driver.findElement(By.xpath("//input[@id='username']")).click();
+	    driver.findElement(By.xpath("//input[@id='username']")).clear();
+	    driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
+	    driver.findElement(By.xpath("//input[@id='password']")).click();
+	    driver.findElement(By.xpath("//input[@id='password']")).clear();
+	    driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
+	    driver.findElement(By.xpath("//button[@type='submit']")).click();
+	    
+	    //list
+	    driver.findElement(By.xpath("//a[contains(@href, '/products')]")).click();
+	    
+	    //create
+	    driver.findElement(By.xpath("//input[@value='Create']")).click();
+	    driver.findElement(By.xpath("//input[@id='name']")).click();
+	    driver.findElement(By.xpath("//input[@id='name']")).clear();
+	    driver.findElement(By.xpath("//input[@id='name']")).sendKeys("Prueba");
+	    driver.findElement(By.xpath("//input[@id='price']")).click();
+	    driver.findElement(By.xpath("//input[@id='price']")).clear();
+	    driver.findElement(By.xpath("//input[@id='price']")).sendKeys("-12.2");
+	    driver.findElement(By.xpath("//input[@id='allAvailable1']")).click();
+	    driver.findElement(By.xpath("//select[@id='provider']")).click();
+	    new Select(driver.findElement(By.xpath("//select[@id='provider']"))).selectByVisibleText("Pipo3");
+	    driver.findElement(By.xpath("//select[@id='provider']/option[3]")).click();
+	    driver.findElement(By.xpath("//button[@type='submit']")).click();
+	    
+	    assertEquals("tiene que ser mayor o igual que 0", driver.findElement(By.xpath("//form[@id='product-edit-form']/div/div[2]/div/span[2]")).getText());
+	    assertEquals("no puede ser null", driver.findElement(By.xpath("//form[@id='product-edit-form']/div/div[3]/div/span[2]")).getText());
+	  }
 	  
 	  @AfterEach
 	  public void tearDown() throws Exception {

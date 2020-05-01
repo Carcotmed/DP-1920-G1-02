@@ -33,7 +33,7 @@ public class UpdateProductPositiveUITest {
 	  }
 
 	  @Test
-	  public void testCreateProductPositiveUI() throws Exception {
+	  public void testUpdateProductPositiveUI() throws Exception {
 	    driver.get("http://localhost:8080/");
 	    //login
 	    driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
