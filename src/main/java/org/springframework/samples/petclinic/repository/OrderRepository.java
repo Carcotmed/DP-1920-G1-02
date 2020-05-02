@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.samples.petclinic.model.Order;
+import org.springframework.samples.petclinic.model.Product;
 
 public interface OrderRepository extends CrudRepository<Order, Integer>{
 
@@ -18,6 +19,9 @@ public interface OrderRepository extends CrudRepository<Order, Integer>{
 	@Query("SELECT o FROM Order o WHERE o.discount.id = ?1")
 	Collection<Order> findAllOrdersByDiscountId(int discountId) throws DataAccessException;
 	
-	@Query("SELECT o FROM Order o WHERE o.discount.id = ?1")
+	@Query("SELECT o FROM Order o WHERE o.product.id = ?1")
 	Collection<Order> findAllOrdersByProductId(int productId) throws DataAccessException;
+	
+	@Query ("SELECT o FROM Order o WHERE o.provider.id = ?1")
+	Collection<Order> findAllOrdersByProviderId(int providerId);
 }
