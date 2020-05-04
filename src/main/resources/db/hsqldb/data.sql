@@ -95,6 +95,11 @@ INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (4, 7, 1, 'Peluque
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (5, 8, 1, 'Peluquería');
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (6, 9, 2, 'Peluquería');
 
+UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
+UPDATE visits SET intervention_id = 3 WHERE visits.id = 6;
+UPDATE visits SET intervention_id = 4 WHERE visits.id = 7;
+UPDATE visits SET intervention_id = 5 WHERE visits.id = 8;
+UPDATE visits SET intervention_id = 6 WHERE visits.id = 9;
 
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1');
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', 'true', 'Descripcion2', 20, 'Place2');
@@ -106,7 +111,6 @@ INSERt INTO participations(id, event_id, owner_id) VAlUES (1, 1, 1);
 INSERt INTO participations(id, event_id, owner_id) VAlUES (2, 2, 2);
 INSERt INTO participations(id, event_id, owner_id) VAlUES (3, 1, 3);
 
-UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
 INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (1, 1, 1, 45.0, 10,true);
 INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (2, 2, 1, 55.0, 50,true);
 INSERT INTO discounts(id,product_id,provider_id,percentage,quantity,enabled) VALUES (3, 1, 3, 65.0, 20,false);
