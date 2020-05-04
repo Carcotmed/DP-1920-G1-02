@@ -74,6 +74,8 @@ INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (7, 1, '201
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (8, 1, '2019-01-01', 'Test3', 'Owners Father');
 INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (9, 1, '2019-01-01', 'Test4', 'Owners Father');
 
+INSERT INTO visits(id,pet_id,visit_date,description, bringer) VALUES (10, 16, '2020-01-01', 'Test1', 'Daniel Trujillo Gallardo');
+
 
 INSERT INTO providers(id,name,phone,address,email) VALUES (1,'Pipo1','123456789','Calle Pipo nº1','pipo1@gmail.com');
 INSERT INTO providers(id,name,phone,address,email) VALUES (2,'Pipo2','223456789','Calle Pipo nº2','pipo2@gmail.com');
