@@ -46,9 +46,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "pets")
 public class Pet extends NamedEntity {
-	
-	@Column (name = "imageURL")
-	private String imageURL;
+
+	@Column(name = "imageURL")
+	private String		imageURL;
 
 	@Column(name = "birth_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -65,13 +65,12 @@ public class Pet extends NamedEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
 	private Set<Visit>	visits;
 
-	
 
 	public String getImageURL() {
-		return imageURL;
+		return this.imageURL;
 	}
 
-	public void setImageURL(String imageURL) {
+	public void setImageURL(final String imageURL) {
 		this.imageURL = imageURL;
 	}
 
@@ -112,6 +111,8 @@ public class Pet extends NamedEntity {
 
 	public List<Visit> getVisits() {
 		List<Visit> sortedVisits = new ArrayList<>(this.getVisitsInternal());
+		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("id", false, false));
+		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("description", false, false));
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}

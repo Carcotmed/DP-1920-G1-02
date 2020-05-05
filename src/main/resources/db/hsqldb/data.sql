@@ -90,15 +90,14 @@ INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) V
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (1, 1, 1, 'Castracion');
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (2, 5, 2, 'Peluquería');
 
-INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (3, 6, 1, 'Peluquería');
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (4, 7, 1, 'Peluquería');
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (5, 8, 1, 'Peluquería');
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (6, 9, 2, 'Peluquería');
 
 UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
-UPDATE visits SET intervention_id = 3 WHERE visits.id = 6;
-UPDATE visits SET intervention_id = 4 WHERE visits.id = 7;
 UPDATE visits SET intervention_id = 5 WHERE visits.id = 8;
+UPDATE visits SET intervention_id = 4 WHERE visits.id = 7;
+UPDATE visits SET intervention_id = 2 WHERE visits.id = 5;
 UPDATE visits SET intervention_id = 6 WHERE visits.id = 9;
 
 INSERt INTO events(id, date, published, description, capacity, place) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1');

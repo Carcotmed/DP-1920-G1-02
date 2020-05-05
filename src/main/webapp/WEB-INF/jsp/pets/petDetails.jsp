@@ -28,7 +28,7 @@
 
 	</c:if>
 
-	<table id="interventionsTable" class="table table-striped">
+	<table class="table table-striped">
 		<tr>
 			<th>Name</th>
 			<th>Birth Date</th>
@@ -74,7 +74,7 @@
 
 
 
-	<table class="table table-striped">
+	<table id="interventionsTable" class="table table-striped">
 		<thead>
 			<tr>
 				<th>Visit Date</th>
