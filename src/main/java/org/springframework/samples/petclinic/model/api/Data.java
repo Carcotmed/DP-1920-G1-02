@@ -2,39 +2,14 @@
 package org.springframework.samples.petclinic.model.api;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "id",
-    "title",
-    "description",
-    "datetime",
-    "type",
-    "animated",
-    "width",
-    "height",
-    "size",
-    "views",
-    "bandwidth",
-    "vote",
-    "favorite",
-    "nsfw",
-    "section",
-    "account_url",
-    "account_id",
-    "is_ad",
-    "in_most_viral",
-    "tags",
-    "ad_type",
-    "ad_url",
-    "in_gallery",
-    "deletehash",
-    "name",
-    "link"
-})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Data {
 
     @JsonProperty("id")

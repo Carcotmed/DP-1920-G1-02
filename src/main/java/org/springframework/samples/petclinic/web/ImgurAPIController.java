@@ -12,6 +12,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Provider;
+import org.springframework.samples.petclinic.model.api.Data;
+import org.springframework.samples.petclinic.model.api.ImgurResponse;
 import org.springframework.samples.petclinic.service.ImgurAPIService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.stereotype.Controller;
@@ -47,28 +49,46 @@ public class ImgurAPIController {
 	}
 
 	@PostMapping(value = "/uploadImage")
-	public String processCreationForm(@PathVariable("petID") int petId, @RequestParam("image") MultipartFile image, ModelMap model) throws Exception {
+	public String processCreationForm(@PathVariable("petID") int petId, @RequestParam("image") MultipartFile image,
+			ModelMap model) throws Exception {
 
-		System.out.println(image.getName());
-		
-		InputStream inputStream =  new BufferedInputStream(image.getInputStream());
-		
+		InputStream inputStream = new BufferedInputStream(image.getInputStream());
+
 		byte[] bytesArray = new byte[(int) image.getSize()];
 
 		inputStream.read(bytesArray);
 
 		String imageBase64 = Base64.getEncoder().encodeToString(bytesArray);
 
-		System.out.println("Base64: "+imageBase64);
-		
-		String imageURL = this.apiService.uploadImage(imageBase64, "Test");
-		
+		ImgurResponse response = this.apiService.uploadImage(imageBase64, "Test");
+
+		Data responseData = response.getData();
+
+		String imageUrl = responseData.getLink();
+		String deleteHash = responseData.getDeletehash();
+
 		Pet pet = petService.findPetById(petId);
-		
-		pet.setImageURL(imageURL);
-		
+
+		pet.setImageURL(imageUrl);
+		pet.setImageDeleteHash(deleteHash);
+
 		petService.savePet(pet);
-		
+
+		return "redirect:/owners/{ownerID}/pets/{petID}";
+	}
+
+	@GetMapping(value = "/deleteImage")
+	public String processCreationForm(@PathVariable("petID") int petId, ModelMap model) throws Exception {
+
+		Pet pet = petService.findPetById(petId);
+
+		this.apiService.deleteImage(pet.getImageDeleteHash());
+
+		pet.setImageURL(null);
+		pet.setImageDeleteHash(null);
+
+		petService.savePet(pet);
+
 		return "redirect:/owners/{ownerID}/pets/{petID}";
 	}
 

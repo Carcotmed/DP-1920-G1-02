@@ -116,7 +116,9 @@ public class EventsUITest {
 		this.driver.findElement(By.xpath("//a[contains(@href, '/events')]")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/events/new')]")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-event-form']/div/div/div/input")).click();
-		this.driver.findElement(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr/td[4]/a")).click();
+		this.driver.findElement(By.xpath("//div[@id='ui-datepicker-div']/div/a/span")).click();
+		this.driver.findElement(By.xpath("//div[@id='ui-datepicker-div']/div/a/span")).click();
+		this.driver.findElement(By.xpath("//div[@id='ui-datepicker-div']/table/tbody/tr[2]/td[3]/a")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-event-form']/div/div[2]/div/input")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-event-form']/div/div[2]/div/input")).clear();
 		this.driver.findElement(By.xpath("//form[@id='add-event-form']/div/div[2]/div/input")).sendKeys("Description");
