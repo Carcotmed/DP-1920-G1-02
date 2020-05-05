@@ -224,7 +224,7 @@ public class InterventionServiceTests {
 		
 LocalDate date = LocalDate.of(2019, 1, 1);
 		
-		assertThat (interventionService.getInterventionsOfDay(date).size()).isEqualTo(4);
+		assertThat (interventionService.getInterventionsOfDay(date).size()).isEqualTo(3);
 		
 	}
 	

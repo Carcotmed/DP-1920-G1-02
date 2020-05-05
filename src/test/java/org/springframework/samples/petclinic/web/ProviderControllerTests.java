@@ -25,7 +25,9 @@ import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.service.DiscountService;
 import org.springframework.samples.petclinic.service.InterventionService;
+import org.springframework.samples.petclinic.service.OrderService;
 import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.samples.petclinic.service.VetService;
@@ -44,6 +46,12 @@ public class ProviderControllerTests {
 
 	@MockBean
 	private ProviderService providerService;
+	
+	@MockBean
+	private DiscountService discountService;
+	
+	@MockBean
+	private OrderService orderService;
 
 	@MockBean
 	private ProductService productService;

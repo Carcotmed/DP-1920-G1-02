@@ -92,7 +92,7 @@ class VetServiceTests {
 	@Test
 	void shouldCountInterventions() {
 		
-		Vet vet = vetService.findVetById(1);
+		Vet vet = vetService.findVetById(2);
 		assertThat (vetService.countInterventionsOfVet(vet)).isEqualTo(4);
 		
 	}

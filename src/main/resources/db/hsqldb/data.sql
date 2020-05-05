@@ -94,8 +94,8 @@ INSERT INTO products(id,name,price,quantity,all_available,provider_id,enabled) V
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (1, 1, 1, 'Castracion');
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (2, 5, 2, 'Peluquería');
 
-INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (4, 7, 1, 'Peluquería');
-INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (5, 8, 1, 'Peluquería');
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (4, 7, 2, 'Peluquería');
+INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (5, 8, 2, 'Peluquería');
 INSERT INTO interventions (id, visit_id, vet_id, name) VALUES (6, 9, 2, 'Peluquería');
 
 UPDATE visits SET intervention_id = 1 WHERE visits.id = 1;
