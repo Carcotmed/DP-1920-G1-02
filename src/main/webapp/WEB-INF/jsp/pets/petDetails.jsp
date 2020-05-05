@@ -83,7 +83,7 @@
 
 
 
-	<table class="table table-striped">
+	<table id="interventionsTable" class="table table-striped">
 		<thead>
 			<tr>
 				<th>Visit Date</th>
