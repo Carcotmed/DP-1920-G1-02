@@ -54,5 +54,10 @@ public class OrderService {
 	public Collection<Order> findAllOrdersByProductId(int productId){
 		return this.orderRepo.findAllOrdersByProductId(productId);
 	}
+	
+	@Transactional
+	public Collection<Order> findAllOrdersByProviderId(int providerId){
+		return this.orderRepo.findAllOrdersByProviderId(providerId);
+	}
 
 }

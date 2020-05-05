@@ -8,8 +8,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Discount;
+import org.springframework.samples.petclinic.model.Order;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
+import org.springframework.samples.petclinic.service.DiscountService;
+import org.springframework.samples.petclinic.service.OrderService;
 import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.stereotype.Controller;
@@ -26,6 +30,12 @@ public class ProviderController {
 
 	@Autowired
 	private ProviderService providerService;
+	
+	@Autowired
+	private DiscountService discountService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	@Autowired
 	private ProductService productService;
@@ -86,15 +96,19 @@ public class ProviderController {
 	public String deleteProvider(@PathVariable("providerId") int providerId, ModelMap model) {
 
 		List<Product> productsOfProvider = new ArrayList<Product>(productService.findAllByProviderId(providerId));
+		List<Order> ordersOfProvider = new ArrayList<Order>(orderService.findAllOrdersByProviderId(providerId));
+		List<Discount> discountsOfProvider = new ArrayList<Discount>(discountService.findAllByProviderId(providerId));
 
-		if (productsOfProvider.isEmpty()) {
+		
+		
+		if (productsOfProvider.isEmpty() && ordersOfProvider.isEmpty() && discountsOfProvider.isEmpty()) {
 
 			Provider provider = providerService.findProviderById(providerId);
 			providerService.deleteProvider(provider);
 
 		} else {
 
-			model.addAttribute("deleteError", "Hay productos relacionados con el proveedor");
+			model.addAttribute("deleteError", "Puede haber productos, descuentos y/o pedidos relacionados con el proveedor");
 
 		}
 
