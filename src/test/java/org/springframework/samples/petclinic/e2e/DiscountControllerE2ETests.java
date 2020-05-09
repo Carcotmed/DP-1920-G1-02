@@ -48,51 +48,7 @@ public class DiscountControllerE2ETests {
 
 	@Autowired
 	private MockMvc mockMvc;
-
-	private Provider provider = new Provider();
-	private Product product = new Product();
-
 	
-	@BeforeEach
-	void setup() {
-		provider.setId(99);
-		provider.setAddress("pipo");
-		provider.setEmail("pipo@gmail.com");
-		provider.setName("ProvPrueba");
-		provider.setPhone("123456789");
-
-		product.setId(99);
-		product.setAllAvailable(true);
-		product.setName("test");
-		product.setPrice(20.02);
-		product.setProvider(provider);
-		product.setQuantity(19);
-		product.setEnabled(true);
-
-		Discount discount1 = new Discount();
-		discount1.setId(98);
-		discount1.setPercentage(10.0);
-		discount1.setProduct(product);
-		discount1.setProvider(provider);
-		discount1.setQuantity(1);
-		discount1.setEnabled(true);
-
-		Discount discount2 = new Discount();
-		discount2.setId(99);
-		discount2.setPercentage(20.0);
-		discount2.setProduct(product);
-		discount2.setProvider(provider);
-		discount2.setQuantity(2);
-		discount2.setEnabled(true);
-
-
-		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount1, discount2));
-		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
-		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product));
-		given(this.discountService.findDiscountById(98)).willReturn(discount1);
-
-	}
-
 	// ========================== Create ===========================
 
 	@WithMockUser(username="admin1", authorities= {"admin"})
@@ -107,15 +63,16 @@ public class DiscountControllerE2ETests {
 	@Test
 	void testDiscountProcessCreateSuccessful() throws Exception {
 		mockMvc.perform(post("/discounts/new").with(csrf()).param("percentage", "10.0").param("quantity", "1")
-				.param("provider", "99").param("product", "99")).andExpect(status().is2xxSuccessful())
-				.andExpect(view().name("discounts/editDiscount"));
+				.param("provider", "1").param("product", "1").param("enabled","true")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/discounts"));
 	}
 
 	@WithMockUser(username="admin1", authorities= {"admin"})
 	@Test
 	void testDiscountProcessCreateFail() throws Exception {
-		mockMvc.perform(post("/discounts/new").with(csrf()).param("quantity", "1").param("provider", "99")
-				.param("product", "99")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("discount"))
+		mockMvc.perform(post("/discounts/new").with(csrf()).param("quantity", "1").param("provider", "1")
+				.param("product", "1").param("enabled", "true")).andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("discount"))
 				.andExpect(model().attributeHasFieldErrors("discount", "percentage"))
 				.andExpect(view().name("discounts/editDiscount"));
 	}
@@ -133,7 +90,7 @@ public class DiscountControllerE2ETests {
 	@WithMockUser(username="admin1", authorities= {"admin"})
 	@Test
 	void testDiscountDeleteSuccessful() throws Exception {
-		mockMvc.perform(get("/discounts/delete/{discountId}", 98)).andExpect(status().isOk())
+		mockMvc.perform(get("/discounts/delete/{discountId}", 1)).andExpect(status().isOk())
 				.andExpect(view().name("discounts/discountsList"));
 	}
 
@@ -142,12 +99,13 @@ public class DiscountControllerE2ETests {
 	@WithMockUser(username="admin1", authorities= {"admin"})
 	@Test
 	void testDiscountInitUpdate() throws Exception {
-		mockMvc.perform(get("/discounts/edit/{discountId}", 98)).andExpect(status().isOk())
+		mockMvc.perform(get("/discounts/edit/{discountId}", 2)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("discount"))
-				.andExpect(model().attribute("discount", hasProperty("percentage", is(10.0))))
-				.andExpect(model().attribute("discount", hasProperty("quantity", is(1))))
-				.andExpect(model().attribute("discount", hasProperty("product", is(product))))
-				.andExpect(model().attribute("discount", hasProperty("provider", is(provider))))
+				.andExpect(model().attribute("discount", hasProperty("percentage", is(55.0))))
+				.andExpect(model().attribute("discount", hasProperty("quantity", is(50))))
+				.andExpect(model().attribute("discount", hasProperty("product", is(this.productService.findProductById(2)))))
+				.andExpect(model().attribute("discount", hasProperty("provider", is(this.providerService.findProviderById(1)))))
+				.andExpect(model().attribute("discount", hasProperty("enabled", is(true))))
 				.andExpect(status().isOk())
 				.andExpect(view().name("discounts/editDiscount"));
 	}
@@ -155,16 +113,17 @@ public class DiscountControllerE2ETests {
 	@WithMockUser(username="admin1", authorities= {"admin"})
 	@Test
 	void testDiscountProcessUpdateSuccessful() throws Exception {
-		mockMvc.perform(post("/discounts/edit/{discountId}", 98).with(csrf()).param("percentage", "10.0")
-		.param("quantity", "10").param("provider", "99").param("product", "99")).andExpect(status().is2xxSuccessful())
+		mockMvc.perform(post("/discounts/edit/{discountId}", 3).with(csrf()).param("percentage", "10.0")
+		.param("quantity", "10").param("enabled", "true").param("provider", "1").param("product", "1")).andExpect(status().is2xxSuccessful())
 		.andExpect(view().name("discounts/editDiscount"));
 	}
 	
 	@WithMockUser(username="admin1", authorities= {"admin"})
 	@Test
 	void testDiscountProcessUpdateFail() throws Exception {
-		mockMvc.perform(post("/discounts/edit/{discountId}", 98).with(csrf()).param("percentage", "10.0")
-		.param("quantity", "-1").param("provider", "99").param("product", "99")).andExpect(status().isOk())
+		mockMvc.perform(post("/discounts/edit/{discountId}", 3).with(csrf()).param("percentage", "10.0")
+		.param("quantity", "-1").param("enabled", "true").param("provider", "1").param("product", "1"))
+		.andExpect(status().isOk())
 		.andExpect(model().attributeHasErrors("discount"))
 		.andExpect(model().attributeHasFieldErrors("discount", "quantity"))
 		.andExpect(view().name("discounts/editDiscount"));
