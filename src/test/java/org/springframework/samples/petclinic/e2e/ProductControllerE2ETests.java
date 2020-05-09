@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.e2e;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -9,19 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.assertj.core.util.Lists;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.samples.petclinic.model.Product;
-import org.springframework.samples.petclinic.model.Provider;
-import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.ProviderService;
-import org.springframework.samples.petclinic.web.ProductController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,52 +25,12 @@ import org.springframework.test.web.servlet.MockMvc;
 public class ProductControllerE2ETests {
 
 	@Autowired
-	private ProductController productController;
-
-	@MockBean
-	private ProductService productService;
-
-	@MockBean
+	private MockMvc mockMvc;
+	
+	@Autowired
 	private ProviderService providerService;
 
-	@Autowired
-	private MockMvc mockMvc;
-
-	private Provider provider = new Provider();
-	private Product product1 = new Product();
-	private Product product2 = new Product();
-
-
-	@BeforeEach
-	void setup() {
-
-		provider.setAddress("Calle pipo numero 1");
-		provider.setEmail("pipo@gmail.com");
-		provider.setId(99);
-		product2.setEnabled(true);
-		provider.setName("Pipo");
-		provider.setPhone("123456789");
-
-		product1.setName("producto1");
-		product1.setId(98);
-		product1.setPrice(1.1);
-		product1.setQuantity(1);
-		product1.setEnabled(true);
-		product1.setProvider(provider);
-		product2.setProvider(provider);
-
-		product2.setName("producto2");
-		product2.setId(99);
-		product2.setPrice(2.2);
-		product1.setQuantity(2);
-		product2.setEnabled(true);
-		product2.setProvider(provider);
-
-		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
-
-	}
-
-
+	
 	// ========================== Create ===========================
 
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
@@ -93,15 +45,17 @@ public class ProductControllerE2ETests {
 	@Test
 	void testProductProcessCreateSuccessful() throws Exception {
 		mockMvc.perform(post("/products/new").with(csrf()).param("price", "10.0").param("quantity", "1")
-				.param("provider", "99").param("enabled", "true").param("name", "nombre")).andExpect(status().is2xxSuccessful())
-				.andExpect(view().name("products/editProduct"));
+				.param("provider", "1").param("enabled", "true").param("allAvailable", "true")
+				.param("name", "nombre")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/products"));
 	}
 
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductProcessCreateFail() throws Exception {
 		mockMvc.perform(post("/products/new").with(csrf()).param("price", "10.0").param("quantity", "1")
-				.param("provider", "99").param("name", "nombre")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("product"))
+				.param("provider", "1").param("allAvailable", "true").param("name", "nombre"))
+				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("product"))
 				.andExpect(model().attributeHasFieldErrors("product", "enabled"))
 				.andExpect(view().name("products/editProduct"));
 	}
@@ -110,7 +64,6 @@ public class ProductControllerE2ETests {
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductList() throws Exception {
-		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product1, product2));
 		
 		mockMvc.perform(get("/products")).andExpect(status().isOk()).andExpect(model().attributeExists("products"))
 				.andExpect(view().name("products/productsList"));
@@ -121,7 +74,7 @@ public class ProductControllerE2ETests {
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductDeleteSuccessful() throws Exception {
-		mockMvc.perform(get("/products/delete/{productId}", 98)).andExpect(status().isOk())
+		mockMvc.perform(get("/products/delete/{productId}", 2)).andExpect(status().isOk())
 				.andExpect(view().name("products/productsList"));
 	}
 
@@ -130,29 +83,33 @@ public class ProductControllerE2ETests {
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductInitUpdate() throws Exception {
-		mockMvc.perform(get("/products/edit/{productId}", 98)).andExpect(status().isOk())
+		mockMvc.perform(get("/products/edit/{productId}", 1)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("product"))
-				.andExpect(model().attribute("product", hasProperty("price", is(1.1))))
-				.andExpect(model().attribute("product", hasProperty("quantity", is(1))))
+				.andExpect(model().attribute("product", hasProperty("price", is(20.5))))
+				.andExpect(model().attribute("product", hasProperty("quantity", is(5))))
 				.andExpect(model().attribute("product", hasProperty("enabled", is(true))))
-				.andExpect(model().attribute("product", hasProperty("name", is("producto1"))))
-				.andExpect(model().attribute("product", hasProperty("provider", is(provider))))
-				.andExpect(status().isOk()).andExpect(view().name("discounts/editDiscount"));
+				.andExpect(model().attribute("product", hasProperty("name", is("Pomadita"))))
+				.andExpect(model().attribute("product", hasProperty("provider", is(this.providerService.findProviderById(1)))))
+				.andExpect(model().attribute("product", hasProperty("allAvailable", is(true))))
+				.andExpect(status().isOk()).andExpect(view().name("products/editProduct"));
 	}
 
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductProcessUpdateSuccessful() throws Exception {
-		mockMvc.perform(post("/products/edit/{productId}", 98).with(csrf()).param("price", "1.1")
-				.param("quantity", "10").param("provider", "99").param("enabled", "true").param("name", "producto1Upt"))
-				.andExpect(status().is2xxSuccessful()).andExpect(view().name("products/editProduct"));
+		mockMvc.perform(post("/products/edit/{productId}", 3).with(csrf()).param("price", "1.1")
+				.param("quantity", "10").param("provider", "1").param("enabled", "true").param("name", "producto3Upt")
+				.param("allAvailable", "true")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/products"));
 	}
 
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductProcessUpdateFail() throws Exception {
-		mockMvc.perform(post("/products/edit/{productId}", 98).with(csrf()).param("price", "1.1")
-				.param("quantity", "10").param("provider", "99").param("enabled", "true")).andExpect(status().isOk())
+		mockMvc.perform(post("/products/edit/{productId}", 1).with(csrf()).param("price", "1.1")
+				.param("quantity", "10").param("provider", "99")
+				.param("allAvailable", "true").param("allAvailable", "true")
+				.param("enabled", "true")).andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("product"))
 				.andExpect(model().attributeHasFieldErrors("product", "name"))
 				.andExpect(view().name("products/editProduct"));

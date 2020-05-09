@@ -96,7 +96,7 @@ public class ProductController {
 	@GetMapping("/delete/{productId}")
 	public String deleteProduct(@PathVariable("productId") int productId, ModelMap modelMap) {
 		Product product = productService.findProductById(productId);
-		product.setEnabled(false);
+		modelMap.addAttribute("enabled",false);
 		modelMap.addAttribute("product", product);
 		return productsList(modelMap);
 
