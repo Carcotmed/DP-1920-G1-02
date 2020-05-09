@@ -208,7 +208,7 @@ public class EventController {
 		try {
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (user.getAuthorities().contains(new SimpleGrantedAuthority("veterinarian"))) {
-				if (event.getDescription() != "" && event.getPlace() != "") {
+				if (event.getDescription() != "" && event.getPlace() != "" && event.getDescription() != null && event.getPlace() != null) {
 					event.setPublished(true);
 					this.eventService.save(event);
 				} else {

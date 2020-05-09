@@ -103,7 +103,7 @@ class AdoptionControllerTests {
 		ownerVet.setFirstName("Vet");
 		ownerVet.setLastName("");
 		ownerVet.setTelephone("857687980");
-		ownerVet.setId(3);
+		ownerVet.setId(11);
 		BDDMockito.given(this.ownerService.findOwnerByFirstName("Vet")).willReturn(ownerVet);
 
 		this.owner2 = new Owner();
