@@ -58,8 +58,10 @@ INSERT INTO pets (id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '
 INSERT INTO pets (id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
 INSERT INTO pets (id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
 INSERT INTO pets (id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
+
 INSERT INTO pets (id,name,birth_date,type_id,owner_id) VALUES (14, 'Adoptable1', '2010-06-08', 1, 11);
 INSERT INTO pets (id,name,birth_date,type_id,owner_id) VALUES (15, 'Adoptable2', '2012-06-08', 2, 11);
+
 INSERT INTO pets (id,name,birth_date,type_id,owner_id) VALUES (16, 'Luna', '2012-06-08', 1, 1);
 
 INSERT INTO adoptions (id,date,pet_id,owner_id) VALUES (1,'2021-04-20',1,1);
@@ -102,7 +104,7 @@ UPDATE visits SET intervention_id = 4 WHERE visits.id = 7;
 UPDATE visits SET intervention_id = 2 WHERE visits.id = 5;
 UPDATE visits SET intervention_id = 6 WHERE visits.id = 9;
 
-INSERt INTO events (id, date, published, description, capacity, place) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1');
+INSERt INTO events (id, date, published, description, capacity, place, provider_id) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1', 1);
 INSERt INTO events (id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', 'true', 'Descripcion2', 20, 'Place2');
 INSERt INTO events (id, date, published, description, capacity, place) VAlUES (3, '2029-03-03', 'true', 'Descripcion3', 30, 'Place3');
 INSERt INTO events (id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', 'false', 'Descripcion4', 40, 'Place4');
