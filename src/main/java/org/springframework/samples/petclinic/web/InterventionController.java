@@ -172,9 +172,9 @@ public class InterventionController {
 	@PostMapping(value = "/interventions/{interventionId}/edit")
 	public String processUpdateForm(@Valid Intervention intervention, BindingResult result, Visit visit,
 			@PathVariable("interventionId") int interventionId, ModelMap model) {
-		model.put("vets", this.interventionService.getAvailableVets(visit.getDate()));
 
 		if (result.hasErrors()) {
+			model.put("vets", this.interventionService.getAvailableVets(visit.getDate()));
 			model.put("intervention", intervention);
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
