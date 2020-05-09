@@ -32,6 +32,7 @@ public class Intervention extends NamedEntity {
 
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "vet_id")
+	@NotNull
 	private Vet				vet;
 
 	@ManyToMany
