@@ -37,13 +37,13 @@ public class DiscountControllerE2ETests {
 	@Autowired
 	private DiscountController discountController;
 
-	@MockBean
+	@Autowired
 	private DiscountService discountService;
 
-	@MockBean
+	@Autowired
 	private ProductService productService;
 
-	@MockBean
+	@Autowired
 	private ProviderService providerService;
 
 	@Autowired
@@ -114,8 +114,9 @@ public class DiscountControllerE2ETests {
 	@Test
 	void testDiscountProcessUpdateSuccessful() throws Exception {
 		mockMvc.perform(post("/discounts/edit/{discountId}", 3).with(csrf()).param("percentage", "10.0")
-		.param("quantity", "10").param("enabled", "true").param("provider", "1").param("product", "1")).andExpect(status().is2xxSuccessful())
-		.andExpect(view().name("discounts/editDiscount"));
+		.param("quantity", "10").param("enabled", "true").param("provider", "1").param("product", "1"))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/discounts"));
 	}
 	
 	@WithMockUser(username="admin1", authorities= {"admin"})
