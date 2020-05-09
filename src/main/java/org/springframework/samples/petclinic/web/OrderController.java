@@ -80,7 +80,8 @@ public class OrderController {
 			view = "orders/editOrder";
 		} else if (order.getArrivalDate() != null) {
 			if (!order.getSent()) { // Si hay fecha de llegada y sent esta a false, lo pone a true
-				order.setSent(true);
+//				order.setSent(true);
+				modelMap.addAttribute("sent", true);
 				modelMap.put("order", order);
 			}
 		} else {
@@ -111,7 +112,7 @@ public class OrderController {
 			return "orders/editOrder";
 		} else if (order.getArrivalDate() != null) {
 			if (!order.getSent()) { // Si hay fecha de llegada y sent esta a false, lo pone a true
-				order.setSent(true);
+//				order.setSent(true);
 				modelMap.put("order", order);
 			}
 		} else {
@@ -166,8 +167,9 @@ public class OrderController {
 		}
 		if (!hasAnyError) {
 				return null;
+		}else {
+			return modelMap;
 		}
-		return modelMap;
 	}
 
 	@GetMapping("/delete/{orderId}")

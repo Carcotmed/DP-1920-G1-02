@@ -74,7 +74,6 @@ public class OrderControllerTests {
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
 		provider.setPhone("123456789");
-		
 
 		product.setId(99);
 		product.setEnabled(true);
@@ -109,14 +108,23 @@ public class OrderControllerTests {
 		order2.setQuantity(1);
 		order2.setSent(false);
 		
+		
+		given(this.discountService.findDiscountById(99)).willReturn(discount);
+		given(this.productService.findProductById(99)).willReturn(product);
+		given(this.providerService.findProviderById(99)).willReturn(provider);
+		
+		given(this.orderService.findOrderById(99)).willReturn(order2);
+		given(this.orderService.findOrderById(98)).willReturn(order1);
+
+		
 		given(this.orderService.findAllOrders()).willReturn(Lists.newArrayList(order1, order2));
 		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
 		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount));
 		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product));
-		given(this.orderService.findOrderById(98)).willReturn(order1);
-		given(this.productService.findAllByProviderId(provider.getId())).willReturn(Lists.newArrayList(product));
-		given(this.discountService.findAllByProductId(product.getId())).willReturn(Lists.newArrayList(discount));
-		given(this.discountService.findAllByProviderId(provider.getId())).willReturn(Lists.newArrayList(discount));
+
+		given(this.productService.findAllByProviderId(99)).willReturn(Lists.newArrayList(product));
+		given(this.discountService.findAllByProductId(99)).willReturn(Lists.newArrayList(discount));
+		given(this.discountService.findAllByProviderId(99)).willReturn(Lists.newArrayList(discount));
 
 
 	}
@@ -137,16 +145,17 @@ public class OrderControllerTests {
 		@Test
 		void testOrderProcessCreateSuccessful() throws Exception {
 			mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
-					.param("arrivalDate", "null").param("quantity", "1").param("sent", "false")
-					.param("provider", "99").param("product", "99").param("discount", "99")).andExpect(status().is2xxSuccessful())
+					.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "1").param("sent", "true")
+					.param("provider", "99").param("product", "99").param("discount", "99"))
+					.andExpect(status().is2xxSuccessful())
 					.andExpect(view().name("orders/editOrder"));
 		}
 
 		@WithMockUser(value = "spring")
 		@Test
 		void testOrderProcessCreateFail() throws Exception {
-			mockMvc.perform(post("/orders/new").with(csrf()).param("orderDate", "LocalDate.of(2020, 2, 1)")
-					.param("arrivalDate", "LocalDate.of(2022, 2, 1)").param("quantity", "1").param("sent", "true")
+			mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
+					.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "1").param("sent", "true")
 					.param("provider", "99").param("product", "99")).andExpect(status().isOk())
 					.andExpect(model().attributeHasErrors("order"))
 					.andExpect(model().attributeHasFieldErrors("order", "discount"))

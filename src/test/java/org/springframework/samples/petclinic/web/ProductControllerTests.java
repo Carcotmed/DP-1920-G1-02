@@ -21,8 +21,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
-import org.springframework.samples.petclinic.model.Specialty;
-import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -55,7 +53,6 @@ public class ProductControllerTests {
 		provider.setAddress("Calle pipo numero 1");
 		provider.setEmail("pipo@gmail.com");
 		provider.setId(99);
-		product2.setEnabled(true);
 		provider.setName("Pipo");
 		provider.setPhone("123456789");
 
@@ -65,17 +62,21 @@ public class ProductControllerTests {
 		product1.setQuantity(1);
 		product1.setEnabled(true);
 		product1.setProvider(provider);
-		product2.setProvider(provider);
-
+		product1.setAllAvailable(true);
+		
 		product2.setName("producto2");
 		product2.setId(99);
 		product2.setPrice(2.2);
-		product1.setQuantity(2);
 		product2.setEnabled(true);
 		product2.setProvider(provider);
+		product2.setAllAvailable(true);
+		product2.setQuantity(2);
 
 		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
+		given(this.productService.findProductById(98)).willReturn(product1);
+		given(this.productService.findProductById(99)).willReturn(product2);
 
+		
 	}
 
 
@@ -137,7 +138,7 @@ public class ProductControllerTests {
 				.andExpect(model().attribute("product", hasProperty("enabled", is(true))))
 				.andExpect(model().attribute("product", hasProperty("name", is("producto1"))))
 				.andExpect(model().attribute("product", hasProperty("provider", is(provider))))
-				.andExpect(status().isOk()).andExpect(view().name("discounts/editDiscount"));
+				.andExpect(status().isOk()).andExpect(view().name("products/editProduct"));
 	}
 
 	@WithMockUser(value = "spring")
