@@ -33,7 +33,7 @@ INSERT INTO types (id, name) VALUES (4, 'snake');
 INSERT INTO types (id, name) VALUES (5, 'bird');
 INSERT INTO types (id, name) VALUES (6, 'hamster');
 
-INSERT INTO owners (id,first_name,last_name,address,city,telephone) VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
+INSERT INTO owners (id,first_name,last_name,address,city,telephone,username) VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 INSERT INTO owners (id,first_name,last_name,address,city,telephone) VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749');
 INSERT INTO owners (id,first_name,last_name,address,city,telephone) VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763');
 INSERT INTO owners (id,first_name,last_name,address,city,telephone) VALUES (4, 'Harold', 'Davis', '563 Friendly St.', 'Windsor', '6085553198');
