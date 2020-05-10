@@ -35,7 +35,7 @@ public class Intervention extends NamedEntity {
 	@NotNull
 	private Vet				vet;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@NotNull
 	private List<Product>	requiredProducts;
 
