@@ -182,9 +182,9 @@ public class InterventionControllerTests {
 	void testProcessEditFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/edit",
 				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID).with(csrf()).param("name", "aa")
-						.param("vet", "").param("visit", ""))
+						.param("vet", ""))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("intervention"))
-				.andExpect(model().attributeHasFieldErrors("intervention", "name", "vet", "visit"))
+				.andExpect(model().attributeHasFieldErrors("intervention", "name", "vet"))
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
 	}
 
