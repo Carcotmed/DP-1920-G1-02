@@ -140,7 +140,7 @@ class EventControllerE2ETests {
 	@Test
 	void testProcessUpdateFormSuccess() throws Exception {
 		this.mockMvc
-			.perform(MockMvcRequestBuilders.post("/events/edit/{eventId}", 5).requestAttr("date", LocalDate.parse("2030-02-02")).param("description", "desc").with(SecurityMockMvcRequestPostProcessors.csrf())
+			.perform(MockMvcRequestBuilders.post("/events/edit/{eventId}", 5).requestAttr("date", LocalDate.parse("2031-02-02")).param("description", "desc").with(SecurityMockMvcRequestPostProcessors.csrf())
 				.requestAttr("capacity", 6).param("place", "London"))
 			.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.view().name("redirect:/events/" + 5));
 	}
@@ -176,8 +176,9 @@ class EventControllerE2ETests {
 	@Test
 	void testPublishIncompletedEvent() throws Exception {
 		Event event5 = this.eventService.findEventById(5);
-		event5.setPlace("");
+		event5.setPlace(null);
 		event5.setPublished(false);
+		event5.setDate(LocalDate.now().plusDays(10));
 		this.eventService.save(event5);
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/publish/{eventId}", 5)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.model().attributeExists("error"))
 			.andExpect(MockMvcResultMatchers.view().name("events/eventDetails"));

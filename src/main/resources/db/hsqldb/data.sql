@@ -104,11 +104,11 @@ UPDATE visits SET intervention_id = 4 WHERE visits.id = 7;
 UPDATE visits SET intervention_id = 2 WHERE visits.id = 5;
 UPDATE visits SET intervention_id = 6 WHERE visits.id = 9;
 
-INSERt INTO events (id, date, published, description, capacity, place, provider_id) VAlUES (1, '2020-09-01', 'true', 'Descripcion1', 10, 'Place1', 1);
-INSERt INTO events (id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', 'true', 'Descripcion2', 20, 'Place2');
-INSERt INTO events (id, date, published, description, capacity, place) VAlUES (3, '2029-03-03', 'true', 'Descripcion3', 30, 'Place3');
-INSERt INTO events (id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', 'false', 'Descripcion4', 40, 'Place4');
-INSERt INTO events (id, date, published, description, capacity, place) VAlUES (5, '2031-04-04', 'false', 'Descripcion5', 40, '');
+INSERt INTO events (id, date, published, description, capacity, place, provider_id) VAlUES (1, '2020-09-01', true, 'Descripcion1', 10, 'Place1', 1);
+INSERt INTO events (id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', true, 'Descripcion2', 20, 'Place2');
+INSERt INTO events (id, date, published, description, capacity, place) VAlUES (3, '2029-03-03', true, 'Descripcion3', 30, 'Place3');
+INSERt INTO events (id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', false, 'Descripcion4', 40, 'Place4');
+INSERt INTO events (id, date, published, description, capacity, place) VAlUES (5, '2031-04-04', false, 'Descripcion5', 40, '');
 
 INSERt INTO participations (id, event_id, owner_id) VAlUES (1, 1, 1);
 INSERt INTO participations (id, event_id, owner_id) VAlUES (2, 2, 2);
