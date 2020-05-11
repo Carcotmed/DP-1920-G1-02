@@ -90,8 +90,10 @@ public class InterventionsUITest {
 		this.driver.findElement(By.xpath("//a[contains(text(),'Urgent\n		Visit')]")).click();
 
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-
-		Assert.assertEquals("You must choose a vet", this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/span[2]")).getText());
+		
+		Assert.assertTrue("You must choose a vet".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/span[2]")).getText())
+				|| "no puede ser null".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/span[2]")).getText()));
+		
 		Assert.assertTrue("no puede estar vacío".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText())
 			|| "el tamaño tiene que estar entre 3 y 50".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText()));
 	}

@@ -102,7 +102,7 @@ public class DiscountController {
 	public String deleteDiscount(@PathVariable("discountId") int discountId, ModelMap modelMap) {
 		Discount discount = discountService.findDiscountById(discountId);
 		discount.setEnabled(false);
-		modelMap.put("discount",discount);
+		discountService.save(discount);
 		return discountsList(modelMap);
 
 	}
