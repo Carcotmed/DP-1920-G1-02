@@ -33,40 +33,31 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers=OrderController.class,
-excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-excludeAutoConfiguration= SecurityConfiguration.class)
+@WebMvcTest(controllers = OrderController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
 public class OrderControllerTests {
 
-	
 	@Autowired
 	private OrderController orderController;
-	
+
 	@MockBean
 	private OrderService orderService;
-	
+
 	@MockBean
 	private ProductService productService;
-	
+
 	@MockBean
 	private ProviderService providerService;
-	
+
 	@MockBean
 	private DiscountService discountService;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	private Provider provider = new Provider();
 	private Product product = new Product();
 	private Discount discount = new Discount();
-	
-	Order order1 = new Order();
-	Order order2 = new Order();
 
-
-
-	
 	@BeforeEach
 	void setup() {
 		provider.setId(99);
@@ -90,6 +81,9 @@ public class OrderControllerTests {
 		discount.setQuantity(1);
 		discount.setEnabled(true);
 
+		Order order1 = new Order();
+		Order order2 = new Order();
+		
 		order1.setArrivalDate(null);
 		order1.setDiscount(discount);
 		order1.setId(98);
@@ -98,7 +92,7 @@ public class OrderControllerTests {
 		order1.setProvider(provider);
 		order1.setQuantity(1);
 		order1.setSent(false);
-		
+
 		order2.setArrivalDate(null);
 		order2.setDiscount(discount);
 		order2.setId(99);
@@ -107,16 +101,14 @@ public class OrderControllerTests {
 		order2.setProvider(provider);
 		order2.setQuantity(1);
 		order2.setSent(false);
-		
-		
+
 		given(this.discountService.findDiscountById(99)).willReturn(discount);
 		given(this.productService.findProductById(99)).willReturn(product);
 		given(this.providerService.findProviderById(99)).willReturn(provider);
-		
+
 		given(this.orderService.findOrderById(99)).willReturn(order2);
 		given(this.orderService.findOrderById(98)).willReturn(order1);
 
-		
 		given(this.orderService.findAllOrders()).willReturn(Lists.newArrayList(order1, order2));
 		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
 		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount));
@@ -126,100 +118,91 @@ public class OrderControllerTests {
 		given(this.discountService.findAllByProductId(99)).willReturn(Lists.newArrayList(discount));
 		given(this.discountService.findAllByProviderId(99)).willReturn(Lists.newArrayList(discount));
 
-
 	}
-	
-	
-		
-		// ========================== Create ===========================
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testOrderInitCreate() throws Exception {
-			mockMvc.perform(get("/orders/new")).andExpect(status().isOk())
-					.andExpect(model().attributeExists("providers")).andExpect(model().attributeExists("products"))
-					.andExpect(model().attributeExists("discounts")).andExpect(view().name("orders/editOrder"));
-		}
+	// ========================== Create ===========================
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testOrderProcessCreateSuccessful() throws Exception {
-			mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
-					.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "1").param("sent", "true")
-					.param("provider", "99").param("product", "99").param("discount", "99"))
-					.andExpect(status().is2xxSuccessful())
-					.andExpect(view().name("orders/editOrder"));
-		}
+	@WithMockUser(value = "spring")
+	@Test
+	void testOrderInitCreate() throws Exception {
+		mockMvc.perform(get("/orders/new")).andExpect(status().isOk()).andExpect(model().attributeExists("providers"))
+				.andExpect(model().attributeExists("products")).andExpect(model().attributeExists("discounts"))
+				.andExpect(view().name("orders/editOrder"));
+	}
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testOrderProcessCreateFail() throws Exception {
-			mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
-					.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "1").param("sent", "true")
-					.param("provider", "99").param("product", "99")).andExpect(status().isOk())
-					.andExpect(model().attributeHasErrors("order"))
-					.andExpect(model().attributeHasFieldErrors("order", "discount"))
-					.andExpect(view().name("orders/editOrder"));
-		}
-		
-		
-		// ========================== List ===========================
+	@WithMockUser(value = "spring")
+	@Test
+	void testOrderProcessCreateSuccessful() throws Exception {
+		mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
+				.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "1").param("sent", "true")
+				.param("provider", "99").param("product", "99").param("discount", "99"))
+				.andExpect(status().is2xxSuccessful()).andExpect(view().name("orders/editOrder"));
+	}
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testShowOrderListHtml() throws Exception {
-			given(this.orderService.findAllOrders()).willReturn(Lists.newArrayList( new Order()));
-			
-			mockMvc.perform(get("/orders")).andExpect(status().isOk()).andExpect(model().attributeExists("orders"))
-					.andExpect(view().name("orders/ordersList"));
-		}
-		
+	@WithMockUser(value = "spring")
+	@Test
+	void testOrderProcessCreateFail() throws Exception {
+		mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
+				.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("discount", "99").param("quantity", "-1")
+				.param("sent", "true").param("provider", "99").param("product", "99")).andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("order"))
+				.andExpect(model().attributeHasFieldErrors("order", "quantity"))
+				.andExpect(view().name("orders/editOrder"));
+	}
 
-		// ========================== Delete ===========================
+	// ========================== List ===========================
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testOrderDeleteSuccessful() throws Exception {	
-			given(this.orderService.findOrderById(98)).willReturn(order1);
-			
-			mockMvc.perform(get("/orders/delete/{orderId}", 98)).andExpect(status().isOk())
-					.andExpect(view().name("orders/ordersList"));
-		}
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowOrderListHtml() throws Exception {
+		given(this.orderService.findAllOrders()).willReturn(Lists.newArrayList(new Order()));
 
-		// ========================== Update ===========================
+		mockMvc.perform(get("/orders")).andExpect(status().isOk()).andExpect(model().attributeExists("orders"))
+				.andExpect(view().name("orders/ordersList"));
+	}
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testOrderInitUpdate() throws Exception {
-			mockMvc.perform(get("/orders/edit/{orderId}", 98)).andExpect(status().isOk())
-					.andExpect(model().attributeExists("order"))
-					.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2019, 2, 1)))))
-					.andExpect(model().attribute("order", hasProperty("quantity", is(1))))
-					.andExpect(model().attribute("order", hasProperty("product", is(product))))
-					.andExpect(model().attribute("order", hasProperty("provider", is(provider))))
-					.andExpect(model().attribute("order", hasProperty("discount", is(discount))))
-					.andExpect(model().attribute("order", hasProperty("sent", is(false))))
-					.andExpect(status().isOk())
-					.andExpect(view().name("orders/editOrder"));
-		}
+	// ========================== Delete ===========================
 
-		@WithMockUser(value = "spring")
-		@Test
-		void testOrderProcessUpdateSuccessful() throws Exception {
-			mockMvc.perform(post("/orders/edit/{orderId}", 98).with(csrf()).param("orderDate", "LocalDate.of(2019, 2, 1)")
-			.param("quantity", "10").param("provider", "99").param("product", "99").param("discount", "99")
-			.param("sent", "false").param("arrivalDate", "null")).andExpect(status().is2xxSuccessful())
-			.andExpect(view().name("orders/editOrder"));
-		}
-		
-		@WithMockUser(value = "spring")
-		@Test
-		void testOrderProcessUpdateFail() throws Exception {
-			mockMvc.perform(post("/orders/edit/{orderId}", 98).with(csrf()).param("orderDate", "LocalDate.of(2019, 2, 1)")
-					.param("quantity", "-1").param("provider", "99").param("product", "99").param("discount", "99")
-					.param("sent", "false").param("arrivalDate", "null")).andExpect(status().isOk())
-			.andExpect(model().attributeHasErrors("order"))
-			.andExpect(model().attributeHasFieldErrors("order", "quantity"))
-			.andExpect(view().name("orders/editOrder"));
-		}
+	@WithMockUser(value = "spring")
+	@Test
+	void testOrderDeleteSuccessful() throws Exception {
+		mockMvc.perform(get("/orders/delete/{orderId}", 98)).andExpect(status().isOk())
+				.andExpect(view().name("orders/ordersList"));
+	}
+
+	// ========================== Update ===========================
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testOrderInitUpdate() throws Exception {
+		mockMvc.perform(get("/orders/edit/{orderId}", 98)).andExpect(status().isOk())
+				.andExpect(model().attributeExists("order"))
+				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2019, 2, 1)))))
+				.andExpect(model().attribute("order", hasProperty("quantity", is(1))))
+				.andExpect(model().attribute("order", hasProperty("product", is(product))))
+				.andExpect(model().attribute("order", hasProperty("provider", is(provider))))
+				.andExpect(model().attribute("order", hasProperty("discount", is(discount))))
+				.andExpect(model().attribute("order", hasProperty("sent", is(false)))).andExpect(status().isOk())
+				.andExpect(view().name("orders/editOrder"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testOrderProcessUpdateSuccessful() throws Exception {
+		mockMvc.perform(post("/orders/edit/{orderId}", 98).with(csrf()).param("orderDate", "LocalDate.of(2019, 2, 1)")
+				.param("quantity", "10").param("provider", "99").param("product", "99").param("discount", "99")
+				.param("sent", "false").param("arrivalDate", "null")).andExpect(status().is2xxSuccessful())
+				.andExpect(view().name("orders/editOrder"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testOrderProcessUpdateFail() throws Exception {
+		mockMvc.perform(post("/orders/edit/{orderId}", 98).with(csrf()).param("orderDate", "LocalDate.of(2019, 2, 1)")
+				.param("quantity", "-1").param("provider", "99").param("product", "99").param("discount", "99")
+				.param("sent", "false").param("arrivalDate", "null")).andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("order"))
+				.andExpect(model().attributeHasFieldErrors("order", "quantity"))
+				.andExpect(view().name("orders/editOrder"));
+	}
 }

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import java.util.List;
 import javax.validation.Valid;
 
+import org.h2.engine.SysProperties;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Discount;
@@ -74,20 +75,29 @@ public class OrderController {
 	public String processCreateForm(@Valid Order order, BindingResult result, ModelMap modelMap) {
 		String view = "redirect:/orders";
 
-		if (result.hasErrors() || orderValidator(order, result, modelMap) != null) {
-			modelMap.addAllAttributes(orderValidator(order, result, modelMap));
+		result = orderValidator(order, result, modelMap);
+
+		if (result.hasErrors()) {
 			modelMap.put("order", order);
 			view = "orders/editOrder";
-		} else if (order.getArrivalDate() != null) {
-			if (!order.getSent()) { // Si hay fecha de llegada y sent esta a false, lo pone a true
-//				order.setSent(true);
-				modelMap.addAttribute("sent", true);
-				modelMap.put("order", order);
-			}
+			//DELETEEEEEEEEEEEEEEEEEEEE vv
+			System.out.println("Provider id");
+			System.out.println(order.getProvider().getId());
+			System.out.println("Product id");
+			System.out.println(order.getProduct().getId());
+			System.out.println("Discount id");
+			System.out.println(order.getDiscount().getId());
+			System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
+			System.out.println(this.productService.findAllByProviderId(order.getProvider().getId()));
+			System.out.println(
+					this.productService.findAllByProviderId(order.getProvider().getId()).contains(order.getProduct()));
+			//DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ^^
+		} else if (order.getArrivalDate() != null && !order.getSent()) {
+			order.setSent(true); // Si hay fecha de llegada y sent esta a false, lo pone a true
+			this.orderService.save(order);
 		} else {
 			this.orderService.save(order);
 		}
-
 		return view;
 	}
 
@@ -106,15 +116,15 @@ public class OrderController {
 	@PostMapping("/edit/{orderId}")
 	public String processUpdateForm(@Valid Order order, BindingResult result, @PathVariable("orderId") int orderId,
 			ModelMap modelMap) {
-		if (result.hasErrors() || orderValidator(order, result, modelMap) != null) {
-			modelMap.addAllAttributes(orderValidator(order, result, modelMap));
+
+		result = orderValidator(order, result, modelMap);
+
+		if (result.hasErrors()) {
 			modelMap.put("order", order);
 			return "orders/editOrder";
-		} else if (order.getArrivalDate() != null) {
-			if (!order.getSent()) { // Si hay fecha de llegada y sent esta a false, lo pone a true
-//				order.setSent(true);
-				modelMap.put("order", order);
-			}
+		} else if (order.getArrivalDate() != null && !order.getSent()) {
+			order.setSent(true); // Si hay fecha de llegada y sent esta a false, lo pone a true
+			this.orderService.save(order);
 		} else {
 			Order orderToUpdate = this.orderService.findOrderById(orderId);
 			BeanUtils.copyProperties(order, orderToUpdate, "id");
@@ -124,52 +134,31 @@ public class OrderController {
 		return "redirect:/orders";
 	}
 
-	public ModelMap orderValidator(@Valid Order order, BindingResult result, ModelMap modelMap) {
-		boolean hasAnyError = false;
-		// Fallos
-		int providerId = order.getProvider().getId();
-		int productId = order.getProduct().getId();
-		int discountId = order.getDiscount().getId();
+	public BindingResult orderValidator(Order order, BindingResult result, ModelMap modelMap) {
 
-		Collection<Product> productsByProvider = this.productService.findAllByProviderId(providerId);
-		List<Integer> productsIdByProvider = productsByProvider.stream().map(x -> x.getId())
-				.collect(Collectors.toList());
+		if (order.getArrivalDate() != null && order.getArrivalDate().isBefore(order.getOrderDate())) {
+			result.rejectValue("arrivalDate", "arrivalDateBeforeError",
+					"The arrival date can't be before the order date");
+		}
 
-		Collection<Discount> discountsByProduct = this.discountService.findAllByProductId(productId);
-		List<Integer> discountsIdByProduct = discountsByProduct.stream().map(x -> x.getId())
-				.collect(Collectors.toList());
+		if (!this.productService.findAllByProviderId(order.getProvider().getId()).contains(order.getProduct())) {
+			result.rejectValue("provider", "productNotProvidedError",
+					"The selected provider doesn't provide the selected product");
+		}
 
-		Collection<Discount> discountsByProvider = this.discountService.findAllByProviderId(providerId);
-		List<Integer> discountsIdByProvider = discountsByProvider.stream().map(x -> x.getId())
-				.collect(Collectors.toList());
-
-		boolean error1 = productsIdByProvider.contains(productId); /* el provider no tiene el producto elegido */
-		boolean error2 = discountsIdByProduct
-				.contains(discountId); /* el descuento elegido no es aplicable al producto */
-		boolean error3 = discountsIdByProvider
-				.contains(discountId); /* el descuento elegido no es aplicable al proveedor */
-
-		if (!error1) {
-			modelMap.addAttribute("createError", "The selected provider doesn't provide the selected product");
-			hasAnyError = true;
-		} else if (!error2) {
-			modelMap.addAttribute("createError", "The selected discount doesn't apply to the selected product");
-			hasAnyError = true;
-		} else if (!error3) {
-			modelMap.addAttribute("createError", "The selected provider doesn't provide the selected discount");
-			hasAnyError = true;
-		} else if (order.getArrivalDate() != null) {
-			if (order.getArrivalDate().isBefore(order.getOrderDate())) { // Arrival date is after order date
-				modelMap.addAttribute("createError", "The arrival date can't be before the order date");
-				hasAnyError = true;
-			}
+		if (!this.discountService.findAllByProductId(order.getProduct().getId()).contains(order.getDiscount())) {
+			result.rejectValue("discount", "discountDoesntApplyProductError",
+					"The selected discount doesn't apply to the selected product");
 
 		}
-		if (!hasAnyError) {
-				return null;
-		}else {
-			return modelMap;
+
+		if (!this.discountService.findAllByProviderId(order.getProvider().getId()).contains(order.getDiscount())) {
+			result.rejectValue("discount", "discountDoesntApplyProductError",
+					"The selected discount doesn't apply for the selected provider");
+			
 		}
+		
+		return result;
 	}
 
 	@GetMapping("/delete/{orderId}")

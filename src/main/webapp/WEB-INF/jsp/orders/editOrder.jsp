@@ -21,37 +21,13 @@
         <form:form modelAttribute="order" class="form-horizontal" id="edit-order-form">
             <div class="form-group has-feedback">
             
-				<div class="form-group has-feedback">
-				<label class="col-sm-2 control-label">Product</label>
-				<select class="form-control" id="product" name="product">
-                	<c:forEach items="${products}" var="product">
-                		<option value="${product.id}">${product.name}</option>
-                	</c:forEach>
-                </select> 
-                </div>				
+				<petclinic:selectProductField label="Product" name="product" size="1" names="${products}" />		
                 <petclinic:inputField label="Quantity" name="quantity" />
+                <petclinic:selectProviderField label="Provider" name="provider" size="1" names="${providers}" />
+      			<petclinic:selectDiscountField label="Discount" name="discount" size="1" names="${discounts}" />  
                 <petclinic:inputField label="Order Date" name="orderDate" />
 				<petclinic:inputField label="Arrival Date" name="arrivalDate" />
                 <petclinic:checkboxInput label="Sent" name="sent" />
-                <div class="form-group has-feedback">
-				<label class="col-sm-2 control-label">Provider</label>
-				<select class="form-control" id="provider" name="provider">
-                	<c:forEach items="${providers}" var="provider">
-                		<option value="${provider.id}">${provider.name}</option>
-                	</c:forEach>
-                </select> 
-                </div>
-                <div class="form-group has-feedback">
-				<label class="col-sm-2 control-label">Discount</label>
-				<select class="form-control" id="discount" name="discount">
-                	<c:forEach items="${discounts}" var="discount">
-                		<option value="${discount.id}">${discount.percentage}</option>
-                	</c:forEach>
-                </select> 
-                </div>
-                
-					<c:out value="${createError}" />
-					<c:remove var="createError" />
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
