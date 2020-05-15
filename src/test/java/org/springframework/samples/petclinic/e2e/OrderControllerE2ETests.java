@@ -67,7 +67,7 @@ public class OrderControllerE2ETests {
 	void testOrderProcessCreateFail() throws Exception {
 		mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
 				.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "1").param("sent", "true")
-				.param("provider", "1").param("product", "1")).andExpect(status().isOk())
+				.param("provider", "1").param("product", "1").param("discount", "null")).andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("order"))
 				.andExpect(model().attributeHasFieldErrors("order", "discount"))
 				.andExpect(view().name("orders/editOrder"));
