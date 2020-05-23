@@ -41,7 +41,7 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
 	@Query("SELECT event FROM Event event")
 	Collection<Event> findAllEvents() throws DataAccessException;
 
-	@Query("SELECT event FROM Event event WHERE event.published = 'true'")
+	@Query("SELECT event FROM Event event WHERE event.published = TRUE")
 	Collection<Event> findAllPublishedEvents() throws DataAccessException;
 
 	@Query("SELECT event FROM Event event where event.id =:eventId")
