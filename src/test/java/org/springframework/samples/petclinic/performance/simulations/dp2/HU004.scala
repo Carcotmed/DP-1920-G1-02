@@ -6,7 +6,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
 
-class HU003 extends Simulation {
+class HU004 extends Simulation {
 
 	val httpProtocol = http
 		.baseUrl("http://www.dp2.com")
@@ -21,34 +21,34 @@ class HU003 extends Simulation {
 
 
 
-	val scn = scenario("HU003")
+	val scn = scenario("HU004")
 		.exec(http("Home")
 			.get("/"))
 		.pause(3)
 		// Home
 		
-		.exec(http("Login")
-			.get("/login"))
-		.pause(7)
+		.exec(http("request_1")
+			.get("/Login"))
+		.pause(6)
 		// Login
 		
 		.exec(http("Logged")
 			.post("/login")
 			.headers(headers_2)
-			.formParam("username", "vet1")
-			.formParam("password", "v3t")
-			.formParam("_csrf", "4174e483-0ca4-4596-9327-df40b53af345"))
-		.pause(4)
+			.formParam("username", "admin1")
+			.formParam("password", "4dm1n")
+			.formParam("_csrf", "8ba7ab1d-ddab-427a-a462-debbe1649cd4"))
+		.pause(3)
 		// Logged
 		
 		.exec(http("Find_Owners")
 			.get("/owners/find"))
-		.pause(7)
+		.pause(4)
 		// Find_Owners
 		
 		.exec(http("Show_Owners")
 			.get("/owners?lastName="))
-		.pause(6)
+		.pause(5)
 		// Show_Owners
 		
 		.exec(http("Show_Owner")
@@ -58,24 +58,13 @@ class HU003 extends Simulation {
 		
 		.exec(http("Show_Pet")
 			.get("/owners/1/pets/1"))
-		.pause(14)
+		.pause(11)
 		// Show_Pet
 		
-		.exec(http("Edit_Intervention")
-			.get("/owners/1/pets/1/visits/11/interventions/7/edit"))
-		.pause(24)
-		// Edit_Intervention
-		
-		.exec(http("Edited_Intervention")
-			.post("/owners/1/pets/1/visits/11/interventions/7/edit")
-			.headers(headers_2)
-			.formParam("name", "Edited Intervention")
-			.formParam("vet", "5")
-			.formParam("requiredProducts", "3")
-			.formParam("_requiredProducts", "1")
-			.formParam("_csrf", "81dc1293-b4f4-4640-a7e7-5c931594efdc"))
+		.exec(http("Deleted_Intervention")
+			.get("/owners/1/pets/1/visits/5/interventions/2/delete"))
 		.pause(6)
-		// Edited_Intervention
+		// Deleted_Intervention
 
 	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }
