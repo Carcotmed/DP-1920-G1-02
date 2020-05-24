@@ -131,7 +131,7 @@ public class AdoptionController {
 	}
 
 	@PostMapping(value = "/new/{petId}")
-	public String processCreationForm(@PathVariable("petId") final int petId, @Valid final Adoption adoption, final BindingResult result, final ModelMap model) {
+	public String processCreationForm(@PathVariable("petId") final int petId, final Adoption adoption, final BindingResult result, final ModelMap model) {
 		try {
 			User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			if (user.getAuthorities().contains(new SimpleGrantedAuthority("owner"))) {
@@ -146,9 +146,7 @@ public class AdoptionController {
 				Pet pet = this.petService.findPetById(petId);
 				Owner owner1 = pet.getOwner();
 				if (owner1.getId() != 11) {
-					System.out.println(owner1.getFirstName());
 					model.put("error", "You can't adopt a pet which another person owns");
-					System.out.println("--------------------------------------------------------------------------------------------------------------------");
 					return this.showAdoptions(model);
 				}
 				owner1.removePet(pet);
