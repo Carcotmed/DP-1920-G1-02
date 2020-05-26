@@ -4,7 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
 
-class HU022 extends Simulation {
+class PT_HU022 extends Simulation {
 
   val httpProtocol = http
     .baseUrl("http://www.dp2.com")
