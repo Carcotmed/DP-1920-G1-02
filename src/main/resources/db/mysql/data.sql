@@ -106,7 +106,7 @@ UPDATE visits SET intervention_id = 6 WHERE visits.id = 9;
 
 INSERt INTO events (id, date, published, description, capacity, place, provider_id) VAlUES (1, '2020-09-01', true, 'Descripcion1', 10, 'Place1', 1);
 INSERt INTO events (id, date, published, description, capacity, place) VAlUES (2, '2020-07-02', true, 'Descripcion2', 20, 'Place2');
-INSERt INTO events (id, date, published, description, capacity, place) VAlUES (3, '2029-03-03', true, 'Descripcion3', 30, 'Place3');
+INSERt INTO events (id, date, published, description, capacity, place) VAlUES (3, '2029-03-03', true, 'Descripcion3', 10000, 'Place3');
 INSERt INTO events (id, date, published, description, capacity, place) VAlUES (4, '2031-04-04', false, 'Descripcion4', 40, 'Place4');
 INSERt INTO events (id, date, published, description, capacity, place) VAlUES (5, '2031-04-04', false, 'Descripcion5', 40, '');
 
