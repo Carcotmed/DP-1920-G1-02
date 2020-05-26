@@ -39,23 +39,6 @@ class PTHU030 extends Simulation {
 	}
 	
 	
-	object LoginOw {
-		val loginOw = exec(
-			http("LoginOw")
-			.get("/login")
-			.headers(headers_0)
-			.check(css("input[name=_csrf]","value").saveAs("stoken"))
-		).pause(13)
-		.exec(
-		http("LoggedOw")
-			.post("/login")
-			.headers(headers_3)
-			.formParam("username", "owner1")
-			.formParam("password", "0wn3r")
-			.formParam("_csrf", "${stoken}")
-		).pause(11)
-	}
-	
 	
 	object LoginVet {
 		val loginVet = exec(
@@ -94,14 +77,10 @@ class PTHU030 extends Simulation {
 									ProductsList.productsList,
 									DeleteProduct.deleteProduct)			
 									
-	val deleteProductNegative = scenario("HU030Neg").exec(Home.home,
-									LoginOw.loginOw,
-									ProductsList.productsList,
-									DeleteProduct.deleteProduct)	
+	
 									
 	setUp(
-	deleteProductPositive.inject(rampUsers(200) during (10 seconds)),
-	deleteProductNegative.inject(rampUsers(200) during (10 seconds))
+	deleteProductPositive.inject(rampUsers(200) during (10 seconds))
 		).protocols(httpProtocol)
 		 .assertions(
 		 	global.responseTime.max.lt(5000),

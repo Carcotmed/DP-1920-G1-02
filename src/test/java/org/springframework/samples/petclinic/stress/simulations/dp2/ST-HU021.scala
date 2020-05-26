@@ -54,22 +54,7 @@ class STHU021 extends Simulation {
 		).pause(11)
 	}
 	
-	object LoginVet {
-		val loginVet = exec(
-			http("LoginVet")
-			.get("/login")
-			.headers(headers_0)
-			.check(css("input[name=_csrf]","value").saveAs("stoken"))
-		).pause(13)
-		.exec(
-		http("LoggedVet")
-			.post("/login")
-			.headers(headers_3)
-			.formParam("username", "vet1")
-			.formParam("password", "v3t")
-			.formParam("_csrf", "${stoken}")
-		).pause(11)
-	}
+	
 
 	object ProvidersList {
 		val providersList = exec(http("ProvidersList")
@@ -98,15 +83,10 @@ class STHU021 extends Simulation {
 															DiscountsList.discountsList,
 															DeleteDiscount.deleteDiscount)
 															
-	val deleteDiscountNegative = scenario("HU021Neg").exec(Home.home,
-															LoginVet.loginVet,
-															ProvidersList.providersList,
-															DiscountsList.discountsList,
-															DeleteDiscount.deleteDiscount)
+	
 
 	setUp(
-		deleteDiscountPositive.inject(atOnceUsers(1)),
-		deleteDiscountNegative.inject(atOnceUsers(1))
+		deleteDiscountPositive.inject(atOnceUsers(1))
 		).protocols(httpProtocol)
 		
 
