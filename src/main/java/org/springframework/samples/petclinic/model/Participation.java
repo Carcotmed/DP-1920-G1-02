@@ -20,7 +20,7 @@ import lombok.Data;
 @Table(name = "participations")
 public class Participation extends BaseEntity {
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Pet>	pets;
 
 	@OneToOne
