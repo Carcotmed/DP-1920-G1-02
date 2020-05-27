@@ -25,6 +25,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Event;
 import org.springframework.samples.petclinic.model.Participation;
@@ -51,6 +53,7 @@ public class EventService {
 		this.participationRepository = participationRepository;
 	}
 
+	@Cacheable(cacheNames = "findAllEvents")
 	public Collection<Event> findAllEvents() {
 		return this.eventRepository.findAllEvents();
 	}
@@ -62,12 +65,17 @@ public class EventService {
 	public Participation findParticipationByIds(final int eventId, final int ownerId) {
 		return this.participationRepository.findParticipationByIds(eventId, ownerId);
 	}
-
+	
+	public Collection<Participation> findParticipationsByEventIdWithPets(final int eventId) {
+		return this.eventRepository.findParticipationsByEventIdWithPets(eventId);
+	}
+	
 	public Collection<Participation> findParticipationsByEventId(final int eventId) {
 		return this.eventRepository.findParticipationsByEventId(eventId);
 	}
 
 	@Transactional
+	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
 	public Event save(final Event event) throws DataAccessException {
 		if (event.getPublished()) {
 			if (event.getCapacity().equals(null) || event.getDate().equals(null) || event.getDescription().equals(null) || event.getPlace().equals(null)) {
@@ -81,20 +89,24 @@ public class EventService {
 	}
 
 	@Transactional
+	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
 	public Participation saveParticipation(final Participation participation) throws DataAccessException {
 		return this.participationRepository.save(participation);
 	}
 
+	@Cacheable(cacheNames = "findAllPublishedEvents")
 	public Collection<Event> findAllPublishedEvents() {
 		return this.eventRepository.findAllPublishedEvents();
 	}
 
+	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
 	public void delete(final Event event) {
 		List<Participation> participations = new ArrayList<>(this.findParticipationsByEventId(event.getId()));
 		participations.stream().forEach(x -> this.deleteParticipation(x));
 		this.eventRepository.delete(event);
 	}
 
+	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
 	public void deleteParticipation(final Participation participation) {
 		this.participationRepository.delete(participation);
 	}

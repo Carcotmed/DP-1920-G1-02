@@ -47,7 +47,10 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
 	@Query("SELECT event FROM Event event where event.id =:eventId")
 	Event findEventById(@Param("eventId") int eventId) throws DataAccessException;
 
-	@Query("SELECT participation FROM Participation participation where event_id = :eventId")
+	@Query("SELECT DISTINCT p FROM Participation p LEFT JOIN FETCH p.pets where event_id = :eventId")
+	Collection<Participation> findParticipationsByEventIdWithPets(@Param("eventId") int eventId) throws DataAccessException;
+
+	@Query("SELECT p FROM Participation p where event_id = :eventId")
 	Collection<Participation> findParticipationsByEventId(@Param("eventId") int eventId) throws DataAccessException;
 
 }
