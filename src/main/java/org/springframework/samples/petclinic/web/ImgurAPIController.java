@@ -36,7 +36,7 @@ public class ImgurAPIController {
 	private static final String VIEWS_IMAGE_CREATE_FORM = "images/createImageForm";
 
 	@Autowired
-	private ImgurAPIController(ImgurAPIService apiService, PetService petService) {
+	public ImgurAPIController(ImgurAPIService apiService, PetService petService) {
 		this.apiService = apiService;
 		this.petService = petService;
 	}
