@@ -42,6 +42,19 @@ public class InterventionService {
 	public Intervention findInterventionById(int interventionId) {
 		return this.interventionRepository.findInterventionById(interventionId);
 	}
+	
+	//Profiling
+	public Intervention findInterventionWithVisitById (int interventionId) {
+		return this.interventionRepository.findInterventionWithVisitById (interventionId);
+	}
+	
+	public Intervention findInterventionWithProductsById (int interventionId) {
+		return this.interventionRepository.findInterventionWithProductsById (interventionId);
+	}
+	
+	public Intervention findInterventionWithVisitAndProductsById (int interventionId) {
+		return this.interventionRepository.findInterventionWithVisitAndProductsById (interventionId);
+	}
 
 	public void deleteIntervention(Intervention intervention) {
 		Visit visit = intervention.getVisit();

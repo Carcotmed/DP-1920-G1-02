@@ -26,7 +26,7 @@ import lombok.Data;
 
 public class Intervention extends NamedEntity {
 
-	@OneToOne(fetch = FetchType.EAGER, optional = false)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "visit_id")
 	private Visit			visit;
 
@@ -35,7 +35,7 @@ public class Intervention extends NamedEntity {
 	@NotNull
 	private Vet				vet;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@NotNull
 	private List<Product>	requiredProducts;
 
