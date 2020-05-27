@@ -18,8 +18,10 @@ package org.springframework.samples.petclinic.repository;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.projections.VisitIntervention;
 
 /**
  * Repository class for <code>Visit</code> domain objects All method names are compliant
@@ -44,5 +46,8 @@ public interface VisitRepository {
 	List<Visit> findByPetId(Integer petId);
 
 	Visit findById(int visitId);
+	
+	@Query ("SELECT v.id AS visitId, v.description AS visitDescription, v.bringer AS visitBringer, v.date AS visitDate, i.id AS interventionId, i.name AS interventionName, i.vet.firstName AS interventionFirstName, i.vet.lastName AS interventionLastName FROM Visit v INNER JOIN v.intervention i WHERE v.pet.id = ?1")
+	List <VisitIntervention> findVisitInterventionByPetId (Integer petId);
 
 }
