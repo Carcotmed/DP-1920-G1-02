@@ -192,7 +192,7 @@ public class InterventionControllerTests {
 	@Test
 	void testDelete() throws Exception {
 		mockMvc.perform(get("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/delete",
-				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID)).andExpect(status().is3xxRedirection())
+				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID)).andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("redirect:/owners/{ownerId}/pets/{petId}"));
 	}
 

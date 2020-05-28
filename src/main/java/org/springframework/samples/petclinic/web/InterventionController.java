@@ -153,7 +153,7 @@ public class InterventionController {
 
 	@GetMapping(value = "/interventions/{interventionId}/edit")
 	public String initUpdateForm(@PathVariable("interventionId") int interventionId, ModelMap model) {
-		Intervention intervention = this.interventionService.findInterventionById(interventionId);
+		Intervention intervention = this.interventionService.findInterventionWithVisitAndProductsById(interventionId);
 		model.put("vets", this.interventionService.getAvailableVets(intervention.getVisit().getDate()));
 		model.put("intervention", intervention);
 		return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
