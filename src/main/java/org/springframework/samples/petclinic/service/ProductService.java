@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
@@ -33,8 +34,9 @@ public class ProductService {
 	}
 	
 	@Transactional
+
 	@Cacheable (cacheNames = "findProducts")
-	public Collection<Product> findProducts() throws DataAccessException{
+	public Collection<Product> findProducts(){
 		return productRepo.findAllProducts();
 	}
 
@@ -63,7 +65,7 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public Product findProductById(int productId) throws DataAccessException {
+	public Product findProductById(int productId){
 		return this.productRepo.findProductById(productId);
 	}
 	
