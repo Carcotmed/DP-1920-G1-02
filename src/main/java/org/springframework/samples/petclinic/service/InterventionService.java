@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,9 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.samples.petclinic.model.Intervention;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
@@ -21,60 +25,83 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InterventionService {
-	
+
 	private InterventionRepository interventionRepository;
 	private VisitRepository visitRepository;
 	private VetRepository vetRepository;
 
-
 	@Autowired
-	public InterventionService(InterventionRepository interventionRepository, VisitRepository visitRepository, VetRepository vetRepository) {
+	public InterventionService(InterventionRepository interventionRepository, VisitRepository visitRepository,
+			VetRepository vetRepository) {
 		this.interventionRepository = interventionRepository;
 		this.visitRepository = visitRepository;
 		this.vetRepository = vetRepository;
 
 	}
 
-	public void saveIntervention(@Valid Intervention intervention) {
+	@CacheEvict(cacheNames = "interventionsOfDay", keyGenerator = "customKeyGenerator")
+	public LocalDate saveIntervention(@Valid Intervention intervention) {
 		this.interventionRepository.save(intervention);
+		return intervention.getVisit().getDate();
 	}
 
 	public Intervention findInterventionById(int interventionId) {
 		return this.interventionRepository.findInterventionById(interventionId);
 	}
 
-	public void deleteIntervention(Intervention intervention) {
+	// Profiling
+	public Intervention findInterventionWithVisitById(int interventionId) {
+		return this.interventionRepository.findInterventionWithVisitById(interventionId);
+	}
+
+	public Intervention findInterventionWithProductsById(int interventionId) {
+		return this.interventionRepository.findInterventionWithProductsById(interventionId);
+	}
+
+	public Intervention findInterventionWithVisitAndProductsById(int interventionId) {
+		return this.interventionRepository.findInterventionWithVisitAndProductsById(interventionId);
+	}
+
+	@CacheEvict(cacheNames = "interventionsOfDay", keyGenerator = "customKeyGenerator")
+	public LocalDate deleteIntervention(Intervention intervention) {
 		Visit visit = intervention.getVisit();
 		visit.setIntervention(null);
 		this.visitRepository.save(visit);
 		this.interventionRepository.delete(intervention);
+		return visit.getDate();
 	}
 
+	@Cacheable(cacheNames = "interventionsOfDay", keyGenerator = "customKeyGenerator")
 	public Collection<Intervention> getInterventionsOfDay(LocalDate date) {
-		return this.interventionRepository.getInterventionsOfDay (date);
+		return this.interventionRepository.getInterventionsOfDay(date);
 	}
-	
+
 	public Collection<Vet> getAvailableVets(LocalDate date) {
 
 		Collection<Intervention> interventionsOfDay = this.getInterventionsOfDay(date);
-		
+
 		Collection<Vet> allVets = this.vetRepository.findAll();
 
 		Collection<Vet> availableVets = new ArrayList<Vet>();
-		
-		Map <Vet, List <Intervention>> allInterventionsTodayByVet = new HashMap<Vet, List<Intervention>>();
-		
-		allVets.stream().forEach(v -> allInterventionsTodayByVet.put(v, new ArrayList <Intervention> ()));
 
-		Map <Vet, List <Intervention>> interventionsTodayByVet = interventionsOfDay.stream().collect(Collectors.groupingBy(Intervention::getVet));
-		
-		for (Vet v:interventionsTodayByVet.keySet()) allInterventionsTodayByVet.replace(v, interventionsTodayByVet.get(v));
+		Map<Vet, List<Intervention>> allInterventionsTodayByVet = new HashMap<Vet, List<Intervention>>();
 
-		availableVets.addAll(allVets.stream().filter(v -> ((List<Intervention>) allInterventionsTodayByVet.get(v)).size() < 3)
-				.collect(Collectors.toList()));
+		allVets.stream().forEach(v -> allInterventionsTodayByVet.put(v, new ArrayList<Intervention>()));
+
+		Map<Vet, List<Intervention>> interventionsTodayByVet = interventionsOfDay.stream()
+				.collect(Collectors.groupingBy(Intervention::getVet));
+
+		for (Vet v : interventionsTodayByVet.keySet())
+			allInterventionsTodayByVet.replace(v, interventionsTodayByVet.get(v));
+
+		availableVets.addAll(
+				allVets.stream().filter(v -> ((List<Intervention>) allInterventionsTodayByVet.get(v)).size() < 3)
+						.collect(Collectors.toList()));
 
 		return availableVets;
 
 	}
+	
+	
 
 }

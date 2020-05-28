@@ -79,11 +79,11 @@ INSERT INTO visits (id,pet_id,visit_date,description, bringer) VALUES (9, 1, '20
 INSERT INTO visits (id,pet_id,visit_date,description, bringer) VALUES (10, 16, '2020-01-01', 'Test1', 'Daniel Trujillo Gallardo');
 
 
-INSERT INTO providers (id,name,phone,address,email) VALUES (1,'Pipo1','123456789','Calle Pipo nº1','pipo1@gmail.com');
-INSERT INTO providers (id,name,phone,address,email) VALUES (2,'Pipo2','223456789','Calle Pipo nº2','pipo2@gmail.com');
-INSERT INTO providers (id,name,phone,address,email) VALUES (3,'Pipo3','323456789','Calle Pipo nº3','pipo3@gmail.com');
-INSERT INTO providers (id,name,phone,address,email) VALUES (4,'Pipo4','423456789','Calle Pipo nº4','pipo4@gmail.com');
-INSERT INTO providers (id,name,phone,address,email) VALUES (5,'Pipo5','523456789','Calle Pipo nº5','pipo5@gmail.com');
+INSERT INTO providers (id,name,phone,address,email) VALUES (1,'Pipo1','123456789','Calle Pipo n1','pipo1@gmail.com');
+INSERT INTO providers (id,name,phone,address,email) VALUES (2,'Pipo2','223456789','Calle Pipo n2','pipo2@gmail.com');
+INSERT INTO providers (id,name,phone,address,email) VALUES (3,'Pipo3','323456789','Calle Pipo n3','pipo3@gmail.com');
+INSERT INTO providers (id,name,phone,address,email) VALUES (4,'Pipo4','423456789','Calle Pipo n4','pipo4@gmail.com');
+INSERT INTO providers (id,name,phone,address,email) VALUES (5,'Pipo5','523456789','Calle Pipo n5','pipo5@gmail.com');
 
 
 INSERT INTO products (id,name,price,quantity,all_available,provider_id,enabled) VALUES (1,'Pomadita',20.50,5,true,1,true);

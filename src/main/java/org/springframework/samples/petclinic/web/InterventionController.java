@@ -153,7 +153,7 @@ public class InterventionController {
 
 	@GetMapping(value = "/interventions/{interventionId}/edit")
 	public String initUpdateForm(@PathVariable("interventionId") int interventionId, ModelMap model) {
-		Intervention intervention = this.interventionService.findInterventionById(interventionId);
+		Intervention intervention = this.interventionService.findInterventionWithVisitAndProductsById(interventionId);
 		model.put("vets", this.interventionService.getAvailableVets(intervention.getVisit().getDate()));
 		model.put("intervention", intervention);
 		return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
@@ -179,7 +179,7 @@ public class InterventionController {
 			return VIEWS_INTERVENTIONS_CREATE_OR_UPDATE_FORM;
 		} else {
 
-			Intervention interventionToUpdate = this.interventionService.findInterventionById(interventionId);
+			Intervention interventionToUpdate = this.interventionService.findInterventionWithVisitAndProductsById(interventionId);
 
 			List<Product> oldProducts = interventionToUpdate.getRequiredProducts();
 			oldProducts.stream().forEach(p -> productService.addOne(p));
@@ -223,7 +223,7 @@ public class InterventionController {
 		visit.setIntervention(null);
 		visitService.saveVisit(visit);
 
-		Intervention intervention = interventionService.findInterventionById(interventionId);
+		Intervention intervention = interventionService.findInterventionWithProductsById(interventionId);
 
 		for (Product p : intervention.getRequiredProducts())
 			productService.addOne(p);

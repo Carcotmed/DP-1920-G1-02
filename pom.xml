@@ -16,6 +16,11 @@
 
 	<properties>
 
+		<sonar.projectKey>Carcotmed_DP-1920-G1-02</sonar.projectKey>
+		<sonar.organization>carcotmed</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.login>541f7b109f088fd97722b0971287cc1bea630e5a</sonar.login>
+
 		<!-- Generic properties -->
 		<java.version>1.8</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,9 +32,9 @@
 		<webjars-jquery.version>2.2.4</webjars-jquery.version>
 		<wro4j.version>1.8.0</wro4j.version>
 
-    <jacoco.version>0.8.5</jacoco.version>
-    <spring-format.version>0.0.19</spring-format.version>
-    <rest-assured.version>4.2.0</rest-assured.version>
+		<jacoco.version>0.8.5</jacoco.version>
+		<spring-format.version>0.0.19</spring-format.version>
+		<rest-assured.version>4.2.0</rest-assured.version>
 
 		<selenium.version>3.141.59</selenium.version>
 
@@ -133,19 +138,21 @@
 			<groupId>junit</groupId>
 		</dependency>
 		<!-- COMMENT WHEN NOT USING JAVAMELODY -->
-		 <dependency>
-				<groupId>net.bull.javamelody</groupId>
-				<artifactId>javamelody-spring-boot-starter</artifactId>
-				<version>1.83.0</version>
+		<!-- 
+		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-spring-boot-starter</artifactId>
+			<version>1.83.0</version>
 		</dependency>
-    
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <version>${rest-assured.version}</version>
-      <scope>test</scope>
-    </dependency>
-    
+		 -->
+
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest-assured.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- Development tools -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

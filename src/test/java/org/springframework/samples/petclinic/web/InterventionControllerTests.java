@@ -103,6 +103,8 @@ public class InterventionControllerTests {
 		given(this.productService.findProductById(TEST_INTERVENTION_ID)).willReturn(product);
 		given(this.interventionService.findInterventionById(TEST_INTERVENTION_ID)).willReturn(intervention);
 		given(this.visitService.findVisitById(TEST_VISIT_ID)).willReturn(visit);
+		given(interventionService.findInterventionWithProductsById(TEST_INTERVENTION_ID)).willReturn(intervention);
+		given(interventionService.findInterventionWithVisitAndProductsById(TEST_INTERVENTION_ID)).willReturn(intervention);
 	}
 
 	@WithMockUser(value = "spring")

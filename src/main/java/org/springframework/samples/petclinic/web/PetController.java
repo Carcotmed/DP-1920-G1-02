@@ -17,6 +17,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -27,6 +28,7 @@ import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
+import org.springframework.samples.petclinic.service.VisitService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,6 +46,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.projections.VisitIntervention;
 import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
@@ -68,12 +71,14 @@ public class PetController {
 
 	private final PetService	petService;
 	private final OwnerService	ownerService;
+	private final VisitService visitService;
 
 
 	@Autowired
-	public PetController(final PetService petService, final OwnerService ownerService) {
+	public PetController(final PetService petService, final OwnerService ownerService, final VisitService visitService) {
 		this.petService = petService;
 		this.ownerService = ownerService;
+		this.visitService = visitService;
 	}
 
 	@ModelAttribute("types")
@@ -168,6 +173,8 @@ public class PetController {
 		Pet pet = this.petService.findPetById(petId);
 		model.put("pet", pet);
 		model.put("isAdoptable", pet.getOwner().getFirstName().equals("Vet"));
+		List <VisitIntervention> vi = this.visitService.findVisitInterventionsByPetId(petId);
+		model.put ("visitInterventions", vi);
 		return "pets/petDetails";
 	}
 	

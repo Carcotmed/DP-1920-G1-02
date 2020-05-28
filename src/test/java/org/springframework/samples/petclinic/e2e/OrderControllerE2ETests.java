@@ -66,10 +66,10 @@ public class OrderControllerE2ETests {
 	@Test
 	void testOrderProcessCreateFail() throws Exception {
 		mockMvc.perform(post("/orders/new").with(csrf()).requestAttr("orderDate", LocalDate.of(2020, 2, 1))
-				.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "1").param("sent", "true")
-				.param("provider", "1").param("product", "1").param("discount", "null")).andExpect(status().isOk())
+				.requestAttr("arrivalDate", LocalDate.of(2022, 2, 1)).param("quantity", "-1").param("sent", "true")
+				.param("provider", "1").param("product", "1").param("discount", "1")).andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("order"))
-				.andExpect(model().attributeHasFieldErrors("order", "discount"))
+				.andExpect(model().attributeHasFieldErrors("order", "quantity"))
 				.andExpect(view().name("orders/editOrder"));
 	}
 
@@ -100,7 +100,7 @@ public class OrderControllerE2ETests {
 	void testOrderInitUpdate() throws Exception {
 		mockMvc.perform(get("/orders/edit/{orderId}", 2)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("order"))
-				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2013, 2, 1)))))
+				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2013, 1, 31)))))
 				.andExpect(model().attribute("order", hasProperty("quantity", is(55))))
 				.andExpect(model().attribute("order", hasProperty("product", is(this.productService.findProductById(2)))))
 				.andExpect(model().attribute("order", hasProperty("provider", is(this.providerService.findProviderById(2)))))
