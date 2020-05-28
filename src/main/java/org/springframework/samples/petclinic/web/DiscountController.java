@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -27,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/discounts")
 public class DiscountController {
 
+	private String editURL = "discounts/editDiscount";
+	private String discount = "discount";
+	
 	@Autowired
 	private DiscountService discountService;
 	
@@ -56,18 +57,18 @@ public class DiscountController {
 	
 	@GetMapping("/new")
 	public String initCreateDiscount(ModelMap modelMap) {
-		String view = "discounts/editDiscount";
+		String view = editURL;
 		Discount discount = new Discount();
 		discount.setEnabled(true);
-		modelMap.addAttribute("discount", discount);
+		modelMap.addAttribute(this.discount, discount);
 		return view;
 	}
 	
 	@PostMapping("/new")
 	public String processCreateForm(@Valid Discount discount, BindingResult result, ModelMap modelMap) {	
 		if (result.hasErrors()) {
-			modelMap.put("discount", discount);
-			return "discounts/editDiscount";
+			modelMap.put(this.discount, discount);
+			return editURL;
 		} else {
 			this.discountService.save(discount);
 		}
@@ -76,9 +77,9 @@ public class DiscountController {
 	
 	@GetMapping("/edit/{discountId}")
 	public String initUpdateForm(@PathVariable("discountId") int discountId, ModelMap modelMap) {
-		String view = "discounts/editDiscount";
+		String view = editURL;
 		Discount discount = this.discountService.findDiscountById(discountId);
-		modelMap.put("discount", discount);
+		modelMap.put(this.discount, discount);
 		return view;
 	}
 	
@@ -86,8 +87,8 @@ public class DiscountController {
 	public String processUpdateForm(@Valid Discount discount, BindingResult result,
 			@PathVariable("discountId") int discountId, ModelMap modelMap) {
 		if (result.hasErrors()) {
-			modelMap.put("discount", discount);
-			return "discounts/editDiscount";
+			modelMap.put(this.discount, discount);
+			return editURL;
 		} else {
 			Discount discountToUpdate = this.discountService.findDiscountById(discountId);
 			BeanUtils.copyProperties(discount, discountToUpdate, "id");
