@@ -34,7 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class DiscountControllerE2ETests {
+class DiscountControllerE2ETests {
 
 	@Autowired
 	private DiscountController discountController;

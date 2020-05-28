@@ -16,31 +16,32 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-public class VisitValidatorTests {
+class VisitValidatorTests {
 
 	private Validator createValidator() {
 		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
 		localValidatorFactoryBean.afterPropertiesSet();
 		return localValidatorFactoryBean;
 	}
-	
+
 	@ParameterizedTest
-	@ValueSource(strings = { "Name", "....", "ASD asdasdasads", "                       a", "asd", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" })
+	@ValueSource(strings = { "Name", "....", "ASD asdasdasads", "                       a", "asd",
+			"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" })
 	void shouldValidateWhenBringerParametized(String name) {
-		
+
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Visit visit = new Visit();
-		
+
 		visit.setBringer(name);
 		visit.setDate(LocalDate.now());
 		visit.setDescription("Description");
-		visit.setPet(new Pet ());
+		visit.setPet(new Pet());
 
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Visit>> constraintViolations = validator.validate(visit);
 
 		assertThat(constraintViolations.size()).isEqualTo(0);
-				
+
 	}
-	
+
 }

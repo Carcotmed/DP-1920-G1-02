@@ -39,17 +39,17 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
 @WebMvcTest(controllers = ProviderController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-public class ProviderControllerTests {
+class ProviderControllerTests {
 
 	@Autowired
 	private ProviderController providerController;
 
 	@MockBean
 	private ProviderService providerService;
-	
+
 	@MockBean
 	private DiscountService discountService;
-	
+
 	@MockBean
 	private OrderService orderService;
 
@@ -93,35 +93,25 @@ public class ProviderControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/providers/new").with(csrf())
-				.param("name", "Provider")
-				.param("phone", "123456789")
-				.param("address", "Address")
-				.param("email", "email@email.com"))
-		.andExpect(status().is3xxRedirection())
+		mockMvc.perform(post("/providers/new").with(csrf()).param("name", "Provider").param("phone", "123456789")
+				.param("address", "Address").param("email", "email@email.com")).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/providers"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/providers/new").with(csrf())
-				.param("phone", "123456789")
-				.param("address", "Address")
-				.param("email", "email@email.com"))
-		.andExpect(status().isOk())
-		.andExpect(model().attributeHasErrors("provider"))
+		mockMvc.perform(post("/providers/new").with(csrf()).param("phone", "123456789").param("address", "Address")
+				.param("email", "email@email.com")).andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("provider"))
 				.andExpect(model().attributeHasFieldErrors("provider", "name"))
 				.andExpect(view().name("providers/createOrUpdateProviderForm"));
 	}
-	
-	
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testInitEditForm() throws Exception {
-		mockMvc.perform(get("/providers/{providerId}/edit",
-				TEST_PROVIDER_ID)).andExpect(status().isOk())
+		mockMvc.perform(get("/providers/{providerId}/edit", TEST_PROVIDER_ID)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("provider"))
 				.andExpect(model().attribute("provider", hasProperty("name", is("Proveedor"))))
 				.andExpect(model().attribute("provider", hasProperty("email", is("email@email.com"))))
@@ -134,38 +124,27 @@ public class ProviderControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessEditFormSuccess() throws Exception {
-		mockMvc.perform(get("/providers/{providerId}/edit",
-				TEST_PROVIDER_ID).with(csrf())
-						.param("name", "Provider updated")
-						.param("email", "emailUpdated@email.com")
-						.param("phone", "987654486")
-						.param("address", "Address updated"))
-				.andExpect(status().is2xxSuccessful())
+		mockMvc.perform(get("/providers/{providerId}/edit", TEST_PROVIDER_ID).with(csrf())
+				.param("name", "Provider updated").param("email", "emailUpdated@email.com").param("phone", "987654486")
+				.param("address", "Address updated")).andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("providers/createOrUpdateProviderForm"));
-		
+
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessEditFormHasErrors() throws Exception {
-		mockMvc.perform(post("/providers/{providerId}/edit",
-				TEST_PROVIDER_ID).with(csrf())
-						.param("name", "Je")
-						.param("email", "email.com")
-						.param("phone", "-987654486")
-						.param("address", "Address updated"))
+		mockMvc.perform(post("/providers/{providerId}/edit", TEST_PROVIDER_ID).with(csrf()).param("name", "Je")
+				.param("email", "email.com").param("phone", "-987654486").param("address", "Address updated"))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("provider"))
 				.andExpect(model().attributeHasFieldErrors("provider", "name", "email", "phone"))
 				.andExpect(view().name("providers/createOrUpdateProviderForm"));
 	}
-	
-	
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDelete() throws Exception {
-		mockMvc.perform(get("/providers/{providerId}/delete",
-				TEST_PROVIDER_ID)).andExpect(status().is2xxSuccessful())
+		mockMvc.perform(get("/providers/{providerId}/delete", TEST_PROVIDER_ID)).andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("providers/providersList"));
 	}
 

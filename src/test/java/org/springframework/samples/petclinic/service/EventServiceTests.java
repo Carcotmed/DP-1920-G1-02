@@ -39,23 +39,24 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Integration test of the Service and the Repository layer.
  * <p>
- * ClinicServiceSpringDataJpaTests subclasses benefit from the following services provided
- * by the Spring TestContext Framework:
+ * ClinicServiceSpringDataJpaTests subclasses benefit from the following
+ * services provided by the Spring TestContext Framework:
  * </p>
  * <ul>
- * <li><strong>Spring IoC container caching</strong> which spares us unnecessary set up
- * time between test execution.</li>
- * <li><strong>Dependency Injection</strong> of test fixture instances, meaning that we
- * don't need to perform application context lookups. See the use of
+ * <li><strong>Spring IoC container caching</strong> which spares us unnecessary
+ * set up time between test execution.</li>
+ * <li><strong>Dependency Injection</strong> of test fixture instances, meaning
+ * that we don't need to perform application context lookups. See the use of
  * {@link Autowired @Autowired} on the <code>{@link
- * ClinicServiceTests#clinicService clinicService}</code> instance variable, which uses
- * autowiring <em>by type</em>.
- * <li><strong>Transaction management</strong>, meaning each test method is executed in
- * its own transaction, which is automatically rolled back by default. Thus, even if tests
- * insert or otherwise change database state, there is no need for a teardown or cleanup
- * script.
- * <li>An {@link org.springframework.context.ApplicationContext ApplicationContext} is
- * also inherited and can be used for explicit bean lookup if necessary.</li>
+ * ClinicServiceTests#clinicService clinicService}</code> instance variable,
+ * which uses autowiring <em>by type</em>.
+ * <li><strong>Transaction management</strong>, meaning each test method is
+ * executed in its own transaction, which is automatically rolled back by
+ * default. Thus, even if tests insert or otherwise change database state, there
+ * is no need for a teardown or cleanup script.
+ * <li>An {@link org.springframework.context.ApplicationContext
+ * ApplicationContext} is also inherited and can be used for explicit bean
+ * lookup if necessary.</li>
  * </ul>
  *
  * @author Ken Krebs
@@ -70,17 +71,16 @@ import org.springframework.transaction.annotation.Transactional;
 class EventServiceTests {
 
 	@Autowired
-	protected EventService	eventService;
+	protected EventService eventService;
 
 	@Autowired
-	protected OwnerService	ownerService;
+	protected OwnerService ownerService;
 
-	private static int		ide1;
-	private static int		ide2;
-	private static int		ide3;
-	private static int		idp1;
-	private static int		idp2;
-
+	private static int ide1;
+	private static int ide2;
+	private static int ide3;
+	private static int idp1;
+	private static int idp2;
 
 	@Transactional
 	@BeforeEach
@@ -92,7 +92,7 @@ class EventServiceTests {
 		event1.setPlace("Place1");
 		event1.setPublished(true);
 		ide1 = this.eventService.save(event1).getId();
-		
+
 		EventServiceTests.ide1 = event1.getId();
 		Event event2 = new Event();
 		event2.setCapacity(2);
@@ -101,7 +101,7 @@ class EventServiceTests {
 		event2.setPlace("Place2");
 		event2.setPublished(false);
 		ide2 = this.eventService.save(event2).getId();
-		
+
 		Event event3 = new Event();
 		event3.setCapacity(3);
 		event3.setDate(LocalDate.of(2030, 1, 1));
@@ -109,20 +109,21 @@ class EventServiceTests {
 		event3.setPlace("Place3");
 		event3.setPublished(true);
 		ide3 = this.eventService.save(event3).getId();
-		
+
 		Owner owner1 = this.ownerService.findOwnerById(1);
 		Participation part1 = new Participation();
 		part1.setEvent(event1);
 		part1.setOwner(owner1);
 		part1.setPets(owner1.getPets());
 		EventServiceTests.idp1 = this.eventService.saveParticipation(part1).getId();
-		
+
 		Participation part2 = new Participation();
 		part2.setEvent(event1);
 		part2.setOwner(this.ownerService.findOwnerById(2));
 		part2.setPets(new ArrayList<>());
 		EventServiceTests.idp2 = this.eventService.saveParticipation(part2).getId();
 	}
+
 	@Transactional
 	@AfterEach
 	void tearDown() {
@@ -145,7 +146,8 @@ class EventServiceTests {
 
 	@Test
 	void shouldFindParticipationWithCorrectEventId() {
-		Collection<Participation> participations = this.eventService.findParticipationsByEventId(EventServiceTests.ide1);
+		Collection<Participation> participations = this.eventService
+				.findParticipationsByEventId(EventServiceTests.ide1);
 		Participation participation1 = EntityUtils.getById(participations, Participation.class, EventServiceTests.idp1);
 		assertThat(participation1.getEvent().getId()).isEqualTo(EventServiceTests.ide1);
 		Participation participation3 = EntityUtils.getById(participations, Participation.class, EventServiceTests.idp2);
@@ -228,14 +230,16 @@ class EventServiceTests {
 		part.setOwner(this.ownerService.findOwnerById(1));
 		part.setPets(new ArrayList<>());
 		part = this.eventService.saveParticipation(part);
-		assertThat(this.eventService.findParticipationByIds(part.getEvent().getId(), part.getOwner().getId())).isEqualTo(part);
+		assertThat(this.eventService.findParticipationByIds(part.getEvent().getId(), part.getOwner().getId()))
+				.isEqualTo(part);
 	}
 
 	@Test
 	void shouldDeleteParticipation() {
 		Participation part = this.eventService.findParticipationByIds(EventServiceTests.ide1, 1);
 		this.eventService.deleteParticipation(part);
-		assertThat(this.eventService.findParticipationByIds(part.getEvent().getId(), part.getOwner().getId())).isEqualTo(null);
+		assertThat(this.eventService.findParticipationByIds(part.getEvent().getId(), part.getOwner().getId()))
+				.isEqualTo(null);
 	}
 
 }

@@ -26,7 +26,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class DiscountUITest {
+class DiscountUITest {
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -34,7 +34,7 @@ public class DiscountUITest {
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
@@ -43,7 +43,7 @@ public class DiscountUITest {
 
 	@Order(1)
 	@Test // HU-019
-	public void testCreateDiscountNegativeUI() throws Exception {
+	void testCreateDiscountNegativeUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -80,7 +80,7 @@ public class DiscountUITest {
 
 	@Order(2)
 	@Test // HU-019
-	public void testCreateDiscountPositiveUI() throws Exception {
+	void testCreateDiscountPositiveUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -121,7 +121,7 @@ public class DiscountUITest {
 
 	@Order(3)
 	@Test // HU-020
-	public void testUpdateDiscountNegativeUI() throws Exception {
+	void testUpdateDiscountNegativeUI() throws Exception {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -144,7 +144,7 @@ public class DiscountUITest {
 
 	@Order(4)
 	@Test // HU-020
-	public void testUpdateDiscountPositiveUI() throws Exception {
+	void testUpdateDiscountPositiveUI() throws Exception {
 		driver.get("http://localhost:8080/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -167,7 +167,7 @@ public class DiscountUITest {
 
 	@Order(5)
 	@Test // HU-021
-	public void testDeleteDiscountNegativeUI() throws Exception {
+	void testDeleteDiscountNegativeUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -191,7 +191,7 @@ public class DiscountUITest {
 
 	@Order(6)
 	@Test // HU-021
-	public void testDeleteDiscountPositiveUI() throws Exception {
+	void testDeleteDiscountPositiveUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -222,7 +222,7 @@ public class DiscountUITest {
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	void tearDown() throws Exception {
 		this.driver.close();
 	}
 

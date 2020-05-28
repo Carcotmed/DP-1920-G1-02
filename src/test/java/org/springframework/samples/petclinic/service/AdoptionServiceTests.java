@@ -38,23 +38,24 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Integration test of the Service and the Repository layer.
  * <p>
- * ClinicServiceSpringDataJpaTests subclasses benefit from the following services provided
- * by the Spring TestContext Framework:
+ * ClinicServiceSpringDataJpaTests subclasses benefit from the following
+ * services provided by the Spring TestContext Framework:
  * </p>
  * <ul>
- * <li><strong>Spring IoC container caching</strong> which spares us unnecessary set up
- * time between test execution.</li>
- * <li><strong>Dependency Injection</strong> of test fixture instances, meaning that we
- * don't need to perform application context lookups. See the use of
+ * <li><strong>Spring IoC container caching</strong> which spares us unnecessary
+ * set up time between test execution.</li>
+ * <li><strong>Dependency Injection</strong> of test fixture instances, meaning
+ * that we don't need to perform application context lookups. See the use of
  * {@link Autowired @Autowired} on the <code>{@link
- * ClinicServiceTests#clinicService clinicService}</code> instance variable, which uses
- * autowiring <em>by type</em>.
- * <li><strong>Transaction management</strong>, meaning each test method is executed in
- * its own transaction, which is automatically rolled back by default. Thus, even if tests
- * insert or otherwise change database state, there is no need for a teardown or cleanup
- * script.
- * <li>An {@link org.springframework.context.ApplicationContext ApplicationContext} is
- * also inherited and can be used for explicit bean lookup if necessary.</li>
+ * ClinicServiceTests#clinicService clinicService}</code> instance variable,
+ * which uses autowiring <em>by type</em>.
+ * <li><strong>Transaction management</strong>, meaning each test method is
+ * executed in its own transaction, which is automatically rolled back by
+ * default. Thus, even if tests insert or otherwise change database state, there
+ * is no need for a teardown or cleanup script.
+ * <li>An {@link org.springframework.context.ApplicationContext
+ * ApplicationContext} is also inherited and can be used for explicit bean
+ * lookup if necessary.</li>
  * </ul>
  *
  * @author Ken Krebs
@@ -70,21 +71,20 @@ import org.springframework.transaction.annotation.Transactional;
 class AdoptionServiceTests {
 
 	@Autowired
-	protected AdoptionService	adoptionService;
+	protected AdoptionService adoptionService;
 
 	@Autowired
-	protected OwnerService		ownerService;
+	protected OwnerService ownerService;
 
 	@Autowired
-	protected PetService		petService;
+	protected PetService petService;
 
-	private static int			ida1;
-	private static int			ida2;
-	private static int			ido1;
-	private static int			ido2;
-	private static int			idp1;
-	private static int			idp2;
-
+	private static int ida1;
+	private static int ida2;
+	private static int ido1;
+	private static int ido2;
+	private static int idp1;
+	private static int idp2;
 
 	@Transactional
 	@BeforeEach
@@ -131,6 +131,7 @@ class AdoptionServiceTests {
 		adoption2.setPet(this.petService.findPetById(AdoptionServiceTests.idp2));
 		AdoptionServiceTests.ida2 = this.adoptionService.save(adoption2).getId();
 	}
+
 	@Transactional
 	@AfterEach
 	void tearDown() {
@@ -191,6 +192,7 @@ class AdoptionServiceTests {
 		Assertions.assertThat(adoption1.getDate()).isEqualTo(LocalDate.now().plusDays(3));
 		Assertions.assertThat(adoption1.getPet()).isEqualTo(this.petService.findPetById(AdoptionServiceTests.idp2));
 	}
+
 	@Test
 	void shouldDeleteAdoption() {
 		Adoption adoption = new Adoption();

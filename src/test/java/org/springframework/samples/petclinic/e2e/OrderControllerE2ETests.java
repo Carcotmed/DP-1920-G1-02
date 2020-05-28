@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class OrderControllerE2ETests {
+class OrderControllerE2ETests {
 
 	@Autowired
 	private ProductService productService;
