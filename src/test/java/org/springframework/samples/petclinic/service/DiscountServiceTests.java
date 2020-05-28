@@ -27,19 +27,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 
-public class DiscountServiceTests {
+class DiscountServiceTests {
 
 	@Autowired
-	public DiscountService discountService;
+	DiscountService discountService;
 
 	@Autowired
-	public ProductService productService;
+	ProductService productService;
 
 	@Autowired
-	public ProviderService providerService;
-	
+	ProviderService providerService;
+
 	@Autowired
-	public OrderService orderService;
+	OrderService orderService;
 
 	Product product = new Product();
 	Provider provider = new Provider();
@@ -67,7 +67,7 @@ public class DiscountServiceTests {
 	// 1 Save+
 	@Test
 	@Transactional
-	public void shouldInsertDBAndGenerateId() {
+	void shouldInsertDBAndGenerateId() {
 		Integer found = this.discountService.findDiscounts().size();
 		Discount discount = new Discount();
 
@@ -76,7 +76,7 @@ public class DiscountServiceTests {
 		discount.setProvider(provider);
 		discount.setQuantity(1);
 		discount.setEnabled(true);
-		
+
 		discountService.save(discount);
 
 		assertThat(discount.getId().longValue()).isNotEqualTo(0);
@@ -86,7 +86,7 @@ public class DiscountServiceTests {
 	// 2 Save-
 	@Test
 	@Transactional
-	public void shouldNotInsertDBWhenQuantityNull() {
+	void shouldNotInsertDBWhenQuantityNull() {
 		Discount discount = new Discount();
 
 		discount.setPercentage(80.0);
@@ -101,7 +101,7 @@ public class DiscountServiceTests {
 
 	// 3 findDiscounts+
 	@Test
-	public void shouldFindDiscounts() {
+	void shouldFindDiscounts() {
 		Collection<Discount> discounts = this.discountService.findDiscounts();
 
 		Discount discount1 = EntityUtils.getById(discounts, Discount.class, 1);
@@ -114,7 +114,7 @@ public class DiscountServiceTests {
 
 	// 4 findDiscountByProviderId
 	@Test
-	public void shouldFindDiscountByProviderId() {
+	void shouldFindDiscountByProviderId() {
 		Collection<Discount> discounts = this.discountService.findAllByProviderId(3);
 		assertThat(discounts.size() == 1);
 		assertThat(discounts.stream().map(x -> x.getPercentage()).equals(65.0));
@@ -122,7 +122,7 @@ public class DiscountServiceTests {
 
 	// 5 findDiscountByProductId
 	@Test
-	public void shouldFindDiscountByProductId() {
+	void shouldFindDiscountByProductId() {
 		Collection<Discount> discounts = this.discountService.findAllByProductId(2);
 		assertThat(discounts.size() == 1);
 		assertThat(discounts.stream().map(x -> x.getPercentage()).equals(55.0));
@@ -130,38 +130,39 @@ public class DiscountServiceTests {
 
 	// 6 findDiscountById
 	@Test
-	public void shouldFindDiscountById() {
+	void shouldFindDiscountById() {
 		Discount discount = this.discountService.findDiscountById(3);
 		assertThat(discount.getPercentage().equals(65.0));
 	}
 
 	// 7 delete+
 	@Test
-	public void shouldDeleteDiscount() {
+	void shouldDeleteDiscount() {
 		Collection<Discount> discounts = this.discountService.findDiscounts();
 		int found = discounts.size();
 		Collection<Order> orders = this.orderService.findAllOrdersByDiscountId(1);
 		orders.stream().forEach(x -> this.orderService.deleteOrder(x));
-		
+
 		this.discountService.deleteDiscount(this.discountService.findDiscountById(1));
 		assertThat(this.discountService.findDiscounts().size()).isEqualTo(found - 1);
 	}
 
 	// 8 delete-
 	@Test
-	public void shouldNotDeleteDiscount() {
+	void shouldNotDeleteDiscount() {
 		Collection<Discount> discounts = this.discountService.findDiscounts();
 		int found = discounts.size();
 		Collection<Order> orders = this.orderService.findAllOrdersByDiscountId(50);
 		assertTrue(orders.isEmpty());
-		assertThrows(InvalidDataAccessApiUsageException.class, () -> this.discountService.deleteDiscount(this.discountService.findDiscountById(50)));
+		assertThrows(InvalidDataAccessApiUsageException.class,
+				() -> this.discountService.deleteDiscount(this.discountService.findDiscountById(50)));
 		assertThat(this.discountService.findDiscounts().size()).isEqualTo(found);
 	}
 
-  //9 update+
+	// 9 update+
 	@Test
 	@Transactional
-	public void shouldUpdateDiscount() {
+	void shouldUpdateDiscount() {
 		Discount discount = new Discount();
 
 		discount.setPercentage(80.0);
@@ -170,40 +171,39 @@ public class DiscountServiceTests {
 		discount.setQuantity(1);
 		discount.setEnabled(true);
 
-
 		discountService.save(discount);
-		
-		Discount discountAct = this.discountService.findDiscounts().stream().filter(x -> x.getPercentage().equals(80.0)).collect(Collectors.toList()).get(0);
+
+		Discount discountAct = this.discountService.findDiscounts().stream().filter(x -> x.getPercentage().equals(80.0))
+				.collect(Collectors.toList()).get(0);
 		discountAct.setPercentage(30.01);
-		
+
 		discountService.save(discountAct);
 
 		assertThat(discountService.findDiscountById(discountAct.getId()).getPercentage()).isEqualTo(30.01);
 	}
-	
-	 //10 update-
-		@Test
-		@Transactional
-		public void shouldNotUpdateDiscount() {
-			Discount discount = new Discount();
 
-			discount.setPercentage(80.0);
-			discount.setProduct(product);
-			discount.setProvider(provider);
-			discount.setQuantity(1);
-			discount.setEnabled(true);
+	// 10 update-
+	@Test
+	@Transactional
+	void shouldNotUpdateDiscount() {
+		Discount discount = new Discount();
 
+		discount.setPercentage(80.0);
+		discount.setProduct(product);
+		discount.setProvider(provider);
+		discount.setQuantity(1);
+		discount.setEnabled(true);
 
-			this.discountService.save(discount);
-			
-			Discount discountAct = this.discountService.findDiscounts().stream().filter(x -> x.getPercentage().equals(80.0)).collect(Collectors.toList()).get(0);
-			
-			discountAct.setPercentage(300.01);
-			this.discountService.save(discountAct);
-			
-			assertThrows(ConstraintViolationException.class, () -> this.discountService.findDiscountById(discountAct.getId()).getPercentage().equals(80.0));
-		}
+		this.discountService.save(discount);
 
+		Discount discountAct = this.discountService.findDiscounts().stream().filter(x -> x.getPercentage().equals(80.0))
+				.collect(Collectors.toList()).get(0);
 
+		discountAct.setPercentage(300.01);
+		this.discountService.save(discountAct);
+
+		assertThrows(ConstraintViolationException.class,
+				() -> this.discountService.findDiscountById(discountAct.getId()).getPercentage().equals(80.0));
+	}
 
 }

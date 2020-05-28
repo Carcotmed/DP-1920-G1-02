@@ -76,9 +76,9 @@ public class EventService {
 
 	@Transactional
 	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
-	public Event save(final Event event) throws DataAccessException {
-		if (event.getPublished()) {
-			if (event.getCapacity().equals(null) || event.getDate().equals(null) || event.getDescription().equals(null) || event.getPlace().equals(null)) {
+	public Event save(final Event event) {
+		if (Boolean.TRUE.equals(event.getPublished())) {
+			if (Boolean.TRUE.equals(event.getCapacity().equals(null)) || Boolean.TRUE.equals(event.getDate().equals(null)) || Boolean.TRUE.equals(event.getDescription().equals(null)) || Boolean.TRUE.equals(event.getPlace().equals(null))) {
 				throw new InvalidParameterException("Event must not be empty if published");
 			}
 		}
@@ -90,7 +90,7 @@ public class EventService {
 
 	@Transactional
 	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
-	public Participation saveParticipation(final Participation participation) throws DataAccessException {
+	public Participation saveParticipation(final Participation participation) {
 		return this.participationRepository.save(participation);
 	}
 
@@ -102,7 +102,7 @@ public class EventService {
 	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
 	public void delete(final Event event) {
 		List<Participation> participations = new ArrayList<>(this.findParticipationsByEventId(event.getId()));
-		participations.stream().forEach(x -> this.deleteParticipation(x));
+		participations.stream().forEach(this::deleteParticipation);
 		this.eventRepository.delete(event);
 	}
 

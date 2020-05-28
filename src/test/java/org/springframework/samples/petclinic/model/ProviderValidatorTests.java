@@ -15,7 +15,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-public class ProviderValidatorTests {
+class ProviderValidatorTests {
 
 	private Validator createValidator() {
 		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
@@ -89,7 +89,7 @@ public class ProviderValidatorTests {
 	@ParameterizedTest
 	@Transactional
 	@ValueSource(strings = { "123456789", "905246584", "000000000", "999999999" })
-	public void shouldValidateWithParametizedPhone(String phone) {
+	 void shouldValidateWithParametizedPhone(String phone) {
 
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Provider provider = new Provider();
@@ -109,7 +109,7 @@ public class ProviderValidatorTests {
 	@ParameterizedTest
 	@Transactional
 	@ValueSource(strings = { "-123", "0,123456789", "-12,52", "12,5" })
-	public void shouldNotValidateWithParametizedPhones(String phone) {
+	 void shouldNotValidateWithParametizedPhones(String phone) {
 
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Provider provider = new Provider();
@@ -134,7 +134,7 @@ public class ProviderValidatorTests {
 	@ParameterizedTest
 	@Transactional
 	@ValueSource(strings = { "email@email.com", "correo@gmail.es", "pipopipo123@outlook.co.uk" })
-	public void shouldValidateWithParametizedEmails(String email) {
+	 void shouldValidateWithParametizedEmails(String email) {
 
 		Provider provider = new Provider();
 		provider.setName("Nombre");
@@ -150,7 +150,7 @@ public class ProviderValidatorTests {
 	
 	@Test
 	@Transactional
-	public void shouldNotValidateWithEmptyEmail() {
+	 void shouldNotValidateWithEmptyEmail() {
 
 		Provider provider = new Provider();
 		provider.setName("Nombre");
@@ -169,7 +169,7 @@ public class ProviderValidatorTests {
 	@ParameterizedTest
 	@Transactional
 	@ValueSource(strings = { " ", "email", "pipooooooooooooooooooooo@", "pipo.com", "@.com", "@.", "@", ".", "123" })
-	public void shouldNotValidateWithParametizedBadEmails(String email) {
+	 void shouldNotValidateWithParametizedBadEmails(String email) {
 
 		Provider provider = new Provider();
 		provider.setName("Nombre");

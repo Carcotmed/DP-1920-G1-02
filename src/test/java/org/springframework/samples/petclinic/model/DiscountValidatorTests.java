@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-public class DiscountValidatorTests extends ValidatorTests {
+class DiscountValidatorTests extends ValidatorTests {
 
 	Product product = new Product();
 	Provider provider = new Provider();

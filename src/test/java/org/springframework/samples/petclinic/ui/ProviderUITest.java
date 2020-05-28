@@ -25,7 +25,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class ProviderUITest {
+class ProviderUITest {
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -33,7 +33,7 @@ public class ProviderUITest {
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
@@ -42,7 +42,7 @@ public class ProviderUITest {
 
 	@Order(1)
 	@Test // HU-013
-	public void testCreateProviderNegativeUI() throws Exception {
+	void testCreateProviderNegativeUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -74,7 +74,7 @@ public class ProviderUITest {
 
 	@Order(2)
 	@Test // HU-013
-	public void testCreateProviderPositiveUI() throws Exception {
+	void testCreateProviderPositiveUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -114,7 +114,7 @@ public class ProviderUITest {
 
 	@Order(3)
 	@Test // HU-014
-	public void testUpdateProviderNegativeUI() throws Exception {
+	void testUpdateProviderNegativeUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -139,7 +139,7 @@ public class ProviderUITest {
 
 	@Order(4)
 	@Test // HU-014
-	public void testUpdateProviderPositiveUI() throws Exception {
+	void testUpdateProviderPositiveUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -172,7 +172,7 @@ public class ProviderUITest {
 
 	@Order(5)
 	@Test // HU-015
-	public void testDeleteProviderNegativeUI() throws Exception {
+	void testDeleteProviderNegativeUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -197,7 +197,7 @@ public class ProviderUITest {
 
 	@Order(6)
 	@Test // HU-015
-	public void testDeleteProviderPositiveUI() throws Exception {
+	void testDeleteProviderPositiveUI() throws Exception {
 		driver.get("http://localhost:8080/");
 
 		// login
@@ -226,7 +226,7 @@ public class ProviderUITest {
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	void tearDown() throws Exception {
 		this.driver.close();
 	}
 
