@@ -80,18 +80,6 @@ public class OrderController {
 		if (result.hasErrors()) {
 			modelMap.put("order", order);
 			view = "orders/editOrder";
-			//DELETEEEEEEEEEEEEEEEEEEEE vv
-			System.out.println("Provider id");
-			System.out.println(order.getProvider().getId());
-			System.out.println("Product id");
-			System.out.println(order.getProduct().getId());
-			System.out.println("Discount id");
-			System.out.println(order.getDiscount().getId());
-			System.out.println("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS");
-			System.out.println(this.productService.findAllByProviderId(order.getProvider().getId()));
-			System.out.println(
-					this.productService.findAllByProviderId(order.getProvider().getId()).contains(order.getProduct()));
-			//DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ^^
 		} else if (order.getArrivalDate() != null && !order.getSent()) {
 			order.setSent(true); // Si hay fecha de llegada y sent esta a false, lo pone a true
 			this.orderService.save(order);
