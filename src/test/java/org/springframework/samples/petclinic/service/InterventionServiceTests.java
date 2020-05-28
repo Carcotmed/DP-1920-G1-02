@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mysql.cj.result.LocalDateValueFactory;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class InterventionServiceTests {
+class InterventionServiceTests {
 
 	@Autowired
 	protected InterventionService interventionService;

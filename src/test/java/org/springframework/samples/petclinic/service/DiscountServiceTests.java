@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 
-public class DiscountServiceTests {
+class DiscountServiceTests {
 
 	@Autowired
 	public DiscountService discountService;

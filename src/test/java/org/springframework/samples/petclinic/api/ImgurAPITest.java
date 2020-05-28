@@ -17,7 +17,7 @@ import org.springframework.samples.petclinic.model.api.ImgurResponse;
 
 @Log
 @TestMethodOrder(OrderAnnotation.class)
-public class ImgurAPITest {
+class ImgurAPITest {
 	
 	/*
 	@Value("${imgurAPI.clientID}")

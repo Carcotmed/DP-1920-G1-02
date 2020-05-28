@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class VetLoginUITest {
+class VetLoginUITest {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;

@@ -20,7 +20,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 @TestMethodOrder(value = Alphanumeric.class)
-public class EventsUITest {
+class EventsUITest {
 
 	private WebDriver		driver;
 	private String			baseUrl;

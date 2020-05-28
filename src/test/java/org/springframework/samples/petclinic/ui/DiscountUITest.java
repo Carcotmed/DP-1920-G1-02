@@ -26,7 +26,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class DiscountUITest {
+class DiscountUITest {
 
 	private WebDriver driver;
 	private String baseUrl;

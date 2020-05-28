@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceTests {
+class OrderServiceTests {
 	
 	@Autowired
 	protected OrderService orderService;

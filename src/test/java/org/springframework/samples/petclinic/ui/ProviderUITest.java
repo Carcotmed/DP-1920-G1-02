@@ -25,7 +25,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class ProviderUITest {
+class ProviderUITest {
 
 	private WebDriver driver;
 	private String baseUrl;
