@@ -46,7 +46,6 @@ class ProductControllerTests {
 	private Product product1 = new Product();
 	private Product product2 = new Product();
 
-
 	@BeforeEach
 	void setup() {
 
@@ -63,7 +62,7 @@ class ProductControllerTests {
 		product1.setEnabled(true);
 		product1.setProvider(provider);
 		product1.setAllAvailable(true);
-		
+
 		product2.setName("producto2");
 		product2.setId(99);
 		product2.setPrice(2.2);
@@ -76,17 +75,14 @@ class ProductControllerTests {
 		given(this.productService.findProductById(98)).willReturn(product1);
 		given(this.productService.findProductById(99)).willReturn(product2);
 
-		
 	}
-
 
 	// ========================== Create ===========================
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProductInitCreate() throws Exception {
-		mockMvc.perform(get("/products/new")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("providers"))
+		mockMvc.perform(get("/products/new")).andExpect(status().isOk()).andExpect(model().attributeExists("providers"))
 				.andExpect(view().name("products/editProduct"));
 	}
 
@@ -94,15 +90,16 @@ class ProductControllerTests {
 	@Test
 	void testProductProcessCreateSuccessful() throws Exception {
 		mockMvc.perform(post("/products/new").with(csrf()).param("price", "10.0").param("quantity", "1")
-				.param("provider", "99").param("enabled", "true").param("name", "nombre")).andExpect(status().is2xxSuccessful())
-				.andExpect(view().name("products/editProduct"));
+				.param("provider", "99").param("enabled", "true").param("name", "nombre"))
+				.andExpect(status().is2xxSuccessful()).andExpect(view().name("products/editProduct"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testProductProcessCreateFail() throws Exception {
 		mockMvc.perform(post("/products/new").with(csrf()).param("price", "10.0").param("quantity", "1")
-				.param("provider", "99").param("name", "nombre")).andExpect(status().isOk()).andExpect(model().attributeHasErrors("product"))
+				.param("provider", "99").param("name", "nombre")).andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("product"))
 				.andExpect(model().attributeHasFieldErrors("product", "enabled"))
 				.andExpect(view().name("products/editProduct"));
 	}
@@ -112,7 +109,7 @@ class ProductControllerTests {
 	@Test
 	void testProductList() throws Exception {
 		given(this.productService.findProducts()).willReturn(Lists.newArrayList(product1, product2));
-		
+
 		mockMvc.perform(get("/products")).andExpect(status().isOk()).andExpect(model().attributeExists("products"))
 				.andExpect(view().name("products/productsList"));
 	}

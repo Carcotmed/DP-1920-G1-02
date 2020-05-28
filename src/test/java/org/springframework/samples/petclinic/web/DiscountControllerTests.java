@@ -51,7 +51,6 @@ class DiscountControllerTests {
 	private Provider provider = new Provider();
 	private Product product = new Product();
 
-	
 	@BeforeEach
 	void setup() {
 		provider.setId(99);
@@ -83,7 +82,6 @@ class DiscountControllerTests {
 		discount2.setProvider(provider);
 		discount2.setQuantity(2);
 		discount2.setEnabled(true);
-
 
 		given(this.discountService.findDiscounts()).willReturn(Lists.newArrayList(discount1, discount2));
 		given(this.providerService.findProviders()).willReturn(Lists.newArrayList(provider));
@@ -147,25 +145,24 @@ class DiscountControllerTests {
 				.andExpect(model().attribute("discount", hasProperty("quantity", is(1))))
 				.andExpect(model().attribute("discount", hasProperty("product", is(product))))
 				.andExpect(model().attribute("discount", hasProperty("provider", is(provider))))
-				.andExpect(status().isOk())
-				.andExpect(view().name("discounts/editDiscount"));
+				.andExpect(status().isOk()).andExpect(view().name("discounts/editDiscount"));
 	}
 
 	@WithMockUser(value = "spring")
 	@Test
 	void testDiscountProcessUpdateSuccessful() throws Exception {
 		mockMvc.perform(post("/discounts/edit/{discountId}", 98).with(csrf()).param("percentage", "10.0")
-		.param("quantity", "10").param("provider", "99").param("product", "99")).andExpect(status().is2xxSuccessful())
-		.andExpect(view().name("discounts/editDiscount"));
+				.param("quantity", "10").param("provider", "99").param("product", "99"))
+				.andExpect(status().is2xxSuccessful()).andExpect(view().name("discounts/editDiscount"));
 	}
-	
+
 	@WithMockUser(value = "spring")
 	@Test
 	void testDiscountProcessUpdateFail() throws Exception {
 		mockMvc.perform(post("/discounts/edit/{discountId}", 98).with(csrf()).param("percentage", "10.0")
-		.param("quantity", "-1").param("provider", "99").param("product", "99")).andExpect(status().isOk())
-		.andExpect(model().attributeHasErrors("discount"))
-		.andExpect(model().attributeHasFieldErrors("discount", "quantity"))
-		.andExpect(view().name("discounts/editDiscount"));
+				.param("quantity", "-1").param("provider", "99").param("product", "99")).andExpect(status().isOk())
+				.andExpect(model().attributeHasErrors("discount"))
+				.andExpect(model().attributeHasFieldErrors("discount", "quantity"))
+				.andExpect(view().name("discounts/editDiscount"));
 	}
 }

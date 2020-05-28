@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTests {
-	
+
 	@Autowired
 	protected OrderService orderService;
 
@@ -49,10 +49,10 @@ class OrderServiceTests {
 	Provider provider = new Provider();
 	Product product = new Product();
 	Discount discount = new Discount();
-	
+
 	@BeforeEach
 	void init() {
-		
+
 		provider.setAddress("pipo");
 		provider.setEmail("pipo@gmail.com");
 		provider.setName("ProvPrueba");
@@ -73,7 +73,7 @@ class OrderServiceTests {
 		discount.setProduct(product);
 		discount.setEnabled(true);
 		this.discountService.save(discount);
-	
+
 	}
 
 	// 1 Save+
@@ -120,10 +120,10 @@ class OrderServiceTests {
 
 		Collection<Order> orders = this.orderService.findAllOrders();
 		assertThat(orders.size()).isEqualTo(3);
-		
+
 		List<Order> list = new ArrayList<Order>();
 		list.addAll(orders);
-		
+
 		Order order1 = list.get(0);
 		assertThat(order1.getQuantity()).isEqualTo(3);
 		Order order2 = list.get(1);
@@ -135,7 +135,7 @@ class OrderServiceTests {
 	// 4 findOrderById+
 	@Test
 	@Transactional
-	public void shouldFindOrderById() {
+	void shouldFindOrderById() {
 		Order order1 = this.orderService.findOrderById(1);
 		assertThat(order1.getQuantity().equals(3));
 		Order order2 = this.orderService.findOrderById(1);
@@ -147,37 +147,38 @@ class OrderServiceTests {
 	// 5 findAllOrdersByDiscountId+
 	@Test
 	@Transactional
-	public void shouldFindAllOrdersByDiscountId() {
-		Collection<Order> orders = this.orderService.findAllOrdersByDiscountId(1); 
+	void shouldFindAllOrdersByDiscountId() {
+		Collection<Order> orders = this.orderService.findAllOrdersByDiscountId(1);
 		assertThat(orders.size()).isEqualTo(1);
 		Order order1 = EntityUtils.getById(orders, Order.class, 1);
 		assertThat(order1.getQuantity()).isEqualTo(3);
-		
+
 	}
-	
+
 	// 6 delete+
 	@Test
-	public void shouldDeleteOrder() {
-		
+	void shouldDeleteOrder() {
+
 		Collection<Order> orders = this.orderService.findAllOrders();
 		int found = orders.size();
 		this.orderService.deleteOrder(this.orderService.findOrderById(1));
 		assertThat(this.orderService.findAllOrders().size()).isEqualTo(found - 1);
 	}
-	
-	//7 delete -
+
+	// 7 delete -
 	@Test
-	public void shouldNotDeleteOrder() {
+	void shouldNotDeleteOrder() {
 
 		Collection<Order> orders = this.orderService.findAllOrders();
 		int found = orders.size();
-		assertThrows(InvalidDataAccessApiUsageException.class, () -> this.orderService.deleteOrder(this.orderService.findOrderById(99)));
+		assertThrows(InvalidDataAccessApiUsageException.class,
+				() -> this.orderService.deleteOrder(this.orderService.findOrderById(99)));
 		assertThat(this.orderService.findAllOrders().size()).isEqualTo(found);
 	}
-	
-	//8 delete - 
+
+	// 8 delete -
 	@Test
-	public void shouldNotDeleteWhenSent() {
+	void shouldNotDeleteWhenSent() {
 
 		Collection<Order> orders = this.orderService.findAllOrders();
 		int found = orders.size();
@@ -185,14 +186,14 @@ class OrderServiceTests {
 		assertThrows(InvalidDataAccessApiUsageException.class, () -> this.orderService.deleteOrder(order));
 		assertThat(this.orderService.findAllOrders().size()).isEqualTo(found);
 	}
-	
-	//9 update +
+
+	// 9 update +
 	@Test
 	@Transactional
-	public void shouldUpdateOrder() {
+	void shouldUpdateOrder() {
 
 		Order order = new Order();
-		
+
 		order.setQuantity(99);
 		order.setSent(false);
 		order.setOrderDate(LocalDate.of(2013, 1, 1));
@@ -200,25 +201,25 @@ class OrderServiceTests {
 		order.setDiscount(discount);
 		order.setProduct(product);
 		order.setProvider(provider);
-		
+
 		orderService.save(order);
-		
-		Order orderAct = this.orderService.findAllOrders().stream().filter(x -> x.getQuantity().equals(99)).collect(Collectors.toList()).get(0);
+
+		Order orderAct = this.orderService.findAllOrders().stream().filter(x -> x.getQuantity().equals(99))
+				.collect(Collectors.toList()).get(0);
 		orderAct.setQuantity(98);
-		
+
 		orderService.save(orderAct);
-		
+
 		assertThat(orderService.findOrderById(orderAct.getId()).getQuantity()).isEqualTo(98);
 	}
-	
-	
-	//10 update -
+
+	// 10 update -
 	@Test
 	@Transactional
-	public void shouldNotUpdateOrder() {
+	void shouldNotUpdateOrder() {
 
 		Order order = new Order();
-		
+
 		order.setQuantity(99);
 		order.setSent(false);
 		order.setOrderDate(LocalDate.of(2013, 1, 1));
@@ -226,24 +227,26 @@ class OrderServiceTests {
 		order.setDiscount(discount);
 		order.setProduct(product);
 		order.setProvider(provider);
-		
+
 		orderService.save(order);
-		
-		Order orderAct = this.orderService.findAllOrders().stream().filter(x -> x.getQuantity().equals(99)).collect(Collectors.toList()).get(0);
+
+		Order orderAct = this.orderService.findAllOrders().stream().filter(x -> x.getQuantity().equals(99))
+				.collect(Collectors.toList()).get(0);
 		orderAct.setQuantity(0);
-		
+
 		orderService.save(orderAct);
-		
-		assertThrows(ConstraintViolationException.class, () -> this.orderService.findOrderById(orderAct.getId()).getQuantity()).equals(99);
+
+		assertThrows(ConstraintViolationException.class,
+				() -> this.orderService.findOrderById(orderAct.getId()).getQuantity()).equals(99);
 	}
-	
-	//11 update
+
+	// 11 update
 	@Test
 	@Transactional
-	public void shouldNotUpdateOrderWithArrivalDate() {
+	void shouldNotUpdateOrderWithArrivalDate() {
 
 		Order order = new Order();
-		
+
 		order.setQuantity(99);
 		order.setSent(false);
 		order.setOrderDate(LocalDate.of(2013, 1, 1));
@@ -251,15 +254,16 @@ class OrderServiceTests {
 		order.setDiscount(discount);
 		order.setProduct(product);
 		order.setProvider(provider);
-		
+
 		orderService.save(order);
-		
-		Order orderAct = this.orderService.findAllOrders().stream().filter(x -> x.getQuantity().equals(99)).collect(Collectors.toList()).get(0);
+
+		Order orderAct = this.orderService.findAllOrders().stream().filter(x -> x.getQuantity().equals(99))
+				.collect(Collectors.toList()).get(0);
 		orderAct.setQuantity(98);
-		
+
 		orderService.save(orderAct);
-		
+
 		assertThat(orderService.findOrderById(orderAct.getId()).getQuantity()).isEqualTo(98);
 	}
-	
+
 }

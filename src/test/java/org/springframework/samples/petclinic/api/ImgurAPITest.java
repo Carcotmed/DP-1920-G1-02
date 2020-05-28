@@ -29,7 +29,7 @@ class ImgurAPITest {
 
 	@Test
 	@Order(1)
-	public void testUploadImage () {
+	void testUploadImage () {
 		
 		String trueClientID = "Client-ID " + clientID;
 		Header header = new Header("Authorization", trueClientID);
@@ -61,7 +61,7 @@ class ImgurAPITest {
 
 	@Test
 	@Order(2)
-	public void testDeleteImage() {
+	void testDeleteImage() {
 		
 		String trueClientID = "Client-ID " + clientID;
 		Header header = new Header("Authorization", trueClientID);

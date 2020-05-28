@@ -83,7 +83,7 @@ class OrderControllerTests {
 
 		Order order1 = new Order();
 		Order order2 = new Order();
-		
+
 		order1.setArrivalDate(null);
 		order1.setDiscount(discount);
 		order1.setId(98);
@@ -130,8 +130,9 @@ class OrderControllerTests {
 				.andExpect(view().name("orders/editOrder"));
 	}
 
-	// ------------------ ESTOS TEST FALLAN, MAS INFO EN EL REPORTE PERSONAL ----------------------
-	
+	// ------------------ ESTOS TEST FALLAN, MAS INFO EN EL REPORTE PERSONAL
+	// ----------------------
+
 //	@WithMockUser(value = "spring")
 //	@Test
 //	void testOrderProcessCreateSuccessful() throws Exception {
@@ -151,8 +152,8 @@ class OrderControllerTests {
 //				.andExpect(model().attributeHasFieldErrors("order", "quantity"))
 //				.andExpect(view().name("orders/editOrder"));
 //	}
-	
-	//------------------------------------------------------------------
+
+	// ------------------------------------------------------------------
 
 	// ========================== List ===========================
 
@@ -190,7 +191,8 @@ class OrderControllerTests {
 				.andExpect(view().name("orders/editOrder"));
 	}
 
-	// ------------------ ESTOS TEST FALLAN, MAS INFO EN EL REPORTE PERSONAL ----------------------
+	// ------------------ ESTOS TEST FALLAN, MAS INFO EN EL REPORTE PERSONAL
+	// ----------------------
 
 //	@WithMockUser(value = "spring")
 //	@Test
@@ -211,7 +213,7 @@ class OrderControllerTests {
 //				.andExpect(model().attributeHasFieldErrors("order", "quantity"))
 //				.andExpect(view().name("orders/editOrder"));
 //	}
-	
-	//------------------------------------------------------------------
+
+	// ------------------------------------------------------------------
 
 }

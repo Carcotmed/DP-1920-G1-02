@@ -22,14 +22,13 @@ import org.openqa.selenium.support.ui.Select;
 @TestMethodOrder(value = Alphanumeric.class)
 class InterventionsUITest {
 
-	private WebDriver		driver;
-	private String			baseUrl;
-	private boolean			acceptNextAlert		= true;
-	private StringBuffer	verificationErrors	= new StringBuffer();
-
+	private WebDriver driver;
+	private String baseUrl;
+	private boolean acceptNextAlert = true;
+	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
@@ -37,10 +36,10 @@ class InterventionsUITest {
 	}
 
 	@Test
-	public void testListInterventionUI() throws Exception {
+	void testListInterventionUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -50,23 +49,23 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 		Assertions.assertEquals("Test4", this.driver.findElement(By.xpath("//table[2]/tbody/tr[13]/td[2]")).getText());
 	}
 
 	@Test
-	public void testCreateUrgentInterventionNegativeUI() throws Exception {
+	void testCreateUrgentInterventionNegativeUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -76,33 +75,39 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
-		//create
+		// create
 		this.driver.findElement(By.xpath("//a[contains(text(),'Urgent\n		Visit')]")).click();
 
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		
-		Assert.assertTrue("You must choose a vet".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/span[2]")).getText())
-				|| "no puede ser null".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/span[2]")).getText()));
-		
-		Assert.assertTrue("no puede estar vacío".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText())
-			|| "el tamaño tiene que estar entre 3 y 50".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText()));
+
+		Assert.assertTrue("You must choose a vet"
+				.equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/span[2]"))
+						.getText())
+				|| "no puede ser null".equals(
+						this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/span[2]"))
+								.getText()));
+
+		Assert.assertTrue("no puede estar vacío".equals(
+				this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText())
+				|| "el tamaño tiene que estar entre 3 y 50".equals(this.driver
+						.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText()));
 	}
 
 	@Test
-	public void testCreateUrgentInterventionPositiveUI() throws Exception {
+	void testCreateUrgentInterventionPositiveUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -112,17 +117,17 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
-		//create
+		// create
 		this.driver.findElement(By.xpath("//a[contains(text(),'Urgent\n		Visit')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='name']")).click();
 		this.driver.findElement(By.xpath("//input[@id='name']")).clear();
@@ -136,10 +141,10 @@ class InterventionsUITest {
 	}
 
 	@Test
-	public void testListAvailableVetPositiveUI() throws Exception {
+	void testListAvailableVetPositiveUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -149,17 +154,17 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
-		//create x3
+		// create x3
 		this.driver.findElement(By.xpath("//a[contains(text(),'Urgent\n		Visit')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='name']")).click();
 		this.driver.findElement(By.xpath("//input[@id='name']")).clear();
@@ -173,7 +178,8 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).clear();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).sendKeys("test2");
-		new Select(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/select"))).selectByVisibleText("James Carter");
+		new Select(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/select")))
+				.selectByVisibleText("James Carter");
 		this.driver.findElement(By.xpath("//select[@id='vet']/option")).click();
 		this.driver.findElement(By.xpath("//select[@id='requiredProducts']/option[2]")).click();
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
@@ -186,16 +192,16 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//select[@id='requiredProducts']/option[3]")).click();
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//check
+		// check
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/addUrgentVisit')]")).click();
 		Assert.assertEquals("Helen Leary", this.driver.findElement(By.xpath("//select[@id='vet']/option")).getText());
 	}
 
 	@Test
-	public void testEditInterventionPositiveUI() throws Exception {
+	void testEditInterventionPositiveUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -205,32 +211,34 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
 		Assertions.assertEquals("Peluquería", this.driver.findElement(By.xpath("//tr[10]/td[4]")).getText());
 
-		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/8/interventions/5/edit')]")).click();
+		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/8/interventions/5/edit')]"))
+				.click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).clear();
-		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).sendKeys("Castraciooooon");
+		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input"))
+				.sendKeys("Castraciooooon");
 		this.driver.findElement(By.xpath("//select[@id='vet']/option")).click();
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		Assertions.assertEquals("Castraciooooon", this.driver.findElement(By.xpath("//tr[10]/td[4]")).getText());
 	}
 
 	@Test
-	public void testEditInterventionNegativeUI() throws Exception {
+	void testEditInterventionNegativeUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -240,30 +248,33 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
-		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/6/interventions/7/edit')]")).click();
+		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/6/interventions/7/edit')]"))
+				.click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).clear();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).sendKeys("");
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div[2]/div/button")).click();
-		Assert.assertTrue("no puede estar vacío".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText())
-			|| "el tamaño tiene que estar entre 3 y 50".equals(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText()));
+		Assert.assertTrue("no puede estar vacío".equals(
+				this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText())
+				|| "el tamaño tiene que estar entre 3 y 50".equals(this.driver
+						.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/span[2]")).getText()));
 	}
 
 	@Test
-	public void testDeleteInterventionPositiveUI() throws Exception {
+	void testDeleteInterventionPositiveUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -273,25 +284,28 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
-		Assertions.assertEquals("Castracion", this.driver.findElement(By.xpath("//table[@id='interventionsTable']/tbody/tr[13]/td[4]")).getText());
-		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/1/interventions/1/delete')]")).click();
-		Assertions.assertEquals("No intervention", this.driver.findElement(By.xpath("//table[@id='interventionsTable']/tbody/tr[13]/td[4]")).getText());
+		Assertions.assertEquals("Castracion",
+				this.driver.findElement(By.xpath("//table[@id='interventionsTable']/tbody/tr[13]/td[4]")).getText());
+		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/1/interventions/1/delete')]"))
+				.click();
+		Assertions.assertEquals("No intervention",
+				this.driver.findElement(By.xpath("//table[@id='interventionsTable']/tbody/tr[13]/td[4]")).getText());
 	}
 
 	@Test
-	public void testCreateInterventionPositiveUI() throws Exception {
+	void testCreateInterventionPositiveUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -301,17 +315,18 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
-		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/6/interventions/new')]")).click();
+		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/6/interventions/new')]"))
+				.click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).clear();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).sendKeys("Name");
@@ -321,10 +336,10 @@ class InterventionsUITest {
 	}
 
 	@Test
-	public void testCreateInterventionWithProductPositiveUI() throws Exception {
+	void testCreateInterventionWithProductPositiveUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -334,14 +349,14 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/addUrgentVisit')]")).click();
@@ -349,7 +364,8 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).clear();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).sendKeys("Name2");
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div")).click();
-		new Select(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/select"))).selectByVisibleText("James Carter");
+		new Select(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/select")))
+				.selectByVisibleText("James Carter");
 		this.driver.findElement(By.xpath("//select[@id='vet']/option")).click();
 		this.driver.findElement(By.xpath("//select[@id='requiredProducts']/option")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div[2]/div/button")).click();
@@ -357,10 +373,10 @@ class InterventionsUITest {
 	}
 
 	@Test
-	public void testCreateInterventionWithProductNegativeUI() throws Exception {
+	void testCreateInterventionWithProductNegativeUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -370,14 +386,14 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/addUrgentVisit')]")).click();
@@ -385,18 +401,20 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).clear();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).sendKeys("Name4");
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div")).click();
-		new Select(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/select"))).selectByVisibleText("James Carter");
+		new Select(this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[2]/div/select")))
+				.selectByVisibleText("James Carter");
 		this.driver.findElement(By.xpath("//select[@id='vet']/option")).click();
 		this.driver.findElement(By.xpath("//select[@id='requiredProducts']/option[4]")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div[2]/div/button")).click();
-		Assertions.assertEquals("There aren't enough of [Jeringuilla]", this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[3]/div/span[2]")).getText());
+		Assertions.assertEquals("There aren't enough of [Jeringuilla]", this.driver
+				.findElement(By.xpath("//form[@id='add-intervention-form']/div/div[3]/div/span[2]")).getText());
 	}
 
 	@Test
-	public void testCreateInterventionWithVetNegativeUI() throws Exception {
+	void testCreateInterventionWithVetNegativeUI() throws Exception {
 		this.driver.get("http://localhost:8080/");
 
-		//login
+		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -406,14 +424,14 @@ class InterventionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("4dm1n");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show owner
+		// show owner
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/find')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).click();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys("Franklin");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 
-		//show pet
+		// show pet
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1')]")).click();
 
 		this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/addUrgentVisit')]")).click();
@@ -445,7 +463,8 @@ class InterventionsUITest {
 			this.driver.findElement(By.xpath("//a[contains(@href, '/owners/1/pets/1/visits/addUrgentVisit')]")).click();
 			this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).click();
 			this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).clear();
-			this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input")).sendKeys("NameTest");
+			this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div/div/div/input"))
+					.sendKeys("NameTest");
 			this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div")).click();
 			this.driver.findElement(By.xpath("//select[@id='vet']/option[6]")).click();
 			this.driver.findElement(By.xpath("//form[@id='add-intervention-form']/div[2]/div/button")).click();
@@ -456,7 +475,7 @@ class InterventionsUITest {
 	}
 
 	@After
-	public void tearAllDown() throws Exception {
+	void tearAllDown() throws Exception {
 		this.driver.close();
 		this.driver.quit();
 		String verificationErrorString = this.verificationErrors.toString();
@@ -466,7 +485,7 @@ class InterventionsUITest {
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	void tearDown() throws Exception {
 		this.driver.close();
 	}
 
