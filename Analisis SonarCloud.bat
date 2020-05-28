@@ -1,0 +1,1 @@
+mvn verify sonar:sonar
