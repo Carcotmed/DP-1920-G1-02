@@ -112,8 +112,8 @@ class PTHU033 extends Simulation {
 									EditProductNeg.editProductNeg)		
 									
 	setUp(
-	updateProductPositive.inject(rampUsers(200) during (10 seconds)),
-	updateProductNegative.inject(rampUsers(200) during (10 seconds))
+	updateProductPositive.inject(rampUsers(60) during (10 seconds)),
+	updateProductNegative.inject(rampUsers(60) during (10 seconds))
 		).protocols(httpProtocol)
 		 .assertions(
 		 	global.responseTime.max.lt(5000),

@@ -39,6 +39,16 @@
 		<!-- Salida del método a implementar cache -->
 		<value-type>java.util.Collection</value-type>
 	</cache>
+	
+	<cache alias="findProducts" uses-template="default">
+		<key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+		<value-type>java.util.Collection</value-type>
+	</cache>
+	
+	<cache alias="findProviders" uses-template="default">
+		<key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+		<value-type>java.util.Collection</value-type>
+	</cache>
   
 	<cache alias="interventionsOfDay" uses-template="default">
 		<key-type>java.time.LocalDate</key-type>

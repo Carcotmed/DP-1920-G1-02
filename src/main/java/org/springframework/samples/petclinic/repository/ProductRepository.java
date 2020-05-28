@@ -20,4 +20,6 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 	@Query ("SELECT p FROM Product p") 
 	Collection<Product> findAllProducts() throws DataAccessException;
 
+	@Query ("SELECT DISTINCT p FROM Product p LEFT JOIN FETCH p.provider pr")
+	Collection<Product> findAllWithProvider();
 }
