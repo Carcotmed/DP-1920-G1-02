@@ -39,18 +39,18 @@ import org.springframework.samples.petclinic.model.Participation;
 public interface EventRepository extends CrudRepository<Event, Integer> {
 
 	@Query("SELECT event FROM Event event")
-	Collection<Event> findAllEvents() throws DataAccessException;
+	Collection<Event> findAllEvents();
 
 	@Query("SELECT event FROM Event event WHERE event.published = TRUE")
-	Collection<Event> findAllPublishedEvents() throws DataAccessException;
+	Collection<Event> findAllPublishedEvents();
 
 	@Query("SELECT event FROM Event event where event.id =:eventId")
-	Event findEventById(@Param("eventId") int eventId) throws DataAccessException;
+	Event findEventById(@Param("eventId") int eventId);
 
 	@Query("SELECT DISTINCT p FROM Participation p LEFT JOIN FETCH p.pets where event_id = :eventId")
-	Collection<Participation> findParticipationsByEventIdWithPets(@Param("eventId") int eventId) throws DataAccessException;
+	Collection<Participation> findParticipationsByEventIdWithPets(@Param("eventId") int eventId);
 
 	@Query("SELECT p FROM Participation p where event_id = :eventId")
-	Collection<Participation> findParticipationsByEventId(@Param("eventId") int eventId) throws DataAccessException;
+	Collection<Participation> findParticipationsByEventId(@Param("eventId") int eventId);
 
 }
