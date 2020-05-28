@@ -67,6 +67,11 @@ public class ProductService {
 		return this.productRepo.findProductById(productId);
 	}
 	
+	@Transactional
+	public Product findProductWithProviderById(int productId) throws DataAccessException {
+		return this.productRepo.findProductWithProviderById(productId);
+	}
+	
 	
 	@CacheEvict (allEntries = true, cacheNames = "findProducts")
 	public void deleteProduct(Product product) {

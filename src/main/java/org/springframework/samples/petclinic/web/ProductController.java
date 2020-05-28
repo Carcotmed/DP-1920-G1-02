@@ -72,7 +72,7 @@ public class ProductController {
 	@GetMapping("/edit/{productId}")
 	public String initUpdateForm(@PathVariable("productId") int productId, ModelMap modelMap) {
 		String view = "products/editProduct";
-		Product product = this.productService.findProductById(productId);
+		Product product = this.productService.findProductWithProviderById(productId);
 		modelMap.put("product", product);
 		return view;
 	}
