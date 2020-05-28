@@ -25,4 +25,7 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 
 	@Query ("SELECT DISTINCT p FROM Product p LEFT JOIN FETCH p.provider pr WHERE p.id = ?1")
 	Product findProductWithProviderById(int productId);
+
+	@Query ("SELECT DISTINCT p FROM Product p LEFT JOIN FETCH p.provider pr WHERE pr.id = ?1")
+	Collection<Product> findAllWithProviderByProviderId();
 }

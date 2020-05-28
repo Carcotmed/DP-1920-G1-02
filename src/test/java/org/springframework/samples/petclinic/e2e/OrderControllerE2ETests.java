@@ -102,7 +102,7 @@ class OrderControllerE2ETests {
 				.andExpect(model().attributeExists("order"))
 				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2013, 1, 31)))))
 				.andExpect(model().attribute("order", hasProperty("quantity", is(55))))
-				.andExpect(model().attribute("order", hasProperty("product", is(this.productService.findProductById(2)))))
+				.andExpect(model().attribute("order", hasProperty("product", is(this.productService.findProductWithProviderById(2)))))
 				.andExpect(model().attribute("order", hasProperty("provider", is(this.providerService.findProviderById(2)))))
 				.andExpect(model().attribute("order", hasProperty("discount", is(this.discountService.findDiscountById(2)))))
 				.andExpect(model().attribute("order", hasProperty("sent", is(false)))).andExpect(status().isOk())

@@ -105,7 +105,7 @@ class DiscountControllerE2ETests {
 				.andExpect(model().attributeExists("discount"))
 				.andExpect(model().attribute("discount", hasProperty("percentage", is(55.0))))
 				.andExpect(model().attribute("discount", hasProperty("quantity", is(50))))
-				.andExpect(model().attribute("discount", hasProperty("product", is(this.productService.findProductById(2)))))
+				.andExpect(model().attribute("discount", hasProperty("product", is(this.productService.findProductWithProviderById(2)))))
 				.andExpect(model().attribute("discount", hasProperty("provider", is(this.providerService.findProviderById(1)))))
 				.andExpect(model().attribute("discount", hasProperty("enabled", is(true))))
 				.andExpect(status().isOk())

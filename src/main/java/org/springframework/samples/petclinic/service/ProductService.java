@@ -82,6 +82,10 @@ public class ProductService {
 	public Collection<Product> findAllWithProvider(){
 		return this.productRepo.findAllWithProvider();
 	}
+
+	public Collection<Product> findAllWithProviderByProviderId(Integer id) {
+		return this.productRepo.findAllWithProviderByProviderId();
+	}
 	
 	
 }

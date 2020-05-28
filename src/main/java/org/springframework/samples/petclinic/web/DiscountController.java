@@ -44,7 +44,7 @@ public class DiscountController {
 
 	@ModelAttribute("products")
 	public Collection<Product> populateProducts() {
-		return this.productService.findProducts();
+		return this.productService.findAllWithProvider();
 	}
 	
 	@RequestMapping()
