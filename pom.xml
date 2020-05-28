@@ -133,11 +133,12 @@
 			<groupId>junit</groupId>
 		</dependency>
 		<!-- COMMENT WHEN NOT USING JAVAMELODY -->
-		 <dependency>
+		<!-- <dependency>
 				<groupId>net.bull.javamelody</groupId>
 				<artifactId>javamelody-spring-boot-starter</artifactId>
 				<version>1.83.0</version>
 		</dependency>
+        -->
     
     <dependency>
       <groupId>io.rest-assured</groupId>
