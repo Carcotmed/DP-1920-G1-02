@@ -15,4 +15,14 @@ public interface InterventionRepository extends CrudRepository<Intervention, Int
 	@Query ("SELECT i FROM Intervention i WHERE i.visit.date = ?1")
 	Collection<Intervention> getInterventionsOfDay(LocalDate date);
 
+	//Profiling
+	@Query ("SELECT DISTINCT i FROM Intervention i LEFT JOIN FETCH i.visit WHERE i.id = ?1")
+	Intervention findInterventionWithVisitById(int interventionId);
+
+	@Query ("SELECT DISTINCT i FROM Intervention i LEFT JOIN FETCH i.requiredProducts WHERE i.id = ?1")
+	Intervention findInterventionWithProductsById(int interventionId);
+
+	@Query ("SELECT DISTINCT i FROM Intervention i LEFT JOIN FETCH i.visit LEFT JOIN FETCH i.requiredProducts WHERE i.id = ?1")
+	Intervention findInterventionWithVisitAndProductsById(int interventionId);
+
 }

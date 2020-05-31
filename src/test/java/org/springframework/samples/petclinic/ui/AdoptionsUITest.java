@@ -20,16 +20,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 @TestMethodOrder(value = Alphanumeric.class)
-public class AdoptionsUITest {
+class AdoptionsUITest {
 
-	private WebDriver		driver;
-	private String			baseUrl;
-	private boolean			acceptNextAlert		= true;
-	private StringBuffer	verificationErrors	= new StringBuffer();
-
+	private WebDriver driver;
+	private String baseUrl;
+	private boolean acceptNextAlert = true;
+	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
@@ -37,7 +36,7 @@ public class AdoptionsUITest {
 	}
 
 	@Test
-	public void successfulMyAdoptionsListUITest() throws Exception {
+	void successfulMyAdoptionsListUITest() throws Exception {
 		this.driver.get("http://localhost:8080/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -47,11 +46,12 @@ public class AdoptionsUITest {
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions')]")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions/myAdoptions')]")).click();
-		Assertions.assertEquals("Adoptable1", this.driver.findElement(By.xpath("//table[@id='adoptionsTable']/tbody/tr/td")).getText());
+		Assertions.assertEquals("Adoptable1",
+				this.driver.findElement(By.xpath("//table[@id='adoptionsTable']/tbody/tr/td")).getText());
 	}
 
 	@Test
-	public void successfulAdoptionCreationUITest() throws Exception {
+	void successfulAdoptionCreationUITest() throws Exception {
 		this.driver.get("http://localhost:8080/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -64,11 +64,12 @@ public class AdoptionsUITest {
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions/new/14')]")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-adoption-form']/div[2]/div/button")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions/myAdoptions')]")).click();
-		Assertions.assertEquals("Adoptable1", this.driver.findElement(By.xpath("//table[@id='adoptionsTable']/tbody/tr[2]/td")).getText());
+		Assertions.assertEquals("Adoptable1",
+				this.driver.findElement(By.xpath("//table[@id='adoptionsTable']/tbody/tr[2]/td")).getText());
 	}
 
 	@Test
-	public void incorrectAdoptionCreationUITest() throws Exception {
+	void incorrectAdoptionCreationUITest() throws Exception {
 		this.driver.get("http://localhost:8080/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -78,11 +79,14 @@ public class AdoptionsUITest {
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.get("http://localhost:8080/adoptions/new/10");
 		this.driver.findElement(By.xpath("//form[@id='add-adoption-form']/div[2]/div/button")).click();
-		Assertions.assertTrue(this.driver.findElement(By.xpath("//body/div/div")).getText().contains("You can't adopt a pet which another person owns"), "Error unexpected at adopting an already owned pet");
+		Assertions.assertTrue(
+				this.driver.findElement(By.xpath("//body/div/div")).getText()
+						.contains("You can't adopt a pet which another person owns"),
+				"Error unexpected at adopting an already owned pet");
 	}
 
 	@Test
-	public void successfulAllAdoptionListUITest() throws Exception {
+	void successfulAllAdoptionListUITest() throws Exception {
 		this.driver.get("http://localhost:8080/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -92,11 +96,12 @@ public class AdoptionsUITest {
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions')]")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions/allAdoptions')]")).click();
-		Assertions.assertEquals("Adoptable1", this.driver.findElement(By.xpath("//table[@id='adoptionsTable']/tbody/tr/td")).getText());
+		Assertions.assertEquals("Adoptable1",
+				this.driver.findElement(By.xpath("//table[@id='adoptionsTable']/tbody/tr/td")).getText());
 	}
 
 	@Test
-	public void incorrectAllAdoptionListUITest() throws Exception {
+	void incorrectAllAdoptionListUITest() throws Exception {
 		this.driver.get("http://localhost:8080/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -105,11 +110,14 @@ public class AdoptionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("0wn3r");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.get("http://localhost:8080/adoptions/allAdoptions");
-		Assertions.assertTrue(this.driver.findElement(By.xpath("//body/div/div")).getText().contains("Only vets and admins can access to this feature"), "Error unexpected at attempting to see all adoptions as owner");
+		Assertions.assertTrue(
+				this.driver.findElement(By.xpath("//body/div/div")).getText()
+						.contains("Only vets and admins can access to this feature"),
+				"Error unexpected at attempting to see all adoptions as owner");
 	}
 
 	@Test
-	public void successfulAdoptionDeleteUITest() throws Exception {
+	void successfulAdoptionDeleteUITest() throws Exception {
 		this.driver.get("http://localhost:8080/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -134,7 +142,7 @@ public class AdoptionsUITest {
 	}
 
 	@Test
-	public void incorrectAdoptionDeleteUITest() throws Exception {
+	void incorrectAdoptionDeleteUITest() throws Exception {
 		this.driver.get("http://localhost:8080/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -143,11 +151,14 @@ public class AdoptionsUITest {
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("0wn3r");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.get("http://localhost:8080/adoptions/delete/1");
-		Assertions.assertTrue(this.driver.findElement(By.xpath("//body/div/div")).getText().contains("Only administrators can delete adoptions"), "Error unexpected at attempting to delete an adoptions as owner");
+		Assertions.assertTrue(
+				this.driver.findElement(By.xpath("//body/div/div")).getText()
+						.contains("Only administrators can delete adoptions"),
+				"Error unexpected at attempting to delete an adoptions as owner");
 	}
 
 	@After
-	public void tearAllDown() throws Exception {
+	void tearAllDown() throws Exception {
 		this.driver.close();
 		this.driver.quit();
 		String verificationErrorString = this.verificationErrors.toString();
@@ -157,7 +168,7 @@ public class AdoptionsUITest {
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	void tearDown() throws Exception {
 		this.driver.close();
 	}
 

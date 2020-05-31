@@ -82,7 +82,75 @@
 	<h2>Visits</h2>
 
 
+	<table id="visitInterventionsTable" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Visit Date</th>
+				<th>Visit Description</th>
+				<th>Bringer</th>
+				<th>Intervention</th>
+				<th>Vet</th>
+				<th>Actions</th>
 
+			</tr>
+		</thead>
+		<c:forEach var="vi" items="${visitInterventions}">
+			<tr>
+				<td><petclinic:localDate date="${vi.visitDate}"
+						pattern="yyyy-MM-dd" /></td>
+				<td><c:out value="${vi.visitDescription}" /></td>
+				<td><c:out value="${vi.visitBringer}" /></td>
+
+				<c:if test="${not empty vi.interventionName}">
+
+					<td><c:out value="${vi.interventionName}" /></td>
+					<td><c:out
+							value="${vi.interventionFirstName} ${vi.interventionLastName}" /></td>
+
+					<td><spring:url
+							value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/edit"
+							var="editUrl">
+							<spring:param name="interventionId"
+								value="${vi.interventionId}" />
+							<spring:param name="ownerId" value="${owner.id}" />
+							<spring:param name="visitId" value="${vi.visitId}" />
+							<spring:param name="petId" value="${pet.id}" />
+						</spring:url> <a href="${fn:escapeXml(editUrl)}">Edit</a> <spring:url
+							value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/delete"
+							var="deleteUrl">
+							<spring:param name="interventionId"
+								value="${vi.interventionId}" />
+							<spring:param name="ownerId" value="${owner.id}" />
+							<spring:param name="visitId" value="${vi.visitId}" />
+							<spring:param name="petId" value="${pet.id}" />
+						</spring:url> <a href="${fn:escapeXml(deleteUrl)}">Delete</a></td>
+
+				</c:if>
+
+				<c:if test="${empty vi.interventionName}">
+
+					<td><c:out value="No intervention" /></td>
+
+					<td><c:out value="No vet" /></td>
+
+					<td><spring:url
+							value="/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new"
+							var="newInterventionUrl">
+							<spring:param name="ownerId" value="${owner.id}" />
+							<spring:param name="visitId" value="${vi.visitId}" />
+							<spring:param name="petId" value="${pet.id}" />
+						</spring:url> <a href="${fn:escapeXml(newInterventionUrl)}">Add
+							Intervention</a></td>
+
+				</c:if>
+
+			</tr>
+
+		</c:forEach>
+	</table>
+	
+	<!-- Pre-Projection -->
+	<!-- 
 	<table id="interventionsTable" class="table table-striped">
 		<thead>
 			<tr>
@@ -149,6 +217,11 @@
 
 		</c:forEach>
 	</table>
+	 -->
+	
+	
+	
+	
 	<spring:url value="/owners/{ownerId}/pets/{petId}/visits/new"
 		var="visitUrl">
 		<spring:param name="ownerId" value="${owner.id}" />

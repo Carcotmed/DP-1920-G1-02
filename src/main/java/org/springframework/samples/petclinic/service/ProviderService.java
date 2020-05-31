@@ -10,6 +10,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
@@ -29,11 +31,13 @@ public class ProviderService {
 
 
 	@Transactional
+	@Cacheable (cacheNames = "findProviders")
 	public Collection<Provider> findProviders() throws DataAccessException{
 		return (Collection<Provider>) providerRepo.findAll();
 	}
 	
 	@Transactional
+	@CacheEvict (allEntries = true, cacheNames = "findProviders")
 	public void saveProvider(@Valid Provider provider) {
 		providerRepo.save(provider);
 
@@ -46,6 +50,7 @@ public class ProviderService {
 	
 
 	@Transactional
+	@CacheEvict (allEntries = true, cacheNames = "findProviders")
 	public void deleteProvider(Provider provider) {
 		providerRepo.delete(provider);
 		

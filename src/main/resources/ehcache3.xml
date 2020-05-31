@@ -39,24 +39,30 @@
 		<!-- Salida del método a implementar cache -->
 		<value-type>java.util.Collection</value-type>
 	</cache>
+	
+	<cache alias="findProducts" uses-template="default">
+		<key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+		<value-type>java.util.Collection</value-type>
+	</cache>
+	
+	<cache alias="findProviders" uses-template="default">
+		<key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
+		<value-type>java.util.Collection</value-type>
+	</cache>
+  
+	<cache alias="interventionsOfDay" uses-template="default">
+		<key-type>java.time.LocalDate</key-type>
+		<value-type>java.util.Collection</value-type>
+	</cache>
+  
 	<cache alias="findAllPublishedEvents" uses-template="default">
-		
-		<!-- Entrada del método a implementar cache.
-		Si no tuviera entrada, dejar org.springframework.cache.interceptor.SimpleKey
-		Si tiene más de una entrada, poner java.util.ArrayList -->
 		<key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
-		
-		<!-- Salida del método a implementar cache -->
 		<value-type>java.util.Collection</value-type>
 	</cache>
+  
 	<cache alias="findAllEvents" uses-template="default">
-		
-		<!-- Entrada del método a implementar cache.
-		Si no tuviera entrada, dejar org.springframework.cache.interceptor.SimpleKey
-		Si tiene más de una entrada, poner java.util.ArrayList -->
 		<key-type>org.springframework.cache.interceptor.SimpleKey</key-type>
-		
-		<!-- Salida del método a implementar cache -->
 		<value-type>java.util.Collection</value-type>
 	</cache>
+  
 </config>

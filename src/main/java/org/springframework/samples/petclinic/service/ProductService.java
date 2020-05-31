@@ -6,6 +6,9 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Discount;
 import org.springframework.samples.petclinic.model.Order;
@@ -25,12 +28,15 @@ public class ProductService {
 	}
 	
 	@Transactional
+	@CacheEvict (allEntries = true, cacheNames = "findProducts")
 	public void save(@Valid Product product) {
 		this.productRepo.save(product);
 	}
 	
 	@Transactional
-	public Collection<Product> findProducts() throws DataAccessException{
+
+	@Cacheable (cacheNames = "findProducts")
+	public Collection<Product> findProducts(){
 		return productRepo.findAllProducts();
 	}
 
@@ -39,6 +45,7 @@ public class ProductService {
 	}
 	
 	@Transactional
+	@CacheEvict (allEntries = true, cacheNames = "findProducts")
 	public void useOne(@Valid Product product) {
 		
 		product.setQuantity(product.getQuantity()-1);
@@ -48,6 +55,7 @@ public class ProductService {
 	}
 	
 	@Transactional
+	@CacheEvict (allEntries = true, cacheNames = "findProducts")
 	public void addOne(@Valid Product product) {
 		
 		product.setQuantity(product.getQuantity()+1);
@@ -57,12 +65,28 @@ public class ProductService {
 	}
 	
 	@Transactional
-	public Product findProductById(int productId) throws DataAccessException {
+	public Product findProductById(int productId){
 		return this.productRepo.findProductById(productId);
 	}
 	
+	@Transactional
+	public Product findProductWithProviderById(int productId) throws DataAccessException {
+		return this.productRepo.findProductWithProviderById(productId);
+	}
+	
+	
+	@CacheEvict (allEntries = true, cacheNames = "findProducts")
 	public void deleteProduct(Product product) {
 		this.productRepo.delete(product);
+	}
+	
+	@Transactional
+	public Collection<Product> findAllWithProvider(){
+		return this.productRepo.findAllWithProvider();
+	}
+
+	public Collection<Product> findAllWithProviderByProviderId(Integer id) {
+		return this.productRepo.findAllWithProviderByProviderId();
 	}
 	
 	

@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -27,7 +28,7 @@ public class Product extends NamedEntity{
 	@NotNull
 	private Boolean allAvailable;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@NotNull
 	@JoinColumn(name="provider_id")
 	private Provider provider;

@@ -29,7 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment=SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class ProviderControllerE2ETests {
+class ProviderControllerE2ETests {
 
 	@Autowired
 	private ProviderController providerController;
@@ -98,7 +98,7 @@ public class ProviderControllerE2ETests {
 				.andExpect(model().attribute("provider", hasProperty("name", is("Pipo1"))))
 				.andExpect(model().attribute("provider", hasProperty("email", is("pipo1@gmail.com"))))
 				.andExpect(model().attribute("provider", hasProperty("phone", is("123456789"))))
-				.andExpect(model().attribute("provider", hasProperty("address", is("Calle Pipo nº1"))))
+				.andExpect(model().attribute("provider", hasProperty("address", is("Calle Pipo n1"))))
 
 				.andExpect(view().name("providers/createOrUpdateProviderForm"));
 	}
