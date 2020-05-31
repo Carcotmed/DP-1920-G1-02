@@ -42,10 +42,8 @@ public class ImgurAPIService {
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 		
 		ResponseEntity<ImgurResponse> response = restTemplate.postForEntity(imageUploadEndpoint, requestEntity, ImgurResponse.class);
-		
-		ImgurResponse imgurResponse = response.getBody();
 				
-		return imgurResponse;
+		return response.getBody();
 		
 	}
 	
