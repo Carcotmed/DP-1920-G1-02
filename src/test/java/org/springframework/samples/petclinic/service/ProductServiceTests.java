@@ -120,7 +120,7 @@ class ProductServiceTests {
 																		// producto
 
 		Collection<Discount> discounts = this.discountService.findAllByProductId(1);
-		Collection<Order> orders2 = new ArrayList<Order>();
+		Collection<Order> orders2 = new ArrayList<>();
 		discounts.stream().forEach(x -> orders2.addAll(this.orderService.findAllOrdersByDiscountId(x.getId())));
 		orders2.stream().forEach(x -> this.orderService.deleteOrder(x));// borra los pedidos relacionados con los
 																		// descuentos relacionados con el producto

@@ -41,7 +41,7 @@ public class Intervention extends NamedEntity {
 
 
 	public Intervention() {
-		this.requiredProducts = new ArrayList<Product>();
+		this.requiredProducts = new ArrayList<>();
 	}
 
 }

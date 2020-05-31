@@ -52,7 +52,7 @@ class InterventionServiceTests {
 		Visit visit = visitService.findVisitById(2);
 		visit.setIntervention(intervention);
 		intervention.setVisit(visit);
-		List<Product> productList = new ArrayList<Product>();
+		List<Product> productList = new ArrayList<>();
 		productList.addAll(productService.findProducts());
 		intervention.setRequiredProducts(productList);
 
@@ -98,7 +98,7 @@ class InterventionServiceTests {
 		assertThat(interventionToUpdate).isNotNull();
 		interventionToUpdate.setName("Nombre modificado");
 		// interventionToUpdate.setDescription("Descripcion modificada");
-		List<Product> modifiedList = new ArrayList<Product>(productService.findProducts());
+		List<Product> modifiedList = new ArrayList<>(productService.findProducts());
 		modifiedList.remove(0);
 		interventionToUpdate.setRequiredProducts(modifiedList);
 
@@ -155,7 +155,7 @@ class InterventionServiceTests {
 	@Transactional
 	void shouldInsertInterventionIntoDatabaseWithEmptyProductList() {
 
-		List<Product> list = new ArrayList<Product>();
+		List<Product> list = new ArrayList<>();
 		intervention.setRequiredProducts(list);
 		assertThat(intervention.getRequiredProducts()).isEmpty();
 

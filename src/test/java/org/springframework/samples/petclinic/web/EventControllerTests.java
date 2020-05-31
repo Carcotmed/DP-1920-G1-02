@@ -360,7 +360,7 @@ class EventControllerTests {
 		this.mockMvc
 				.perform(MockMvcRequestBuilders
 						.post("/events/newParticipation/{eventId}", EventControllerTests.TEST_EVENT_ID1)
-						.requestAttr("pets", new ArrayList<Pet>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
+						.requestAttr("pets", new ArrayList<>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(
 						MockMvcResultMatchers.view().name("redirect:/events/" + EventControllerTests.TEST_EVENT_ID1));
@@ -372,7 +372,7 @@ class EventControllerTests {
 		this.mockMvc
 				.perform(MockMvcRequestBuilders
 						.post("/events/newParticipation/{eventId}", EventControllerTests.TEST_EVENT_ID2)
-						.requestAttr("pets", new ArrayList<Pet>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
+						.requestAttr("pets", new ArrayList<>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(
 						MockMvcResultMatchers.view().name("redirect:/events/" + EventControllerTests.TEST_EVENT_ID2));

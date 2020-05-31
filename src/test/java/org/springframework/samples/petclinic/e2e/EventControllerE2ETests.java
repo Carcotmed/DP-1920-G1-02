@@ -206,14 +206,14 @@ class EventControllerE2ETests {
 	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testProcessCreationParticipationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 2).requestAttr("pets", new ArrayList<Pet>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 2).requestAttr("pets", new ArrayList<>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.view().name("redirect:/events/" + 2));
 	}
 
 	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testProcessCreationParticipationFormOnUnpublishedEvent() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 5).requestAttr("pets", new ArrayList<Pet>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 5).requestAttr("pets", new ArrayList<>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.view().name("redirect:/events/" + 5));
 	}
 

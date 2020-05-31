@@ -80,7 +80,7 @@ class InterventionControllerTests {
 		vet.setLastName("Vet Last Name");
 		vet.setId(TEST_VET_ID);
 
-		requiredProducts = new ArrayList<Product>();
+		requiredProducts = new ArrayList<>();
 
 		intervention = new Intervention();
 		intervention.setId(TEST_INTERVENTION_ID);

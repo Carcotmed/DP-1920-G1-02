@@ -117,7 +117,7 @@ class OrderServiceTests {
 		Collection<Order> orders = this.orderService.findAllOrders();
 		assertThat(orders.size()).isEqualTo(3);
 
-		List<Order> list = new ArrayList<Order>();
+		List<Order> list = new ArrayList<>();
 		list.addAll(orders);
 
 		Order order1 = list.get(0);

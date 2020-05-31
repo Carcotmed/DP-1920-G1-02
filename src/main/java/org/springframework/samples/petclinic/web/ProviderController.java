@@ -95,9 +95,9 @@ public class ProviderController {
 	@GetMapping(value = "{providerId}/delete")
 	public String deleteProvider(@PathVariable("providerId") int providerId, ModelMap model) {
 
-		List<Product> productsOfProvider = new ArrayList<Product>(productService.findAllByProviderId(providerId));
-		List<Order> ordersOfProvider = new ArrayList<Order>(orderService.findAllOrdersByProviderId(providerId));
-		List<Discount> discountsOfProvider = new ArrayList<Discount>(discountService.findAllByProviderId(providerId));
+		List<Product> productsOfProvider = new ArrayList<>(productService.findAllByProviderId(providerId));
+		List<Order> ordersOfProvider = new ArrayList<>(orderService.findAllOrdersByProviderId(providerId));
+		List<Discount> discountsOfProvider = new ArrayList<>(discountService.findAllByProviderId(providerId));
 
 		
 		
