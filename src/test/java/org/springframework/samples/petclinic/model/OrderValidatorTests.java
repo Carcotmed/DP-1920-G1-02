@@ -50,7 +50,7 @@ public class OrderValidatorTests extends ValidatorTests {
 	@Transactional
 	@CsvSource({ "1,LocalDate.parse('1900/01/01'),null,discount,product,provider,true",
 			"2,LocalDate.parse('2000/02/02'),LocalDate.parse('2001/03/03'),null,product,provider,false" })
-	void shouldInsertDBAndGenerateId(Integer quantity, String orderDate, String arrivalDate, String discount,
+	void shouldValidate(Integer quantity, String orderDate, String arrivalDate, String discount,
 			String product, String provider, Boolean sent) {
 		assertNotNull(quantity);
 		assertNotNull(orderDate);
@@ -65,7 +65,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 2 -
 	@Test
-	void shouldNotInsertIntoDBWhenNegativeQuantity() {
+	void shouldNotValidateWhenNegativeQuantity() {
 		Order order = new Order();
 		order.setQuantity(-1); // Fail
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -86,7 +86,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 3 -
 	@Test
-	void shouldNotInsertIntoDBWhenQuantityNull() {
+	void shouldNotValidateWhenQuantityNull() {
 		Order order = new Order();
 		order.setQuantity(null); // Fail
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -107,7 +107,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 4 -
 	@Test
-	void shouldNotInsertIntoDBWhenArrivalDateIsBeforeOrderDate() {
+	void shouldNotValidateWhenArrivalDateIsBeforeOrderDate() {
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2019, 01, 01)); // Fail
@@ -128,7 +128,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 5 -
 	@Test
-	void shouldNotInsertIntoDBWhenArrivalDateEqualsOrderDate() {
+	void shouldNotValidateWhenArrivalDateEqualsOrderDate() {
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01)); // Fail
@@ -150,7 +150,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 6 -
 	@Test
-	void shouldNotInsertIntoDBWhenOrderDatelsNull() {
+	void shouldNotValidateWhenOrderDatelsNull() {
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -177,7 +177,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 7 -
 	@Test
-	void shouldNotInsertIntoDBWhenProviderNull() {
+	void shouldNotValidateWhenProviderNull() {
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -198,7 +198,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 8 -
 	@Test
-	void shouldNotInsertIntoDBWhenProductNull() {
+	void shouldNotValidateWhenProductNull() {
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));
@@ -219,7 +219,7 @@ public class OrderValidatorTests extends ValidatorTests {
 
 	// 9 -
 	@Test
-	void shouldNotInsertIntoDBWhenSentNull() {
+	void shouldNotValidateWhenSentNull() {
 		Order order = new Order();
 		order.setQuantity(1);
 		order.setArrivalDate(LocalDate.of(2020, 01, 01));

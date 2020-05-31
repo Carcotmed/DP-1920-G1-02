@@ -157,14 +157,12 @@ public class ProductServiceTests {
 			product.setEnabled(true);
 
 			productService.save(product);
-			
 			Product productAct = this.productService.findProducts().stream()
 					.filter(x -> x.getPrice().equals(99.9)).collect(Collectors.toList()).get(0);
 			productAct.setQuantity(30);
-			
 			productService.save(productAct);
 
-			assertThat(productService.findProductById(productAct.getId()).getQuantity()).isEqualTo(30);
+			assertThat(productService.findProductById(productAct.getId()).getQuantity().equals(30));
 		}
 		
 		 //8 update-
