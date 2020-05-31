@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolationException;
@@ -102,9 +103,10 @@ class ProductServiceTests {
 	// 4 findProductsByProviderId+
 	@Test
 	void shouldFindProductsByProviderId() {
-		Collection<Product> products = this.productService.findAllByProviderId(1);
-		assertThat(products.size() == 1);
-		assertThat(products.stream().map(x -> x.getName()).equals("Pomadita"));
+		List<Product> products = new ArrayList <> ();
+		products.addAll(this.productService.findAllByProviderId(1));
+		assertThat(products.size() == 2).isTrue();
+		assertThat(products.get(0).getName()).isEqualTo("Pomadita");
 	}
 
 	// 5 delete+

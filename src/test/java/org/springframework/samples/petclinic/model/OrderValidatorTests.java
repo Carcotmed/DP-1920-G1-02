@@ -59,7 +59,7 @@ class OrderValidatorTests extends ValidatorTests {
 		assertNotNull(provider);
 		assertNotNull(sent);
 
-		assertThat(quantity >= 1);
+		assertThat(quantity >= 1).isTrue();
 
 	}
 

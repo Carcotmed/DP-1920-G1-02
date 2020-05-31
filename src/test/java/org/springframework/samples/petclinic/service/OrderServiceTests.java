@@ -133,11 +133,11 @@ class OrderServiceTests {
 	@Transactional
 	void shouldFindOrderById() {
 		Order order1 = this.orderService.findOrderById(1);
-		assertThat(order1.getQuantity().equals(3));
-		Order order2 = this.orderService.findOrderById(1);
-		assertThat(order2.getQuantity().equals(55));
-		Order order3 = this.orderService.findOrderById(1);
-		assertThat(order3.getQuantity().equals(7));
+		assertThat(order1.getQuantity()).isEqualTo(3);
+		Order order2 = this.orderService.findOrderById(2);
+		assertThat(order2.getQuantity()).isEqualTo(55);
+		Order order3 = this.orderService.findOrderById(3);
+		assertThat(order3.getQuantity()).isEqualTo(7);
 	}
 
 	// 5 findAllOrdersByDiscountId+

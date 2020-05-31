@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -115,24 +117,28 @@ class DiscountServiceTests {
 	// 4 findDiscountByProviderId
 	@Test
 	void shouldFindDiscountByProviderId() {
-		Collection<Discount> discounts = this.discountService.findAllByProviderId(3);
-		assertThat(discounts.size() == 1);
-		assertThat(discounts.stream().map(x -> x.getPercentage()).equals(65.0));
+		List<Discount> discounts = new ArrayList <> ();
+		discounts.addAll(this.discountService.findAllByProductId(3));
+		System.out.println("PATATA:"+discounts.size());
+		assertThat(discounts.size() == 1).isTrue();
+		assertThat(discounts.get(0).getPercentage()).isEqualTo(65.0);
 	}
 
 	// 5 findDiscountByProductId
 	@Test
 	void shouldFindDiscountByProductId() {
-		Collection<Discount> discounts = this.discountService.findAllByProductId(2);
-		assertThat(discounts.size() == 1);
-		assertThat(discounts.stream().map(x -> x.getPercentage()).equals(55.0));
+		
+		List<Discount> discounts = new ArrayList <> ();
+		discounts.addAll(this.discountService.findAllByProductId(2));
+		assertThat(discounts.size() == 1).isTrue();
+		assertThat(discounts.get(0).getPercentage()).isEqualTo(55.0);
 	}
 
 	// 6 findDiscountById
 	@Test
 	void shouldFindDiscountById() {
 		Discount discount = this.discountService.findDiscountById(3);
-		assertThat(discount.getPercentage().equals(65.0));
+		assertThat(discount.getPercentage()).isEqualTo(65.0);
 	}
 
 	// 7 delete+

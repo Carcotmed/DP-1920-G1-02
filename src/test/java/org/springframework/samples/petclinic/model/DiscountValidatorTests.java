@@ -51,10 +51,10 @@ class DiscountValidatorTests extends ValidatorTests {
 		assertNotNull(provider);
 		assertNotNull(quantity);
 		
-		assertThat(percentage >= 1.0);
-		assertThat(percentage <= 99.99);
+		assertThat(percentage >= 1.0).isTrue();
+		assertThat(percentage <= 99.99).isTrue();
 		
-		assertThat(quantity >= 1);
+		assertThat(quantity >= 1).isTrue();
 	}
 
 	// 2 -
