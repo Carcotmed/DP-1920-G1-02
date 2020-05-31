@@ -16,9 +16,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ImgurAPIService {
 
-	private final static String imageEndpoint = "https://api.imgur.com/3/";
-	private final static String imageUploadEndpoint = imageEndpoint + "upload/";
-	private final static String imageDeleteEndpoint = imageEndpoint + "image/";
+	private static final  String imageEndpoint = "https://api.imgur.com/3/";
+	private static final String imageUploadEndpoint = imageEndpoint + "upload/";
+	private static final String imageDeleteEndpoint = imageEndpoint + "image/";
 	
 	@Value("${imgurAPI.clientID}")
 	private String clientID;
