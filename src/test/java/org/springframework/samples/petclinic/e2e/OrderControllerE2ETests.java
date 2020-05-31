@@ -95,7 +95,6 @@ class OrderControllerE2ETests {
 
 	// ========================== Update ===========================
 
-	/*
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
 	void testOrderInitUpdate() throws Exception {
@@ -109,7 +108,6 @@ class OrderControllerE2ETests {
 				.andExpect(model().attribute("order", hasProperty("sent", is(false)))).andExpect(status().isOk())
 				.andExpect(view().name("orders/editOrder"));
 	}
-	*/
 
 	@WithMockUser(username = "admin1", authorities = { "admin" })
 	@Test
