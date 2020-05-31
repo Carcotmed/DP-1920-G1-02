@@ -1,24 +1,17 @@
 package org.springframework.samples.petclinic.web;
 
 import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Base64;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.model.api.Data;
 import org.springframework.samples.petclinic.model.api.ImgurResponse;
 import org.springframework.samples.petclinic.service.ImgurAPIService;
 import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

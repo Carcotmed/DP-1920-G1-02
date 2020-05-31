@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.projections.VisitIntervention;
 import org.springframework.samples.petclinic.repository.VisitRepository;
