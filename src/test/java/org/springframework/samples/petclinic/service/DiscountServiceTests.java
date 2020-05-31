@@ -119,7 +119,6 @@ class DiscountServiceTests {
 	void shouldFindDiscountByProviderId() {
 		List<Discount> discounts = new ArrayList <> ();
 		discounts.addAll(this.discountService.findAllByProductId(3));
-		System.out.println("PATATA:"+discounts.size());
 		assertThat(discounts.size() == 1).isTrue();
 		assertThat(discounts.get(0).getPercentage()).isEqualTo(65.0);
 	}

@@ -56,7 +56,6 @@ public class ImgurAPIService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 		String trueClientID = "Client-ID " + clientID;
-		System.out.println(trueClientID);
 		headers.add("Authorization", trueClientID);
 		
 		HttpEntity<?> request = new HttpEntity<Object>(headers);

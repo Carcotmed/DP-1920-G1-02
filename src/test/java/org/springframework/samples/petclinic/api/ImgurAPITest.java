@@ -63,9 +63,6 @@ class ImgurAPITest {
 		String trueClientID = "Client-ID " + clientID;
 		Header header = new Header("Authorization", trueClientID);
 		String url = "https://api.imgur.com/3/image/"+deleteHash;
-		
-		System.out.println(trueClientID);
-		System.out.println(url);
 				
 		given()
 			.request()
@@ -77,7 +74,6 @@ class ImgurAPITest {
 			.statusCode(200);
 		
 	}
-	
 	
 
 	private static String getTestImage() {

@@ -93,8 +93,6 @@ public class InterventionController {
 			ModelMap model) {
 		model.put("vets", this.interventionService.getAvailableVets(visit.getDate()));
 
-		System.out.println("Name: " + model.getAttribute("name"));
-
 		intervention.setVisit(visit);
 		
 		/////////////////////		

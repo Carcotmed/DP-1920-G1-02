@@ -72,8 +72,6 @@ class DiscountValidatorTests extends ValidatorTests {
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Discount>> constraintViolations = validator.validate(discount);
 		
-		constraintViolations.forEach(x -> System.out.println(x));
-
 		assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Discount> violation = constraintViolations.iterator().next();
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("percentage");
