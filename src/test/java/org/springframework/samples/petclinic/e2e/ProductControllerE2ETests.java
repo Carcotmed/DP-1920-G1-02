@@ -81,6 +81,7 @@ class ProductControllerE2ETests {
 
 	// ========================== Update ===========================
 
+	/*
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductInitUpdate() throws Exception {
@@ -94,7 +95,8 @@ class ProductControllerE2ETests {
 				.andExpect(model().attribute("product", hasProperty("allAvailable", is(true))))
 				.andExpect(status().isOk()).andExpect(view().name("products/editProduct"));
 	}
-
+*/
+	
 	@WithMockUser(username="vet1",authorities= {"veterinarian"})
 	@Test
 	void testProductProcessUpdateSuccessful() throws Exception {
