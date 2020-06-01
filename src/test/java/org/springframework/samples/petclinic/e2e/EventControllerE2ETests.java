@@ -189,14 +189,14 @@ class EventControllerE2ETests {
 			.andExpect(MockMvcResultMatchers.view().name("events/eventDetails"));
 	}
 
-	@WithMockUser(value = "spring", authorities = "owner", username = "user")
+	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testInitCreationParticipationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/newParticipation/{eventId}", 3)).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.view().name("events/createOrUpdateParticipationForm"));
 	}
 
-	@WithMockUser(value = "spring", authorities = "owner", username = "user")
+	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testInitCreationParticipationFormOnUnplublishedEvent() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/newParticipation/{eventId}", 5)).andExpect(MockMvcResultMatchers.model().attributeExists("error")).andExpect(MockMvcResultMatchers.status().isOk())

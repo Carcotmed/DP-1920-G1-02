@@ -16,7 +16,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Event;
-import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Participation;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.service.EventService;
 import org.springframework.samples.petclinic.service.OwnerService;
@@ -121,6 +122,15 @@ class EventControllerTests {
 		list2.add(this.event1);
 		list2.add(this.event4);
 		BDDMockito.given(this.eventService.findAllPublishedEvents()).willReturn(list2);
+		Owner owner1 = new Owner();
+		owner1.setId(1);
+		owner1.setAddress("110 W. Liberty St.");
+		owner1.setCity("Madison");
+		owner1.setFirstName("George");
+		owner1.setLastName("Franklin");
+		owner1.setTelephone("6085551023");
+		BDDMockito.given(this.ownerService.findOwnerByUsername("user")).willReturn(owner1);
+		BDDMockito.given(this.eventService.findParticipationByIds(2, 1)).willReturn(null);
 
 	}
 
