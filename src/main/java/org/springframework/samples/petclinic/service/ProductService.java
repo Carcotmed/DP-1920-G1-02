@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -65,26 +64,12 @@ public class ProductService {
 	@Transactional
 	public Product findProductById(int productId){
 		return this.productRepo.findProductById(productId);
-	}
-	
-	@Transactional
-	public Product findProductWithProviderById(int productId) throws DataAccessException {
-		return this.productRepo.findProductWithProviderById(productId);
-	}
+	}	
 	
 	
 	@CacheEvict (allEntries = true, cacheNames = "findProducts")
 	public void deleteProduct(Product product) {
 		this.productRepo.delete(product);
-	}
-	
-	@Transactional
-	public Collection<Product> findAllWithProvider(){
-		return this.productRepo.findAllWithProvider();
-	}
-
-	public Collection<Product> findAllWithProviderByProviderId(Integer id) {
-		return this.productRepo.findAllWithProviderByProviderId();
 	}
 	
 	

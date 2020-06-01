@@ -40,7 +40,7 @@ public class OrderController {
 
 	@ModelAttribute("products")
 	public Collection<Product> populateProducts() {
-		return this.productService.findAllWithProvider();
+		return this.productService.findProducts();
 	}
 
 	@ModelAttribute("providers")

@@ -41,7 +41,7 @@ public class ProductController {
 	@RequestMapping()
 	public String productsList(ModelMap modelMap) {
 		String vista = "products/productsList";
-		Collection<Product> products = productService.findAllWithProvider();
+		Iterable<Product> products = productService.findAll();
 		modelMap.addAttribute("products", products);
 		return vista;
 	}
