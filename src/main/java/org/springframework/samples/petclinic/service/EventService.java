@@ -77,7 +77,7 @@ public class EventService {
 	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
 	public Event save(final Event event) {
 		if (Boolean.TRUE.equals(event.getPublished())) {
-			if (Boolean.TRUE.equals(event.getCapacity().equals(null)) || Boolean.TRUE.equals(event.getDate().equals(null)) || Boolean.TRUE.equals(event.getDescription().equals(null)) || Boolean.TRUE.equals(event.getPlace().equals(null))) {
+			if (Boolean.TRUE.equals(event.getCapacity() == null) || Boolean.TRUE.equals(event.getDate() ==null) || Boolean.TRUE.equals(event.getDescription() == null) || Boolean.TRUE.equals(event.getPlace() == null)) {
 				throw new InvalidParameterException("Event must not be empty if published");
 			}
 		}
