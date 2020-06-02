@@ -38,7 +38,7 @@ class OrderUITest {
 	@Order(1)
 	@Test // HU-016
 	void testCreateOrderNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -68,7 +68,7 @@ class OrderUITest {
 	@Order(2)
 	@Test // HU-016
 	void testCreateOrderPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -94,7 +94,7 @@ class OrderUITest {
 
 		assertEquals("Pomadita", driver.findElement(By.xpath("//table[@id='orders']/tbody/tr[4]/td")).getText());
 		assertEquals("120", driver.findElement(By.xpath("//table[@id='orders']/tbody/tr[4]/td[2]")).getText());
-		assertEquals("2020-05-08", driver.findElement(By.xpath("//table[@id='orders']/tbody/tr[4]/td[3]")).getText());
+		assertEquals("2020-06-07", driver.findElement(By.xpath("//table[@id='orders']/tbody/tr[4]/td[3]")).getText());
 		assertEquals("true", driver.findElement(By.xpath("//table[@id='orders']/tbody/tr[4]/td[5]")).getText());
 		assertEquals("Pipo1", driver.findElement(By.xpath("//table[@id='orders']/tbody/tr[4]/td[6]")).getText());
 		assertEquals("45.0", driver.findElement(By.xpath("//table[@id='orders']/tbody/tr[4]/td[7]")).getText());
@@ -103,7 +103,7 @@ class OrderUITest {
 	@Order(3)
 	@Test // HU-017
 	void testUpdateOrderNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -132,7 +132,7 @@ class OrderUITest {
 	@Order(4)
 	@Test // HU-017
 	void testUpdateOrderPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -159,7 +159,7 @@ class OrderUITest {
 	@Order(5)
 	@Test // HU-018
 	void testDeleteOrderNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -181,7 +181,7 @@ class OrderUITest {
 	@Order(6)
 	@Test // HU-018
 	void testDeleteOrderPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();

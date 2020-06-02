@@ -18,7 +18,7 @@ cd spring-petclinic
 java -jar target/*.jar
 ```
 
-You can then access petclinic here: http://localhost:8080/
+You can then access petclinic here: http://localhost:80/
 
 <img width="1042" alt="petclinic-screenshot" src="https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png">
 
@@ -85,7 +85,7 @@ version. Otherwise, run the application by right clicking on the `PetClinicAppli
 
 4) Navigate to Petclinic
 
-Visit [http://localhost:8080](http://localhost:8080) in your browser.
+Visit [http://localhost:80](http://localhost:80) in your browser.
 
 
 ## Looking for something in particular?

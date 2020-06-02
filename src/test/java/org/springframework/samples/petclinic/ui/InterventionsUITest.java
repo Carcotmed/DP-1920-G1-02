@@ -37,7 +37,7 @@ class InterventionsUITest {
 
 	@Test
 	void testListInterventionUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -63,7 +63,7 @@ class InterventionsUITest {
 
 	@Test
 	void testCreateUrgentInterventionNegativeUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -105,7 +105,7 @@ class InterventionsUITest {
 
 	@Test
 	void testCreateUrgentInterventionPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -142,7 +142,7 @@ class InterventionsUITest {
 
 	@Test
 	void testListAvailableVetPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -199,7 +199,7 @@ class InterventionsUITest {
 
 	@Test
 	void testEditInterventionPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -236,7 +236,7 @@ class InterventionsUITest {
 
 	@Test
 	void testEditInterventionNegativeUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -272,7 +272,7 @@ class InterventionsUITest {
 
 	@Test
 	void testDeleteInterventionPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -303,7 +303,7 @@ class InterventionsUITest {
 
 	@Test
 	void testCreateInterventionPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -337,7 +337,7 @@ class InterventionsUITest {
 
 	@Test
 	void testCreateInterventionWithProductPositiveUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -374,7 +374,7 @@ class InterventionsUITest {
 
 	@Test
 	void testCreateInterventionWithProductNegativeUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -412,7 +412,7 @@ class InterventionsUITest {
 
 	@Test
 	void testCreateInterventionWithVetNegativeUI() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();

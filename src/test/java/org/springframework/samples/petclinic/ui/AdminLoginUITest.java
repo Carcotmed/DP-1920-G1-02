@@ -32,7 +32,7 @@ class AdminLoginUITest {
 
 	@Test
 	void testAdminLoginUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).clear();

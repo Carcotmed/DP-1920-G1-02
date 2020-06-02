@@ -39,7 +39,7 @@ class ProductUITest {
 	@Order(1)
 	@Test // HU-029 y HU-032
 	void testListProductPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -64,7 +64,7 @@ class ProductUITest {
 	@Order(2)
 	@Test // HU-031
 	void testCreateProductNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -101,7 +101,7 @@ class ProductUITest {
 	@Order(3)
 	@Test // HU-031
 	void testCreateProductPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -142,7 +142,7 @@ class ProductUITest {
 	@Order(4)
 	@Test // HU-033
 	void testUpdateProductNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -171,7 +171,7 @@ class ProductUITest {
 	@Order(5)
 	@Test // HU-033
 	void testUpdateProductPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -198,7 +198,7 @@ class ProductUITest {
 	@Order(6)
 	@Test // HU-030
 	void testDeleteProductNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
@@ -223,7 +223,7 @@ class ProductUITest {
 	@Order(7)
 	@Test // HU-030
 	void testDeleteProductPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();

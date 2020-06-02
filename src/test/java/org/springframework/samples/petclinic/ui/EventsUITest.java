@@ -37,7 +37,7 @@ class EventsUITest {
 
 	@Test
 	void successfulEventCreationUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
@@ -74,7 +74,7 @@ class EventsUITest {
 
 	@Test
 	void successfulEventPublishUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
@@ -90,7 +90,7 @@ class EventsUITest {
 
 	@Test
 	void emptyEventPublishUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
@@ -109,7 +109,7 @@ class EventsUITest {
 
 	@Test
 	void pastDateEventCreationUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//div[@id='main-navbar']/ul[2]/li/a")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
@@ -138,7 +138,7 @@ class EventsUITest {
 
 	@Test
 	void successfulEventEditionUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
@@ -157,7 +157,7 @@ class EventsUITest {
 
 	@Test
 	void successfulEventDeleteUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
@@ -182,14 +182,14 @@ class EventsUITest {
 
 	@Test
 	void publishedEventDeleteUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
 		this.driver.findElement(By.xpath("//input[@id='password']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("v3t");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.get("http://localhost:8080/events/delete/1");
+		this.driver.get("http://localhost:80/events/delete/1");
 		Assertions.assertTrue(
 				this.driver.findElement(By.xpath("//body/div/div")).getText()
 						.contains("You can't delete an event already published"),
@@ -198,7 +198,7 @@ class EventsUITest {
 
 	@Test
 	void successfulParticipationCreationUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("owner1");
@@ -207,12 +207,12 @@ class EventsUITest {
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/events')]")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/events/3')]")).click();
-		Assertions.assertEquals("0 / 30", this.driver.findElement(By.xpath("//tr[6]/td")).getText());
+		Assertions.assertEquals("0 / 10000", this.driver.findElement(By.xpath("//tr[6]/td")).getText());
 		this.driver.findElement(By.xpath("//a[contains(@href, '/events/newParticipation/3')]")).click();
 		this.driver.findElement(By.xpath("//option[@value='1']")).click();
 		this.driver.findElement(By.xpath("//option[@value='16']")).click();
 		this.driver.findElement(By.xpath("//form[@id='add-participation-form']/div[2]/div/button")).click();
-		Assertions.assertEquals("1 / 30", this.driver.findElement(By.xpath("//tr[6]/td")).getText());
+		Assertions.assertEquals("1 / 10000", this.driver.findElement(By.xpath("//tr[6]/td")).getText());
 	}
 
 	@After

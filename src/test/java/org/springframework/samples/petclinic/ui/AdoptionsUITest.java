@@ -37,7 +37,7 @@ class AdoptionsUITest {
 
 	@Test
 	void successfulMyAdoptionsListUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("owner1");
@@ -52,7 +52,7 @@ class AdoptionsUITest {
 
 	@Test
 	void successfulAdoptionCreationUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("owner1");
@@ -70,14 +70,14 @@ class AdoptionsUITest {
 
 	@Test
 	void incorrectAdoptionCreationUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("owner1");
 		this.driver.findElement(By.xpath("//input[@id='password']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("0wn3r");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.get("http://localhost:8080/adoptions/new/10");
+		this.driver.get("http://localhost:80/adoptions/new/10");
 		this.driver.findElement(By.xpath("//form[@id='add-adoption-form']/div[2]/div/button")).click();
 		Assertions.assertTrue(
 				this.driver.findElement(By.xpath("//body/div/div")).getText()
@@ -87,7 +87,7 @@ class AdoptionsUITest {
 
 	@Test
 	void successfulAllAdoptionListUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("vet1");
@@ -102,14 +102,14 @@ class AdoptionsUITest {
 
 	@Test
 	void incorrectAllAdoptionListUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("owner1");
 		this.driver.findElement(By.xpath("//input[@id='password']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("0wn3r");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.get("http://localhost:8080/adoptions/allAdoptions");
+		this.driver.get("http://localhost:80/adoptions/allAdoptions");
 		Assertions.assertTrue(
 				this.driver.findElement(By.xpath("//body/div/div")).getText()
 						.contains("Only vets and admins can access to this feature"),
@@ -118,7 +118,7 @@ class AdoptionsUITest {
 
 	@Test
 	void successfulAdoptionDeleteUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("admin1");
@@ -143,14 +143,14 @@ class AdoptionsUITest {
 
 	@Test
 	void incorrectAdoptionDeleteUITest() throws Exception {
-		this.driver.get("http://localhost:8080/");
+		this.driver.get("http://localhost:80/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("owner1");
 		this.driver.findElement(By.xpath("//input[@id='password']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='password']")).sendKeys("0wn3r");
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
-		this.driver.get("http://localhost:8080/adoptions/delete/1");
+		this.driver.get("http://localhost:80/adoptions/delete/1");
 		Assertions.assertTrue(
 				this.driver.findElement(By.xpath("//body/div/div")).getText()
 						.contains("Only administrators can delete adoptions"),

@@ -39,7 +39,7 @@ class DiscountUITest {
 	@Order(1)
 	@Test // HU-019
 	void testCreateDiscountNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -76,7 +76,7 @@ class DiscountUITest {
 	@Order(2)
 	@Test // HU-019
 	void testCreateDiscountPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -117,7 +117,7 @@ class DiscountUITest {
 	@Order(3)
 	@Test // HU-020
 	void testUpdateDiscountNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -140,7 +140,7 @@ class DiscountUITest {
 	@Order(4)
 	@Test // HU-020
 	void testUpdateDiscountPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -163,7 +163,7 @@ class DiscountUITest {
 	@Order(5)
 	@Test // HU-021
 	void testDeleteDiscountNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -187,7 +187,7 @@ class DiscountUITest {
 	@Order(6)
 	@Test // HU-021
 	void testDeleteDiscountPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
