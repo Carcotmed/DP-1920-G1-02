@@ -99,7 +99,7 @@ class OrderControllerE2ETests {
 	void testOrderInitUpdate() throws Exception {
 		mockMvc.perform(get("/orders/edit/{orderId}", 2)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("order"))
-				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2013, 1, 31)))))
+				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2013, 2, 1)))))
 				.andExpect(model().attribute("order", hasProperty("quantity", is(55))))
 				.andExpect(model().attribute("order", hasProperty("product", is(this.productService.findProductById(2)))))
 				.andExpect(model().attribute("order", hasProperty("provider", is(this.providerService.findProviderById(2)))))
