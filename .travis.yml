@@ -8,4 +8,14 @@ before_install:
   - mysql -e 'CREATE DATABASE petclinic;'
   - mysql -u root -e "CREATE USER 'petclinic'@'localhost' IDENTIFIED BY 'petclinic';"
   - mysql -u root -e "GRANT ALL ON petclinic.* TO 'petclinic'@'localhost';"
-script: mvn test -Dspring.profiles.active=mysql
+addons:
+  sonarcloud:
+    organization: "carcotmed"
+    token:
+      secure: "YVUGQBZf9hZZD0KWz5T9bYp0hrinTkx/1o8OnApFW1DqQ7wCQAQLMgb9ESXINUSbwOygTxjj2tUoZWrvX+5cF8iR9ybyWK3bvF2ZqqcZ8gZSLPkvzhFs0T17FC8einpwwkmV/mS65jzA9+fAan6zQQcJxrUo29LQbDAgx3vJxjJucmu1O5iMX7dn08vT1bm7Q/l2Cnhr47YdOxOU9HpPmis3FT1rZ1Ec7HDCr3LP04oif13oBWaCAeZnMsIDULxwRXjfoCbwxlkTP5ONVkNPJ3JhydMjpPiHHdggBc0+VCvEzg7B+u/INjmOw6064QOYiHBx0hhel0nRhRWOWr1wKlaVacP60H3JILC2toPhfzjNIoJZmhU6OMR+SLPUkT5fCpSQMsFG6xpCB8wDjE9NP2kSF1Zu2VFAwNpInCeh1IagBk2pK3MAuVt0NZ+nA1OeXgyOQFLtov6aGOyk/1yrLmcaL2vN0PT10i2Sv7t5MLOID4IssSrpVGUILHFMcxjlNIqveTg33CJXq91PqWHXuvDvjEtt3iwWaDKdnTsnJf95qoNfpqcVvtBJlpcjh9HsA7cf/KsyD81iGWyooAhoQgCKzZwZl3+ATddxp5+AjPtgSFlMh/Lm7xpAV3bfu2gGUIPXADSoqRTm7AI/gUET0w1ydvWHvn8wCYNehWCVrKE="
+      # encrypted value of your token
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Carcotmed_DP-1920-G1-02
+#script: mvn test -Dspring.profiles.active=mysql
