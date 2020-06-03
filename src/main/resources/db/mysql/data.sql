@@ -116,7 +116,7 @@ INSERt INTO participations (id, event_id, owner_id) VAlUES (3, 1, 3);
 
 INSERT INTO discounts (id,product_id,provider_id,percentage,quantity,enabled) VALUES (1, 1, 1, 45.0, 10,true);
 INSERT INTO discounts (id,product_id,provider_id,percentage,quantity,enabled) VALUES (2, 2, 1, 55.0, 50,true);
-INSERT INTO discounts (id,product_id,provider_id,percentage,quantity,enabled) VALUES (3, 1, 3, 65.0, 20,false);
+INSERT INTO discounts (id,product_id,provider_id,percentage,quantity,enabled) VALUES (3, 3, 3, 65.0, 20,false);
 
 
 INSERT INTO orders(id,quantity,order_date,arrival_date,sent,provider_id,product_id,discount_id) VALUES (1,3,'2013-01-01',null,true,1,1,1);

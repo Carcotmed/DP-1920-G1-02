@@ -3,17 +3,13 @@ package org.springframework.samples.petclinic.service;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.repository.ProductRepository;
 import org.springframework.samples.petclinic.repository.ProviderRepository;

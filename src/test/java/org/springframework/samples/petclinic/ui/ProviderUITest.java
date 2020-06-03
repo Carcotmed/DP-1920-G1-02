@@ -8,11 +8,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -25,7 +22,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class ProviderUITest {
+class ProviderUITest {
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -33,7 +30,7 @@ public class ProviderUITest {
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
@@ -42,8 +39,8 @@ public class ProviderUITest {
 
 	@Order(1)
 	@Test // HU-013
-	public void testCreateProviderNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testCreateProviderNegativeUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -74,8 +71,8 @@ public class ProviderUITest {
 
 	@Order(2)
 	@Test // HU-013
-	public void testCreateProviderPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testCreateProviderPositiveUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -114,8 +111,8 @@ public class ProviderUITest {
 
 	@Order(3)
 	@Test // HU-014
-	public void testUpdateProviderNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testUpdateProviderNegativeUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -139,8 +136,8 @@ public class ProviderUITest {
 
 	@Order(4)
 	@Test // HU-014
-	public void testUpdateProviderPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testUpdateProviderPositiveUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -172,8 +169,8 @@ public class ProviderUITest {
 
 	@Order(5)
 	@Test // HU-015
-	public void testDeleteProviderNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testDeleteProviderNegativeUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -197,8 +194,8 @@ public class ProviderUITest {
 
 	@Order(6)
 	@Test // HU-015
-	public void testDeleteProviderPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testDeleteProviderPositiveUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -226,7 +223,7 @@ public class ProviderUITest {
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	void tearDown() throws Exception {
 		this.driver.close();
 	}
 

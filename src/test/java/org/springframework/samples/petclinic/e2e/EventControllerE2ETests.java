@@ -3,24 +3,15 @@ package org.springframework.samples.petclinic.e2e;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.model.Event;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.service.EventService;
-import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.ProviderService;
-import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.web.OwnerController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
@@ -198,14 +189,14 @@ class EventControllerE2ETests {
 			.andExpect(MockMvcResultMatchers.view().name("events/eventDetails"));
 	}
 
-	@WithMockUser(value = "spring", authorities = "owner", username = "user")
+	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testInitCreationParticipationFormSuccess() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/newParticipation/{eventId}", 3)).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.status().isOk())
 			.andExpect(MockMvcResultMatchers.view().name("events/createOrUpdateParticipationForm"));
 	}
 
-	@WithMockUser(value = "spring", authorities = "owner", username = "user")
+	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testInitCreationParticipationFormOnUnplublishedEvent() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/events/newParticipation/{eventId}", 5)).andExpect(MockMvcResultMatchers.model().attributeExists("error")).andExpect(MockMvcResultMatchers.status().isOk())
@@ -215,14 +206,14 @@ class EventControllerE2ETests {
 	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testProcessCreationParticipationFormSuccess() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 2).requestAttr("pets", new ArrayList<Pet>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 2).requestAttr("pets", new ArrayList<>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.view().name("redirect:/events/" + 2));
 	}
 
 	@WithMockUser(value = "spring", authorities = "owner", username = "owner1")
 	@Test
 	void testProcessCreationParticipationFormOnUnpublishedEvent() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 5).requestAttr("pets", new ArrayList<Pet>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/events/newParticipation/{eventId}", 5).requestAttr("pets", new ArrayList<>()).with(SecurityMockMvcRequestPostProcessors.csrf()))
 			.andExpect(MockMvcResultMatchers.status().is3xxRedirection()).andExpect(MockMvcResultMatchers.model().attributeDoesNotExist("error")).andExpect(MockMvcResultMatchers.view().name("redirect:/events/" + 5));
 	}
 

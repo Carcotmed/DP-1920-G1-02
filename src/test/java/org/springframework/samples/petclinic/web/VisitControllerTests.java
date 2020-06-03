@@ -17,7 +17,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.service.PetService;
-import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -56,10 +55,8 @@ class VisitControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessNewVisitFormSuccess() throws Exception {
-		mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID).with(csrf())
-				.param("name", "George")
-				.param("description", "Visit Description")
-				.param("bringer", "Owner"))
+		mockMvc.perform(post("/owners/*/pets/{petId}/visits/new", TEST_PET_ID).with(csrf()).param("name", "George")
+				.param("description", "Visit Description").param("bringer", "Owner"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/owners/{ownerId}/pets/{petId}"));
 	}

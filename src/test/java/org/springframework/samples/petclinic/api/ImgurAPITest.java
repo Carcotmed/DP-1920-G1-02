@@ -4,20 +4,17 @@ import groovy.util.logging.Log;
 import io.restassured.http.Header;
 
 import static io.restassured.RestAssured.*;
-import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.samples.petclinic.model.api.ImgurResponse;
 
 @Log
 @TestMethodOrder(OrderAnnotation.class)
-public class ImgurAPITest {
+class ImgurAPITest {
 	
 	/*
 	@Value("${imgurAPI.clientID}")
@@ -29,7 +26,7 @@ public class ImgurAPITest {
 
 	@Test
 	@Order(1)
-	public void testUploadImage () {
+	void testUploadImage () {
 		
 		String trueClientID = "Client-ID " + clientID;
 		Header header = new Header("Authorization", trueClientID);
@@ -61,14 +58,11 @@ public class ImgurAPITest {
 
 	@Test
 	@Order(2)
-	public void testDeleteImage() {
+	void testDeleteImage() {
 		
 		String trueClientID = "Client-ID " + clientID;
 		Header header = new Header("Authorization", trueClientID);
 		String url = "https://api.imgur.com/3/image/"+deleteHash;
-		
-		System.out.println(trueClientID);
-		System.out.println(url);
 				
 		given()
 			.request()
@@ -80,7 +74,6 @@ public class ImgurAPITest {
 			.statusCode(200);
 		
 	}
-	
 	
 
 	private static String getTestImage() {

@@ -1,15 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Discount;
-import org.springframework.samples.petclinic.model.Order;
 import org.springframework.samples.petclinic.model.Product;
 import org.springframework.samples.petclinic.model.Provider;
 import org.springframework.samples.petclinic.service.ProductService;
@@ -27,6 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/products")
 public class ProductController {
 	
+	private String product = "product";
+	private String editURL= "products/editProduct";
+
+	
 	@Autowired
 	private ProductService productService;
 	
@@ -41,17 +41,17 @@ public class ProductController {
 	@RequestMapping()
 	public String productsList(ModelMap modelMap) {
 		String vista = "products/productsList";
-		Collection<Product> products = productService.findAllWithProvider();
+		Iterable<Product> products = productService.findAll();
 		modelMap.addAttribute("products", products);
 		return vista;
 	}
 	
 	@GetMapping("/new")
 	public String initCreateProduct(ModelMap modelMap) {
-		String view = "products/editProduct";
+		String view = editURL;
 		Product product = new Product();
 		product.setEnabled(true);
-		modelMap.addAttribute("product", product);
+		modelMap.addAttribute(this.product, product);
 		return view;
 	}
 	
@@ -61,8 +61,8 @@ public class ProductController {
 			if(product.getQuantity() != null) {
 				product.setQuantity(null);
 			}
-			modelMap.put("product", product);
-			return "products/editProduct";
+			modelMap.put(this.product, product);
+			return editURL;
 		} else {
 			this.productService.save(product);
 		}
@@ -71,9 +71,9 @@ public class ProductController {
 	
 	@GetMapping("/edit/{productId}")
 	public String initUpdateForm(@PathVariable("productId") int productId, ModelMap modelMap) {
-		String view = "products/editProduct";
+		String view = editURL;
 		Product product = this.productService.findProductById(productId);
-		modelMap.put("product", product);
+		modelMap.put(this.product, product);
 		return view;
 	}
 	
@@ -81,8 +81,8 @@ public class ProductController {
 	public String processUpdateForm(@Valid Product product, BindingResult result,
 			@PathVariable("productId") int productId, ModelMap modelMap) {
 		if (result.hasErrors()) {
-			modelMap.put("product", product);
-			return "products/editProduct";
+			modelMap.put(this.product, product);
+			return editURL;
 		} else {
 			Product productToUpdate = this.productService.findProductById(productId);
 			BeanUtils.copyProperties(product, productToUpdate, "id");

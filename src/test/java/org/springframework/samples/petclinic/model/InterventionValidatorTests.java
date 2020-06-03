@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-public class InterventionValidatorTests {
+class InterventionValidatorTests {
 	
 	private Validator createValidator() {
 		LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
@@ -139,7 +139,7 @@ public class InterventionValidatorTests {
 		//intervention.setDescription("Description");
 		intervention.setVet(new Vet ());
 		intervention.setVisit(new Visit ());
-		intervention.setRequiredProducts(new ArrayList <Product> ());
+		intervention.setRequiredProducts(new ArrayList <> ());
 
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Intervention>> constraintViolations = validator.validate(intervention);

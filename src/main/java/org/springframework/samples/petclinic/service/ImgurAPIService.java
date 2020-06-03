@@ -1,8 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -11,7 +8,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.model.api.ImgurResponse;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.ContentTypeOptionsConfig;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -20,9 +16,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ImgurAPIService {
 
-	private final static String imageEndpoint = "https://api.imgur.com/3/";
-	private final static String imageUploadEndpoint = imageEndpoint + "upload/";
-	private final static String imageDeleteEndpoint = imageEndpoint + "image/";
+	private static final  String imageEndpoint = "https://api.imgur.com/3/";
+	private static final String imageUploadEndpoint = imageEndpoint + "upload/";
+	private static final String imageDeleteEndpoint = imageEndpoint + "image/";
 	
 	@Value("${imgurAPI.clientID}")
 	private String clientID;
@@ -46,10 +42,8 @@ public class ImgurAPIService {
 		HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
 		
 		ResponseEntity<ImgurResponse> response = restTemplate.postForEntity(imageUploadEndpoint, requestEntity, ImgurResponse.class);
-		
-		ImgurResponse imgurResponse = response.getBody();
 				
-		return imgurResponse;
+		return response.getBody();
 		
 	}
 	
@@ -60,7 +54,6 @@ public class ImgurAPIService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 		String trueClientID = "Client-ID " + clientID;
-		System.out.println(trueClientID);
 		headers.add("Authorization", trueClientID);
 		
 		HttpEntity<?> request = new HttpEntity<Object>(headers);

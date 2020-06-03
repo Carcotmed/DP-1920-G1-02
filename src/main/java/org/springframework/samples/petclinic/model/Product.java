@@ -28,7 +28,7 @@ public class Product extends NamedEntity{
 	@NotNull
 	private Boolean allAvailable;
 	
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	@NotNull
 	@JoinColumn(name="provider_id")
 	private Provider provider;

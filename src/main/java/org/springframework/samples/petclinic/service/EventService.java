@@ -27,7 +27,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Event;
 import org.springframework.samples.petclinic.model.Participation;
 import org.springframework.samples.petclinic.repository.EventRepository;
@@ -76,9 +75,9 @@ public class EventService {
 
 	@Transactional
 	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
-	public Event save(final Event event) throws DataAccessException {
-		if (event.getPublished()) {
-			if (event.getCapacity().equals(null) || event.getDate().equals(null) || event.getDescription().equals(null) || event.getPlace().equals(null)) {
+	public Event save(final Event event) {
+		if (Boolean.TRUE.equals(event.getPublished())) {
+			if (Boolean.TRUE.equals(event.getCapacity() == null) || Boolean.TRUE.equals(event.getDate() ==null) || Boolean.TRUE.equals(event.getDescription() == null) || Boolean.TRUE.equals(event.getPlace() == null)) {
 				throw new InvalidParameterException("Event must not be empty if published");
 			}
 		}
@@ -90,7 +89,7 @@ public class EventService {
 
 	@Transactional
 	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
-	public Participation saveParticipation(final Participation participation) throws DataAccessException {
+	public Participation saveParticipation(final Participation participation) {
 		return this.participationRepository.save(participation);
 	}
 
@@ -102,7 +101,7 @@ public class EventService {
 	@CacheEvict (allEntries = true, cacheNames = {"findAllEvents", "findAllPublishedEvents"})
 	public void delete(final Event event) {
 		List<Participation> participations = new ArrayList<>(this.findParticipationsByEventId(event.getId()));
-		participations.stream().forEach(x -> this.deleteParticipation(x));
+		participations.stream().forEach(this::deleteParticipation);
 		this.eventRepository.delete(event);
 	}
 

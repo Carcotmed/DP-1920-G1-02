@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-public class DiscountValidatorTests extends ValidatorTests {
+class DiscountValidatorTests extends ValidatorTests {
 
 	Product product = new Product();
 	Provider provider = new Provider();
@@ -51,10 +51,10 @@ public class DiscountValidatorTests extends ValidatorTests {
 		assertNotNull(provider);
 		assertNotNull(quantity);
 		
-		assertThat(percentage >= 1.0);
-		assertThat(percentage <= 99.99);
+		assertThat(percentage >= 1.0).isTrue();
+		assertThat(percentage <= 99.99).isTrue();
 		
-		assertThat(quantity >= 1);
+		assertThat(quantity >= 1).isTrue();
 	}
 
 	// 2 -
@@ -72,8 +72,6 @@ public class DiscountValidatorTests extends ValidatorTests {
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Discount>> constraintViolations = validator.validate(discount);
 		
-		constraintViolations.forEach(x -> System.out.println(x));
-
 		assertThat(constraintViolations.size()).isEqualTo(1);
 		ConstraintViolation<Discount> violation = constraintViolations.iterator().next();
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("percentage");

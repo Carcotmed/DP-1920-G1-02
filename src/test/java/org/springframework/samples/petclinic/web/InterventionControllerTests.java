@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,7 +11,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,7 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
 @WebMvcTest(controllers = InterventionController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
-public class InterventionControllerTests {
+class InterventionControllerTests {
 
 	@Autowired
 	private InterventionController interventionController;
@@ -82,7 +80,7 @@ public class InterventionControllerTests {
 		vet.setLastName("Vet Last Name");
 		vet.setId(TEST_VET_ID);
 
-		requiredProducts = new ArrayList<Product>();
+		requiredProducts = new ArrayList<>();
 
 		intervention = new Intervention();
 		intervention.setId(TEST_INTERVENTION_ID);
@@ -104,7 +102,8 @@ public class InterventionControllerTests {
 		given(this.interventionService.findInterventionById(TEST_INTERVENTION_ID)).willReturn(intervention);
 		given(this.visitService.findVisitById(TEST_VISIT_ID)).willReturn(visit);
 		given(interventionService.findInterventionWithProductsById(TEST_INTERVENTION_ID)).willReturn(intervention);
-		given(interventionService.findInterventionWithVisitAndProductsById(TEST_INTERVENTION_ID)).willReturn(intervention);
+		given(interventionService.findInterventionWithVisitAndProductsById(TEST_INTERVENTION_ID))
+				.willReturn(intervention);
 	}
 
 	@WithMockUser(value = "spring")
@@ -120,9 +119,8 @@ public class InterventionControllerTests {
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new", TEST_OWNER_ID,
-				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("name", "Castracion nueva")
-						.param("vet", "1").param("visit", "1")
-						.param("requiredProducts", "{1}"))
+				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("name", "Castracion nueva").param("vet", "1")
+						.param("visit", "1").param("requiredProducts", "{1}"))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
 	}
@@ -131,8 +129,8 @@ public class InterventionControllerTests {
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new", TEST_OWNER_ID,
-				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("vet", "1")
-						.param("visit", "1").param("requiredProducts", "{1}"))
+				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("vet", "1").param("visit", "1").param("requiredProducts",
+						"{1}"))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("intervention"))
 				.andExpect(model().attributeHasFieldErrors("intervention", "name"))
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
@@ -145,8 +143,8 @@ public class InterventionControllerTests {
 		product.setQuantity(0);
 
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/new", TEST_OWNER_ID,
-				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("vet", "1")
-						.param("visit", "1").param("requiredProducts", "{"+TEST_PRODUCT_ID+"}"))
+				TEST_PET_ID, TEST_VISIT_ID).with(csrf()).param("vet", "1").param("visit", "1").param("requiredProducts",
+						"{" + TEST_PRODUCT_ID + "}"))
 				.andExpect(status().isOk()).andExpect(model().attributeHasErrors("intervention"))
 				.andExpect(model().attributeHasFieldErrors("intervention", "requiredProducts"))
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
@@ -172,8 +170,8 @@ public class InterventionControllerTests {
 	void testProcessEditFormSuccess() throws Exception {
 		mockMvc.perform(post("/owners/{ownerId}/pets/{petId}/visits/{visitId}/interventions/{interventionId}/edit",
 				TEST_OWNER_ID, TEST_PET_ID, TEST_VISIT_ID, TEST_INTERVENTION_ID).with(csrf())
-						.param("name", "Castración updated")
-						.param("vet", "" + TEST_VET_ID).param("visit", "" + TEST_VISIT_ID))
+						.param("name", "Castración updated").param("vet", "" + TEST_VET_ID)
+						.param("visit", "" + TEST_VISIT_ID))
 				.andExpect(status().is2xxSuccessful())
 				.andExpect(view().name("interventions/createOrUpdateInterventionForm"));
 

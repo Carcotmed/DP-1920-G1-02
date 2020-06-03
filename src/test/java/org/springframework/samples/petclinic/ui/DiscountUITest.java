@@ -2,17 +2,12 @@ package org.springframework.samples.petclinic.ui;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer.Alphanumeric;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -26,7 +21,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 
 @TestMethodOrder(value = OrderAnnotation.class)
-public class DiscountUITest {
+class DiscountUITest {
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -34,7 +29,7 @@ public class DiscountUITest {
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeEach
-	public void setUp() throws Exception {
+	void setUp() throws Exception {
 		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		this.driver = new FirefoxDriver();
 		this.baseUrl = "https://www.google.com/";
@@ -43,8 +38,8 @@ public class DiscountUITest {
 
 	@Order(1)
 	@Test // HU-019
-	public void testCreateDiscountNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testCreateDiscountNegativeUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -80,8 +75,8 @@ public class DiscountUITest {
 
 	@Order(2)
 	@Test // HU-019
-	public void testCreateDiscountPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testCreateDiscountPositiveUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -121,8 +116,8 @@ public class DiscountUITest {
 
 	@Order(3)
 	@Test // HU-020
-	public void testUpdateDiscountNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testUpdateDiscountNegativeUI() throws Exception {
+		driver.get("http://localhost:80/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -144,8 +139,8 @@ public class DiscountUITest {
 
 	@Order(4)
 	@Test // HU-020
-	public void testUpdateDiscountPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testUpdateDiscountPositiveUI() throws Exception {
+		driver.get("http://localhost:80/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).clear();
@@ -167,8 +162,8 @@ public class DiscountUITest {
 
 	@Order(5)
 	@Test // HU-021
-	public void testDeleteDiscountNegativeUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testDeleteDiscountNegativeUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -191,8 +186,8 @@ public class DiscountUITest {
 
 	@Order(6)
 	@Test // HU-021
-	public void testDeleteDiscountPositiveUI() throws Exception {
-		driver.get("http://localhost:8080/");
+	void testDeleteDiscountPositiveUI() throws Exception {
+		driver.get("http://localhost:80/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
@@ -222,7 +217,7 @@ public class DiscountUITest {
 	}
 
 	@AfterEach
-	public void tearDown() throws Exception {
+	void tearDown() throws Exception {
 		this.driver.close();
 	}
 

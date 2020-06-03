@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-public class OrderValidatorTests extends ValidatorTests {
+class OrderValidatorTests extends ValidatorTests {
 
 	Provider provider = new Provider();
 	Product product = new Product();
@@ -59,7 +59,7 @@ public class OrderValidatorTests extends ValidatorTests {
 		assertNotNull(provider);
 		assertNotNull(sent);
 
-		assertThat(quantity >= 1);
+		assertThat(quantity >= 1).isTrue();
 
 	}
 

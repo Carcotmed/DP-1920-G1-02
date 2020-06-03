@@ -1,28 +1,13 @@
 
 package org.springframework.samples.petclinic.e2e;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.samples.petclinic.model.Intervention;
-import org.springframework.samples.petclinic.model.Product;
-import org.springframework.samples.petclinic.model.Provider;
-import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.model.Visit;
-import org.springframework.samples.petclinic.service.InterventionService;
-import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.VetService;
-import org.springframework.samples.petclinic.service.VisitService;
-import org.springframework.samples.petclinic.web.InterventionController;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.TestPropertySource;
@@ -37,7 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class InterventionControllerE2ETests {
+class InterventionControllerE2ETests {
 	@Autowired
 	private MockMvc mockMvc;
 	

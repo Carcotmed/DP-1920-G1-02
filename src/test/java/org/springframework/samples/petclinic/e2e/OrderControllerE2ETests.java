@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.samples.petclinic.service.DiscountService;
-import org.springframework.samples.petclinic.service.OrderService;
 import org.springframework.samples.petclinic.service.ProductService;
 import org.springframework.samples.petclinic.service.ProviderService;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -29,7 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class OrderControllerE2ETests {
+class OrderControllerE2ETests {
 
 	@Autowired
 	private ProductService productService;
@@ -100,7 +99,7 @@ public class OrderControllerE2ETests {
 	void testOrderInitUpdate() throws Exception {
 		mockMvc.perform(get("/orders/edit/{orderId}", 2)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("order"))
-				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2013, 1, 31)))))
+				.andExpect(model().attribute("order", hasProperty("orderDate", is(LocalDate.of(2013, 2, 1)))))
 				.andExpect(model().attribute("order", hasProperty("quantity", is(55))))
 				.andExpect(model().attribute("order", hasProperty("product", is(this.productService.findProductById(2)))))
 				.andExpect(model().attribute("order", hasProperty("provider", is(this.providerService.findProviderById(2)))))
