@@ -1,0 +1,51 @@
+
+
+====================================
+AssertJ assertions generation report
+====================================
+
+--- Generator input parameters ---
+
+Generating AssertJ assertions for classes in following packages and subpackages:
+- org.springframework.samples.petclinic.model
+
+--- Generator results ---
+
+Directory where custom assertions files have been generated:
+- src\test\java\generatedAssertions
+
+Custom assertions files generated:
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\AdoptionAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\AuthoritiesAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\BaseEntityAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\DataAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\DiscountAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\EventAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\ImgurResponseAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\InterventionAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\NamedEntityAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\OrderAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\OwnerAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\ParticipationAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\PersonAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\PetAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\PetTypeAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\ProductAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\ProviderAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\SpecialtyAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\UserAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\VetAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\VetsAssert.java
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\customAssertions\VisitAssert.java
+
+Assertions entry point class has been generated in file:
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\org\assertj\Assertions.java
+
+BddAssertions entry point class has been generated in file:
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\org\assertj\BddAssertions.java
+
+SoftAssertions entry point class has been generated in file:
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\org\assertj\SoftAssertions.java
+
+JUnitSoftAssertions entry point class has been generated in file:
+- C:\Users\jacki\Desktop\WorkSpace-DP2\DP-1920-G1-02\src\test\java\generatedAssertions\org\assertj\JUnitSoftAssertions.java

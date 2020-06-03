@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static generatedAssertions.org.assertj.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 
@@ -80,9 +81,11 @@ class InterventionServiceTests {
 		Integer visitId = null;
 		visitId = intervention.getVisit().getId();
 
-		assertThat(id).isNotNull();
+		assertThat (intervention).hasNoNullFieldsOrProperties();
 		assertThat(intervention).isEqualTo(interventionService.findInterventionById(id));
 		assertThat(intervention).isEqualTo(visitService.findVisitById(visitId).getIntervention());
+		
+		assertThat(intervention).hasName(this.intervention.getName());
 
 	}
 
@@ -104,7 +107,7 @@ class InterventionServiceTests {
 
 		interventionService.saveIntervention(interventionToUpdate);
 
-		assertThat(interventionService.findInterventionById(id).getName()).isEqualTo("Nombre modificado");
+		assertThat (interventionService.findInterventionById(id)).hasName("Nombre modificado");
 		// assertThat(interventionService.findInterventionById(id).getDescription()).isEqualTo("Descripcion
 		// modificada");
 
@@ -117,7 +120,7 @@ class InterventionServiceTests {
 	void shouldInsertInterventionIntoDatabaseWithParametizedNames(String name) {
 
 		intervention.setName(name);
-		assertThat(intervention.getName()).isEqualTo(name);
+		assertThat(intervention).hasName(name);
 
 		interventionService.saveIntervention(intervention);
 
@@ -126,7 +129,7 @@ class InterventionServiceTests {
 		Integer visitId = null;
 		visitId = intervention.getVisit().getId();
 
-		assertThat(id).isNotNull();
+		assertThat (intervention).hasNoNullFieldsOrProperties();
 		assertThat(intervention).isEqualTo(interventionService.findInterventionById(id));
 		assertThat(intervention).isEqualTo(visitService.findVisitById(visitId).getIntervention());
 
@@ -145,7 +148,7 @@ class InterventionServiceTests {
 
 		// newIntervention.setDescription(null);
 
-		assertThat(newIntervention.getRequiredProducts()).isNull();
+		assertThat (newIntervention).hasFieldOrPropertyWithValue("requiredProducts", null);
 
 		assertThrows(ConstraintViolationException.class, () -> interventionService.saveIntervention(newIntervention));
 
@@ -157,7 +160,8 @@ class InterventionServiceTests {
 
 		List<Product> list = new ArrayList<>();
 		intervention.setRequiredProducts(list);
-		assertThat(intervention.getRequiredProducts()).isEmpty();
+		//assertThat(intervention.getRequiredProducts()).isEmpty();
+		assertThat (intervention).hasFieldOrPropertyWithValue("requiredProducts", new ArrayList <> ());
 
 		interventionService.saveIntervention(intervention);
 
@@ -166,7 +170,7 @@ class InterventionServiceTests {
 		Integer visitId = null;
 		visitId = intervention.getVisit().getId();
 
-		assertThat(id).isNotNull();
+		assertThat (intervention).hasNoNullFieldsOrProperties();
 		assertThat(intervention).isEqualTo(interventionService.findInterventionById(id));
 		assertThat(intervention).isEqualTo(visitService.findVisitById(visitId).getIntervention());
 
@@ -215,7 +219,7 @@ class InterventionServiceTests {
 
 		LocalDate date = LocalDate.of(2019, 1, 1);
 
-		assertThat(interventionService.getInterventionsOfDay(date).size()).isEqualTo(3);
+		org.assertj.core.api.Assertions.assertThat(interventionService.getInterventionsOfDay(date).size()).isEqualTo(3);
 
 	}
 
@@ -227,8 +231,9 @@ class InterventionServiceTests {
 
 		LocalDate date = LocalDate.of(2019, 1, 1);
 
-		assertThat(vetService.findVets().size()).isEqualTo(6);
-		assertThat(interventionService.getAvailableVets(date).size()).isEqualTo(5);
+		
+		org.assertj.core.api.Assertions.assertThat(vetService.findVets().size()).isEqualTo(6);
+		org.assertj.core.api.Assertions.assertThat(interventionService.getAvailableVets(date).size()).isEqualTo(5);
 
 	}
 
@@ -237,8 +242,8 @@ class InterventionServiceTests {
 
 		LocalDate date = LocalDate.of(2000, 1, 1);
 
-		assertThat(vetService.findVets().size()).isEqualTo(6);
-		assertThat(interventionService.getAvailableVets(date).size()).isEqualTo(6);
+		org.assertj.core.api.Assertions.assertThat(vetService.findVets().size()).isEqualTo(6);
+		org.assertj.core.api.Assertions.assertThat(interventionService.getAvailableVets(date).size()).isEqualTo(6);
 
 	}
 

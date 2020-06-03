@@ -138,13 +138,8 @@
 			<groupId>junit</groupId>
 		</dependency>
 		<!-- COMMENT WHEN NOT USING JAVAMELODY -->
-		<!-- 
-		<dependency>
-			<groupId>net.bull.javamelody</groupId>
-			<artifactId>javamelody-spring-boot-starter</artifactId>
-			<version>1.83.0</version>
-		</dependency>
-		 -->
+		<!-- <dependency> <groupId>net.bull.javamelody</groupId> <artifactId>javamelody-spring-boot-starter</artifactId> 
+			<version>1.83.0</version> </dependency> -->
 
 		<dependency>
 			<groupId>io.rest-assured</groupId>
@@ -189,9 +184,14 @@
 			<artifactId>selenium-support</artifactId>
 			<version>${selenium.version}</version>
 		</dependency>
-
-
-
+<!-- 
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>2.1.0</version>
+			<scope>test</scope>
+		</dependency>
+ -->
 	</dependencies>
 
 	<build>
@@ -301,6 +301,70 @@
 						<exclude>**/*UITest.java</exclude>
 						<exclude>**/*APITest.java</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+
+			<!-- AssertJ Assertions Generator -->
+
+			<plugin>
+				<groupId>org.assertj</groupId>
+				<artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+				<version>2.1.0</version>
+
+				<configuration>
+
+					<!-- List the package of classes you want to generate assertions for -->
+					<packages>
+						<param>org.springframework.samples.petclinic.model</param>
+					</packages>
+
+					<!-- Whether generated assertions classes can be inherited with consistent 
+						assertion chaining -->
+					<hierarchical>false</hierarchical>
+
+					<!-- If true, generate assertions for all fields whatever their visibility 
+						is (including private). Default to false which means assertions are only 
+						generated for public fields. -->
+					<generateAssertionsForAllFields>false</generateAssertionsForAllFields>
+
+					<!-- Where to generate assertions entry point classes -->
+					<entryPointClassPackage>org.assertj</entryPointClassPackage>
+
+					<!-- Sets the base directory where to generate assertions -->
+					<targetDir>src\test\java\generatedAssertions</targetDir>
+
+					<!-- If true, all files in targetDir are removed before generating new 
+						ones (default to false) -->
+					<cleanTargetDir>true</cleanTargetDir>
+
+					<!-- Set the package where assertion classes are generated, combine 
+						it with targetDir to get the path to assertions classes. Ex: com.nba.Player 
+						-> src/test/generated-assertions/my/assertions/PlayerAssert If not set, each 
+						assertion class is generated in the package of the class to assert. Ex: com.nba.Player 
+						-> src/test/generated-assertions/com/nba/PlayerAssert -->
+					<generateAssertionsInPackage>customAssertions</generateAssertionsInPackage>
+
+					<!-- Select which assertions entry point classes to generate -->
+					<generateAssertions>true</generateAssertions>
+					<generateBddAssertions>true</generateBddAssertions>
+					<generateSoftAssertions>true</generateSoftAssertions>
+					<generateJUnitSoftAssertions>true</generateJUnitSoftAssertions>
+
+					<!-- Set the scope of generated sources when added to the maven build. 
+						Value must be 'test' or 'compile' to and defaults to 'test'. -->
+					<generatedSourcesScope>compile</generatedSourcesScope>
+
+					<!-- If true, the plugin does not produce any logs (default to false) -->
+					<quiet>false</quiet>
+
+					<!-- The generated assertions report is written to the given file. The 
+						base directory containing the report file is where the plugin is executed. -->
+					<writeReportInFile>assertions-generation-report.txt</writeReportInFile>
+
+					<!-- If true, do not generate assertions, it's a way to disable the 
+						plugin -->
+					<skip>false</skip>
+
 				</configuration>
 			</plugin>
 
