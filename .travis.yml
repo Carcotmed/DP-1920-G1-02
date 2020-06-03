@@ -2,20 +2,19 @@ dist: trusty
 language: java
 jdk: oraclejdk8
 services:
-  - mysql
+- mysql
 before_install:
-  - chmod +x mvnw
-  - mysql -e 'CREATE DATABASE petclinic;'
-  - mysql -u root -e "CREATE USER 'petclinic'@'localhost' IDENTIFIED BY 'petclinic';"
-  - mysql -u root -e "GRANT ALL ON petclinic.* TO 'petclinic'@'localhost';"
+- chmod +x mvnw
+- mysql -e 'CREATE DATABASE petclinic;'
+- mysql -u root -e "CREATE USER 'petclinic'@'localhost' IDENTIFIED BY 'petclinic';"
+- mysql -u root -e "GRANT ALL ON petclinic.* TO 'petclinic'@'localhost';"
 addons:
   sonarcloud:
-    organization: "carcotmed"
+    organization: carcotmed
     token:
-      secure: "Pupm67q+Y1LCxlHvURQh/agfButvk535/ErV0zUoHe4UyCjbdqcIWouLs4HJt9EqsZBHaBFP/NCZG3m4XBvQhYZfqA2Tk8TB/v5cfdn8958QaBuxIPc3eP4n+dGaGigZs+vcFx8xLWYoRzYBX1PLViNCrw+8ap6hRwF5s/ljI1ALLzgSu6Pp6VYekjd95MWnBZaYwOroxS5Mbh39y5YYo0VRZaptn/18JuljcmgT42KJGTaQIvvtkfqlJ12pm+8zGj/eAE/Gb8rkUEcBhnlO9/WF8FDSuxV+T09gwtFCHfQmC64ADN3IwOhZX+sbbmRug1JizgONSxOnA9Qr/V8HIfn4kajITe+Q1JIq//oB/TXzCmS3EHAdL9nuIOMp302ltAnwqItgxZo8jbt4iKUgcWZUgNqeWc+QEZBhNmK8CFUWaomNUfuJVhq4rr5byK3o/nN615aLDJcShH33yFw1jXZ1zGlwQGV88wQ9KrarcfEV01y1uC0uzf4zsC/ywJJ2ksXk3ZZ1QPAGLORVJ6P/WAkqXON/O5ECB/VBOKRVJkbMomIVd6slPcjRi9iJhkjmRArsFXr2wgiVdbD7g9URmykkuIGOKyaV1xjTIvYtFwuNPmB9LK62nNCr0GXhzFnY508IHHLCfHQppWVqX6qp8NzmoYYh9wSjLIWQHtDZ9u0="
-      # encrypted value of your token
-
+      secure: Pupm67q+Y1LCxlHvURQh/agfButvk535/ErV0zUoHe4UyCjbdqcIWouLs4HJt9EqsZBHaBFP/NCZG3m4XBvQhYZfqA2Tk8TB/v5cfdn8958QaBuxIPc3eP4n+dGaGigZs+vcFx8xLWYoRzYBX1PLViNCrw+8ap6hRwF5s/ljI1ALLzgSu6Pp6VYekjd95MWnBZaYwOroxS5Mbh39y5YYo0VRZaptn/18JuljcmgT42KJGTaQIvvtkfqlJ12pm+8zGj/eAE/Gb8rkUEcBhnlO9/WF8FDSuxV+T09gwtFCHfQmC64ADN3IwOhZX+sbbmRug1JizgONSxOnA9Qr/V8HIfn4kajITe+Q1JIq//oB/TXzCmS3EHAdL9nuIOMp302ltAnwqItgxZo8jbt4iKUgcWZUgNqeWc+QEZBhNmK8CFUWaomNUfuJVhq4rr5byK3o/nN615aLDJcShH33yFw1jXZ1zGlwQGV88wQ9KrarcfEV01y1uC0uzf4zsC/ywJJ2ksXk3ZZ1QPAGLORVJ6P/WAkqXON/O5ECB/VBOKRVJkbMomIVd6slPcjRi9iJhkjmRArsFXr2wgiVdbD7g9URmykkuIGOKyaV1xjTIvYtFwuNPmB9LK62nNCr0GXhzFnY508IHHLCfHQppWVqX6qp8NzmoYYh9wSjLIWQHtDZ9u0=
 script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Carcotmed_DP-1920-G1-02
-#script: mvn test -Dspring.profiles.active=mysql
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Carcotmed_DP-1920-G1-02
+env:
+  global:
+    secure: ncBMQyoaei9nQk5SBZo5AjeVwc2AbyhQhy5QUbKwvPq1NjWurusAezXR3R3EmuaFxov35u89laelDPrnMF5SN/HFWhJPtFvgwUYq5mqOEtvSXt2LrhLPBkXoFZtVbB0xVVQgKU/PmBOmg3ziazm7n9jB0EMOE3dJPTsD7KHIK+azWjP/kftAN2XIvFvsgvoufz+P5iC9FMCe9lB6gtJgixjReOXsNP97XN5Icyni1aLdSGVeX+02D8ztlAnvi4H1dLvcK0U2idSlUNz4Gi53HJFTfTcTY38uZGQiwFyfvKGcncIogaEBPR9nR4JG4DAsMqewvsbAoXxeJ8FYJ/PHb1DiE6rM4vQSNPvkrMhniJB9QFbytOMrQT0lJ3nvnxtk3Lms+i+TzcqLgFRxi0GPKaZ6dKoNPvJ70ePX8JFR2OAro6O/7hppN0wdsjA0eMB9xtUvqJfxzlToB/hyXGjVqWhVsndsSRLTfgIApRnnSMIsO1dEvDiCvtpw60/Vbpm3jOXCoX58RH8JnnH6mD22jstXL9zs07Y5O1gIn+a6k2xrwJrBMwJrytDGa//ThZLkhjPPKbIE1d1TbbHX3Tn2NMFMdVZhhjFxCdrYqNxfDKI8rSFBC7yG1gSFeK+rusxj5Z3wwb8EOsDp1+xnfDZQWlWTqL9HUM2n/f6Fr5eEmcE=
