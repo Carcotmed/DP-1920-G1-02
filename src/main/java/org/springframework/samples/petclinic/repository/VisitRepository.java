@@ -50,8 +50,8 @@ public interface VisitRepository {
 
 	@Query("SELECT v.id AS visitId, v.description AS visitDescription, v.bringer AS visitBringer,"
 			+ " v.date AS visitDate, i.id AS interventionId, i.name AS interventionName,"
-			+ " i.vet.firstName AS interventionFirstName,"
-			+ " i.vet.lastName AS interventionLastName FROM Visit v INNER JOIN v.intervention i WHERE v.pet.id = ?1")
+			+ " vet.firstName AS interventionFirstName, vet.lastName AS interventionLastName"
+			+ " FROM Visit v LEFT OUTER JOIN v.intervention i LEFT OUTER JOIN i.vet vet WHERE v.pet.id = ?1")
 	List<VisitIntervention> findVisitInterventionByPetId(Integer petId);
 
 }
