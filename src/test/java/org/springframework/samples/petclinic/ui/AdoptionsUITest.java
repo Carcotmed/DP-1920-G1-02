@@ -18,9 +18,15 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(value = Alphanumeric.class)
 class AdoptionsUITest {
+	
+	@LocalServerPort
+	private int port;
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -37,7 +43,7 @@ class AdoptionsUITest {
 
 	@Test
 	void successfulMyAdoptionsListUITest() throws Exception {
-		this.driver.get("http://localhost:80/");
+		driver.get("http://localhost:"+port+"/");
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		this.driver.findElement(By.xpath("//input[@id='username']")).clear();
 		this.driver.findElement(By.xpath("//input[@id='username']")).sendKeys("owner1");
@@ -46,7 +52,7 @@ class AdoptionsUITest {
 		this.driver.findElement(By.xpath("//button[@type='submit']")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions')]")).click();
 		this.driver.findElement(By.xpath("//a[contains(@href, '/adoptions/myAdoptions')]")).click();
-		Assertions.assertEquals("Adoptable1",
+		Assertions.assertEquals("Leo",
 				this.driver.findElement(By.xpath("//table[@id='adoptionsTable']/tbody/tr/td")).getText());
 	}
 

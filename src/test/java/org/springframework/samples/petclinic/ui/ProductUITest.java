@@ -19,9 +19,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(value = OrderAnnotation.class)
 class ProductUITest {
+	
+	@LocalServerPort
+	private int port;
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -39,7 +45,7 @@ class ProductUITest {
 	@Order(1)
 	@Test // HU-029 y HU-032
 	void testListProductPositiveUI() throws Exception {
-		driver.get("http://localhost:80/");
+		driver.get("http://localhost:"+port+"/");
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();

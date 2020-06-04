@@ -18,9 +18,15 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(value = Alphanumeric.class)
 class InterventionsUITest {
+	
+	@LocalServerPort
+	private int port;
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -37,7 +43,7 @@ class InterventionsUITest {
 
 	@Test
 	void testListInterventionUI() throws Exception {
-		this.driver.get("http://localhost:80/");
+		driver.get("http://localhost:"+port+"/");
 
 		// login
 		this.driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();

@@ -14,12 +14,18 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AdminLoginUITest {
 	private WebDriver driver;
 	private String baseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
+	
+	@LocalServerPort
+	private int port;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -32,7 +38,7 @@ class AdminLoginUITest {
 
 	@Test
 	void testAdminLoginUI() throws Exception {
-		driver.get("http://localhost:80/");
+		driver.get("http://localhost:"+port+"/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).clear();

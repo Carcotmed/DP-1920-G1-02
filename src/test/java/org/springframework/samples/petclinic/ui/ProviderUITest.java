@@ -20,9 +20,15 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(value = OrderAnnotation.class)
 class ProviderUITest {
+	
+	@LocalServerPort
+	private int port;
 
 	private WebDriver driver;
 	private String baseUrl;
@@ -40,7 +46,7 @@ class ProviderUITest {
 	@Order(1)
 	@Test // HU-013
 	void testCreateProviderNegativeUI() throws Exception {
-		driver.get("http://localhost:80/");
+		driver.get("http://localhost:"+port+"/");
 
 		// login
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
