@@ -11,7 +11,11 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = { "src/test/java/" }, tags = { "not @ignore" }, plugin = { "pretty",
-		"json:target/cucumber-reports/cucumber-report.json" }, monochrome = true)
+@CucumberOptions(
+        features= {"src/test/resources/features"},	
+        tags = {"not @ignore"},
+        plugin = {"pretty",                                
+                "json:target/cucumber-reports/cucumber-report.json"}, 
+        monochrome=true)
 public class CucumberUITest {
 }
