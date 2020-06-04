@@ -31,7 +31,7 @@ class VetLoginUITest {
 	}
 
 	@Test
-	void testAdminLoginUI() throws Exception {
+	void testVetLoginUI() throws Exception {
 		driver.get("http://localhost:80/");
 		driver.findElement(By.xpath("//a[contains(@href, '/login')]")).click();
 		driver.findElement(By.xpath("//input[@id='username']")).click();
