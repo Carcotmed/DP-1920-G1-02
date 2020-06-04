@@ -1,3 +1,4 @@
+@ignore
 Feature: Adoption Listing
    Como usuario, puedo ver la lista de las adopciones que he realizado
 

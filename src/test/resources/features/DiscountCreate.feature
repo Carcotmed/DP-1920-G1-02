@@ -1,5 +1,6 @@
+@ignore
 Feature: Discount Creation
-   Como usuario, puedo ver la lista de las adopciones que he realizado
+   Como administrador, puedo crear un nuevo descuento a un producto
 
   Scenario: Creación satisfactoria de un nuevo descuento (Positive)
     Given Estoy logueado con el usuario "admin1" y la contraseña "4dm1n"
