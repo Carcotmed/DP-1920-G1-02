@@ -1,4 +1,3 @@
-@ignore
 Feature: Discount Creation
    Como administrador, puedo crear un nuevo descuento a un producto
 

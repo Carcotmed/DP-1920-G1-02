@@ -73,7 +73,7 @@ public class DiscountStepDefinitions extends AbstractStep {
 		stopDriver();
 	}
 
-	@When("Veo que la lista tiene {int} elementos")
+	@When("Veo que la lista de descuentos tiene {int} elementos")
 	public void veo_que_la_lista_tiene_varios_elementos(Integer int1) {
 		WebElement table = getDriver().findElement(By.xpath("//table[@id='discountsTable']/tbody"));
 		List<WebElement> rows_table = table.findElements(By.tagName("tr"));

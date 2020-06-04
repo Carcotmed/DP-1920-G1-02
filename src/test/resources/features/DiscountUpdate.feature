@@ -1,4 +1,3 @@
-@ignore
 Feature: Discount Update
    Como usuario, puedo modificar un descuento de un producto
 

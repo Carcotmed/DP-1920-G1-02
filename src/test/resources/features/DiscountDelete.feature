@@ -1,4 +1,3 @@
-@ignore
 Feature: Discount Deletion
    Como usuario, puedo borrar un descuento de un producto
 
@@ -6,7 +5,7 @@ Feature: Discount Deletion
     Given Estoy logueado con el usuario "admin1" y la contraseña "4dm1n"
     When Voy a la lista de proveedores
     And Voy a la lista de descuentos
-    And Veo que la lista tiene 3 elementos
+    And Veo que la lista de descuentos tiene 3 elementos
     And Pulso el botón de borrar descuento
     Then La lista de todos los descuentos contiene un descuento menos (2)
 
