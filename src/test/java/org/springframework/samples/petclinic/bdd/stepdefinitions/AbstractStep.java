@@ -12,6 +12,7 @@ public class AbstractStep {
 	private static StringBuffer verificationErrors = new StringBuffer();
 
 	public WebDriver getDriver() {
+		System.setProperty("webdriver.gecko.driver", System.getenv("webdriver.gecko.driver"));
 		if (driver == null) {
 			driver = new FirefoxDriver();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
